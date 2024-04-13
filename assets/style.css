@@ -1,3 +1,12 @@
-body {
-    background-color: black;
+:root {
+    --accent: 30, 30, 240;
+    --lightdark: #1a1a1a;
+    --lightdark2: #2a2a2a;
+}
+
+.window {
+    position: absolute;
+    max-width: 85%;
+    max-height: 85%;
+
 }
