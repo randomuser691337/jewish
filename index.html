@@ -1,12 +1,64 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
-
+    <link rel="stylesheet" href="./assets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebDesk</title>
 </head>
-<body>
 
+<body>
+    <div id="oobespace">
+        <div class="setup">
+            <div id="setup1">
+                <p>Welcome to WebDesk!</p>
+                <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
+                    onclick="fesw('setup1', 'setup2');">Let's go!</button>
+            </div>
+            <div id="setup2" class="hide" style="max-width: 290px;">
+                <p>Encrypt or stay unencrypted?</p>
+                <p>Being unencrypted is significantly faster, but data isn't secured.</p>
+                <p>Encryption keeps your data safe behind a password.</p>
+                <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button
+                    class="b1">Encrypt</button><button class="b1">Don't encrypt</button>
+            </div>
+        </div>
+    </div>
+    <div class="window" id="filem">
+        <div class="titlebar">
+            <div class="tnav">
+                <div class="winb red" onclick="hidef('filem');"></div>
+                <div class="winb ora"></div>
+                <div class="winb gre"></div>
+            </div>
+            <div class="title">File Manager</div>
+        </div>
+        <div class="content">
+            <div id="breadcrumbs"></div>
+            <div id="directoryContents"></div>
+        </div>
+    </div>
+    <script src="./assets/apps/files.js"></script>
 </body>
 <script src="./assets/lib/peer.js"></script>
+<script src="./assets/lib/jq.js"></script>
 <script src="./assets/code/fs.js"></script>
 <script src="./assets/code/core.js"></script>
 <script src="./assets/code/init.js"></script>
 <script src="./assets/code/send.js"></script>
+<script>
+    async function boots1() {
+        await initializeDB();
+        const silly = await readf('info/setupdone');
+        if (silly) {
+            document.getElementById('sdone').innerHTML = silly;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        await boots1();
+    });
+</script>
+
+</html>

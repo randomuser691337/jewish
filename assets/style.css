@@ -1,12 +1,237 @@
 :root {
-    --accent: 30, 30, 240;
-    --lightdark: #1a1a1a;
-    --lightdark2: #2a2a2a;
+    --accent: 100, 5, 255;
+    --lightdark: rgb(255, 255, 255, 0.6);
+    --lightdark2: #fff;
+    --lightdark3: #ddd;
+    --bordercolor: rgba(180, 180, 180, 0.2);
+    --bg: #fff;
+    --fontc: #000;
+    --fz1: 16px;
+    --fz2: 14px;
+    --rad1: 15px;
+    --rad2: 10px;
+    --blur1: 6px;
+    --blur2: 12px;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url(./fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'PoppinsB';
+    src: url(./fonts/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: 'PoppinsM';
+    src: url(./fonts/Poppins-Medium.ttf);
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--fontc);
+    font-size: var(--fz1);
+    font-family: 'Poppins', Arial;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    text-align: center;
+    background-image: url("./wall/light.png");
+}
+
+.bold {
+    font-family: "PoppinsB";
+}
+
+.med {
+    font-family: "PoppinsM";
+}
+
+html,
+body {
+    overscroll-behavior: none;
+}
+
+.setup {
+    position: fixed;
+    transform: translate(-50%, -50%) scale(1.0);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
+    left: 50%;
+    top: 50%;
+    padding: 12px;
+    border: 2px solid var(--bordercolor);
+    background-color: var(--lightdark);
+    border-radius: var(--rad1);
+    max-width: 85% !important;
+    animation: 0.5s yeah;
 }
 
 .window {
     position: absolute;
-    max-width: 85%;
-    max-height: 85%;
+    border-radius: var(--rad1);
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
+    border: 1px solid var(--bordercolor);
+    max-width: 85% !important;
+    background-color: var(--lightdark);
+}
 
+.titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px;
+    padding-left: 9px;
+    padding-right: 9px;
+    background-color: var(--lightdark2);
+    width: 100%;
+    box-sizing: border-box;
+    user-select: none;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom: 1px solid var(--bordercolor);
+    transition: 0.05s;
+}
+
+.title {
+    flex-grow: 1;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.tnav {
+    display: flex;
+}
+
+.winb {
+    width: 15px;
+    height: 15px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background-color: var(--lightdark3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.red {
+    background-color: rgb(255, 59, 48);
+}
+
+.yel {
+    background-color: rgb(255, 204, 0);
+}
+
+.gre {
+    background-color: rgb(52, 199, 89);
+}
+
+.navigation-button:hover {
+    background-color: var(--lightdark4);
+}
+
+.content {
+    padding: 10px;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 2px;
+}
+
+.smt {
+    font-size: var(--fz2);
+    color: var(--fontc2);
+}
+
+input:placeholder {
+    color: var(--fontc);
+}
+
+.rsmt {
+    font-size: var(--fz3);
+    color: var(--fontc2);
+    padding: 0px;
+    margin: 0px;
+}
+
+.h2 {
+    font-size: 22px;
+    font-family: 'PoppinsM', Arial;
+}
+
+.h3 {
+    font-size: 19px;
+    font-family: 'PoppinsM', Arial;
+}
+
+.folder {
+    color: blue;
+    cursor: pointer;
+}
+
+.crumb {
+    cursor: pointer;
+    font-family: 'PoppinsM', Arial;
+}
+
+.file-folder {
+    cursor: pointer;
+}
+
+button {
+    color: var(--fontc);
+    font-family: 'PoppinsM', Arial;
+}
+
+.b1 {
+    padding: 4px 6px; 
+    border-radius: 8px; 
+    background-color: rgba(var(--accent), 0.1); 
+    font-size: 1em; 
+    border: 2px solid rgba(var(--accent), 0.4); 
+    color: var(--text-color); 
+    cursor: pointer;
+    transition: all 0.08s ease-in-out; 
+    margin: 1px;
+}
+
+.b1:hover {
+    background-color: rgba(var(--accent), 0.2); 
+    border-color: rgba(var(--accent), 0.6);
+    transform: scale(0.96); 
+}
+
+.b1:active {
+    background-color: rgba(var(--accent), 0.3); 
+    border-color: rgba(var(--accent), 0.8); 
+    transform: scale(0.90); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#oobespace {
+    position: fixed;
+    left: 0px; right: 0px; top: 0px; bottom: 0px;
+    z-index: 3;
+    -webkit-backdrop-filter: blur(28px);
+    backdrop-filter: blur(28px);
+}
+
+.b2 {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0px;
+    margin-bottom: 2px;
+}
+
+.hide {
+    display: none;
 }
