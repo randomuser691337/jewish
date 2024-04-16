@@ -1,6 +1,6 @@
 :root {
     --accent: 100, 5, 255;
-    --lightdark: rgb(255, 255, 255, 0.6);
+    --lightdark: rgb(255, 255, 255, 0.65);
     --lightdark2: #fff;
     --lightdark3: #ddd;
     --bordercolor: rgba(180, 180, 180, 0.2);
@@ -11,7 +11,8 @@
     --rad1: 15px;
     --rad2: 10px;
     --blur1: 6px;
-    --blur2: 12px;
+    --blur2: 10px;
+    --bgurl: url("./wall/light.png");
 }
 
 @font-face {
@@ -34,11 +35,12 @@ body {
     color: var(--fontc);
     font-size: var(--fz1);
     font-family: 'Poppins', Arial;
+    overflow: hidden;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     text-align: center;
-    background-image: url("./wall/light.png");
+    background-image: var(--bgurl);
 }
 
 .bold {
@@ -68,6 +70,25 @@ body {
     animation: 0.5s yeah;
 }
 
+#gomenu {
+    position: fixed;
+    transform: translate(-50%, -50%) scale(1.0);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
+    left: 50%;
+    top: 50%;
+    padding: 12px;
+    width: 300px;
+    height: auto;
+    border: 2px solid var(--bordercolor);
+    background-color: var(--lightdark);
+    border-radius: var(--rad1);
+    max-width: 85% !important;
+    display: none;
+    animation: 0.5s yeah;
+}
+
 .window {
     position: absolute;
     border-radius: var(--rad1);
@@ -75,8 +96,15 @@ body {
     backdrop-filter: blur(var(--blur1));
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
     border: 1px solid var(--bordercolor);
-    max-width: 85% !important;
+    max-width: 85%;
+    max-height: 90%;
     background-color: var(--lightdark);
+    display: none;
+}
+
+.dragging {
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
 }
 
 .titlebar {
@@ -84,8 +112,8 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 7px;
-    padding-left: 9px;
-    padding-right: 9px;
+    padding-left: 11px;
+    padding-right: 11px;
     background-color: var(--lightdark2);
     width: 100%;
     box-sizing: border-box;
@@ -121,6 +149,10 @@ body {
     transition: background-color 0.3s ease;
 }
 
+.winb:active {
+    opacity: 75%;
+}
+
 .red {
     background-color: rgb(255, 59, 48);
 }
@@ -133,12 +165,47 @@ body {
     background-color: rgb(52, 199, 89);
 }
 
+.max {
+    position: fixed;
+    left: 0px !important;
+    top: 0px !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    transition: 0.3s;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 4;
+    border-radius: 0px;
+}
+
+.unmax {
+    transition: 0.3s;
+}
+
+.window.max .titlebar {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 .navigation-button:hover {
     background-color: var(--lightdark4);
 }
 
 .content {
     padding: 10px;
+}
+
+#taskbar {
+    position: fixed;
+    left: 50%;
+    bottom: 4px;
+    transform: translate(-50%);
+    border: 2px solid var(--bordercolor);
+    background-color: var(--lightdark);
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
+    border-radius: var(--rad2);
+    padding: 5px;
 }
 
 p {
@@ -193,36 +260,62 @@ button {
 }
 
 .b1 {
-    padding: 4px 6px; 
-    border-radius: 8px; 
-    background-color: rgba(var(--accent), 0.1); 
-    font-size: 1em; 
-    border: 2px solid rgba(var(--accent), 0.4); 
-    color: var(--text-color); 
+    padding: 4px 6px;
+    border-radius: 8px;
+    background-color: rgba(var(--accent), 0.15);
+    font-size: 1em;
+    border: 2px solid rgba(var(--accent), 0.4);
+    color: var(--text-color);
     cursor: pointer;
-    transition: all 0.08s ease-in-out; 
+    transition: all 0.08s ease-in-out;
     margin: 1px;
 }
 
 .b1:hover {
-    background-color: rgba(var(--accent), 0.2); 
+    background-color: rgba(var(--accent), 0.3);
     border-color: rgba(var(--accent), 0.6);
-    transform: scale(0.96); 
+    transform: scale(0.96);
 }
 
 .b1:active {
-    background-color: rgba(var(--accent), 0.3); 
-    border-color: rgba(var(--accent), 0.8); 
-    transform: scale(0.90); 
+    background-color: rgba(var(--accent), 0.42);
+    border-color: rgba(var(--accent), 0.8);
+    transform: scale(0.90);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.b3 {
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: rgba(var(--accent), 0.2);
+    border: 1px solid transparent;
+    font-size: 1em;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.05s ease-in-out;
+    margin: 1px;
+}
+
+.b3:hover {
+    border: 1px solid rgba(var(--accent), 0.35);
+}
+
+.b3:active {
+    background-color: rgba(var(--accent), 0.35);
+    border-color: rgba(var(--accent), 0.8);
+    transform: scale(0.90);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #oobespace {
     position: fixed;
-    left: 0px; right: 0px; top: 0px; bottom: 0px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
     z-index: 3;
-    -webkit-backdrop-filter: blur(28px);
-    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
 }
 
 .b2 {
@@ -234,4 +327,120 @@ button {
 
 .hide {
     display: none;
+}
+
+.i1 {
+    padding: 4px 7px;
+    border-radius: var(--rad2);
+    border: 2px solid rgba(var(--accent));
+    background-color: rgba(var(--accent), 0.1);
+    font-size: var(--fz1);
+    color: var(--fontc);
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'PoppinsM', Arial;
+    margin-bottom: 2px;
+    transition: 0.05s;
+    outline: none;
+}
+
+.i1:focus {
+    background-color: rgba(var(--accent), 0.3);
+}
+
+.container {
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border: none;
+}
+
+.info {
+    margin-left: 8px;
+    max-width: calc(100% - 80px - 8px);
+}
+
+.progress-bar {
+    width: 100%;
+    box-sizing: border-box;
+    height: 22px;
+    padding: 3px;
+    border: 1px solid rgba(var(--accent), 0.3);
+    background-color: var(--lightdark);
+    border-radius: var(--rad2);
+}
+
+.progress {
+    height: 100%;
+    background-color: rgba(var(--accent), 0.7);
+    width: 0%;
+    border-radius: 5.5px;
+}
+
+a {
+    color: var(--font);
+    transition: 0.05s;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+a:active {
+    opacity: 0.4;
+}
+
+.snack {
+    position: fixed;
+    background-color: var(--lightdark);
+    bottom: 15px;
+    border-radius: var(--rad1);
+    padding: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    animation: fade 0.7s;
+    max-width: 70%;
+    cursor: pointer;
+    border: 1px solid var(--lightdarkb);
+}
+
+.cm {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--lightdark);
+    border: 2px solid rgba(var(--accent), 0.3);
+    z-index: 9990;
+    padding: 10px;
+    border-radius: var(--rad1);
+}
+
+.embed {
+    border-radius: 9px;
+    width: 100%;
+    box-sizing: border-box;
+    resize: both;
+    overflow: auto;
+    max-height: 75%;
+}
+
+@keyframes fade {
+    0% {
+        padding: 10px;
+        bottom: 40px;
+        opacity: 0%;
+    }
+
+    100% {
+        padding: 10px;
+        bottom: 15px;
+    }
 }

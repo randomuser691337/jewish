@@ -1,7 +1,28 @@
 // Object to store directory contents
+function viewmed(val, name, mediaType) {
+  if (!(mediaType === 'i' && val.startsWith("data:image/")) &&
+    !(mediaType === 'v' && val.startsWith("data:video/"))) {
+    console.error("Invalid media data format");
+    return;
+  }
+
+  const mediaTag = mediaType === 'i' ? 'img' : 'video'; // Adjusted mediaType checks
+  const mediaSrcAttribute = mediaType === 'i' ? 'src' : 'src';
+  const fuck = gen(7);
+  const mediaElement = `<${mediaTag} class="embed" ${mediaSrcAttribute}="${val}" id="${fuck}" controls></${mediaTag}>`;
+  const hi = gen(7);
+  mkw(mediaElement, name, '300px', undefined, undefined, undefined, undefined);
+  const hi2 = document.getElementById(hi);
+  hi2.addEventListener('click', function () {
+    const fucker = document.getElementById(fuck);
+    fucker.pause();
+    dest(fucker);
+  });
+}
+
 const directoryContentsCache = {};
 
-function dfm(dir) {
+async function dfm(dir) {
   const directoryContentsDiv = document.getElementById('directoryContents');
   const breadcrumbsDiv = document.getElementById('breadcrumbs');
   const directoryPath = dir;
@@ -77,7 +98,7 @@ function dfm(dir) {
   }
 
   // Function to populate contents div
-  function populateContents(contents) {
+  async function populateContents(contents) {
     directoryContentsDiv.innerHTML = '';
     if (contents.length === 1 && contents[0].isFolder && breadcrumbs.length > 1) {
       // If only one folder is present and not at root, automatically click on it
@@ -89,7 +110,6 @@ function dfm(dir) {
         dfm(newPath);
       });
       directoryContentsDiv.appendChild(folderElement);
-      // Simulate click on the folder element
       folderElement.click();
     } else {
       contents.forEach(item => {
@@ -103,9 +123,76 @@ function dfm(dir) {
           });
         } else {
           element.textContent = 'File: ' + item.name;
+          element.addEventListener('click', async () => {
+            const f = await readf(`${directoryPath}${item.name}`);
+            const tard = "i";
+            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');">Delete</button><button class="b3">Close</button>`);
+          });
         }
         directoryContentsDiv.appendChild(element);
       });
     }
   }
 }
+  function isFileTooLarge(file) {
+    // Convert file size to megabytes
+    const fileSizeInMB = file.size / (1024 * 1024);
+    return fileSizeInMB > 15;
+  }
+
+  var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
+
+  // Function to handle file upload
+  async function handleFileUpload(file) {
+    if (locked === false) {
+      try {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const content = reader.result;
+          await writef(`/user/files/${file.name}`, content);
+        };
+        reader.readAsDataURL(file);
+        snack('Uploaded file successfully! WebDesk might have frozen if the file was large, wait for it to unfreeze.', '3000');
+      } catch (error) {
+        snack(`Locker error: ${error}`, '3500');
+        console.log(error);
+      }
+    } else {
+      snack(`Unlock WebDesk to upload.`, '3500');
+    }
+  }
+
+  // Event listener for file drag and drop
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropArea = document.body;
+
+    dropArea.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    });
+
+    dropArea.addEventListener('dragleave', (event) => {
+      event.preventDefault();
+    });
+
+    dropArea.addEventListener('drop', async (event) => {
+      event.preventDefault();
+      const files = event.dataTransfer.files;
+      for (let i = 0; i < files.length; i++) {
+        await handleFileUpload(files[i]);
+      }
+    });
+  });
+
+  // Manual upload function
+  function upload() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '*/*';
+    input.onchange = async (event) => {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        await handleFileUpload(files[i]);
+      }
+    };
+    input.click();
+  }

@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebDesk</title>
+    <script>
+        var ver = "0.0.9";
+        var lastedit = "April 16, 2024";
+        var locked = false;
+    </script>
 </head>
 
 <body>
@@ -20,45 +25,120 @@
                 <p>Encrypt or stay unencrypted?</p>
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
-                <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button
-                    class="b1">Encrypt</button><button class="b1">Don't encrypt</button>
+                <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
+                    onclick="writepb('enc', 'y');fesw('setup2', 'setups');">Encrypt</button><button class="b1"
+                    onclick="writepb('enc', 'n');fesw('setup2', 'setupn');">Don't encrypt</button>
+            </div>
+            <div id="setups" class="hide">
+                <p>Password Setup</p>
+                <p>Enter a password to decrypt WebDesk with.</p>
+                <p>Don't lose this password, as your data is gone without it.</p>
+                <input class="i1" type="password" id="oobep" placeholder="Password here"></input>
+                <button class="b1"
+                    onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupn');">Set
+                    password, next!</button>
+            </div>
+            <div id="setupn" class="hide">
+                <p>User Setup</p>
+                <p>Enter a username to use with WebDesk.</p>
+                <input class="i1" id="ooben" placeholder="Username here"></input>
+                <button class="b1"
+                    onclick="const n = document.getElementById('ooben').value; writef('/user/info/name', n);fesw('setupn', 'setupf');">Set
+                    username, next!</button>
+            </div>
+            <div id="setupf" class="hide">
+                <p>Setup is done!</p>
+                <p>Click "Go To Desktop" to finish. Have fun!</p>
+                <button class="b1 b2" onclick="setupd();">Go To Desktop</button>
+            </div>
+            <div id="setupa" class="hide">
+                <p class="authcont">Enter password to continue.</p>
+                <input id="authp" class="i1" placeholder="Password here"></input>
+                <button class="b1 b2" onclick="authg();">OK</button>
             </div>
         </div>
     </div>
-    <div class="window" id="filem">
+    <div class="window" id="filem" style="width: 400px;">
         <div class="titlebar">
             <div class="tnav">
-                <div class="winb red" onclick="hidef('filem');"></div>
-                <div class="winb ora"></div>
-                <div class="winb gre"></div>
+                <div class="winb red" onclick="clapp('filem');"></div>
+                <div class="winb yel" onclick="mini('filem');"></div>
+                <div class="winb gre" onclick="max('filem');"></div>
             </div>
-            <div class="title">File Manager</div>
+            <div class="title">Files</div>
         </div>
         <div class="content">
             <div id="breadcrumbs"></div>
             <div id="directoryContents"></div>
         </div>
     </div>
-    <script src="./assets/apps/files.js"></script>
+    <div class="window" id="settings" style="width: 300px;">
+        <div class="titlebar">
+            <div class="tnav">
+                <div class="winb red" onclick="clapp('settings');"></div>
+                <div class="winb yel" onclick="mini('settings');"></div>
+                <div class="winb gre" onclick="max('settings');"></div>
+            </div>
+            <div class="title">Settings</div>
+        </div>
+        <div class="content">
+            <div id="settmain">
+                <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
+            </div>
+            <div id="settapp" class="hide">
+                <p>Appearance</p>
+                <button class="b1 b2" onclick="appear('l');">Light</button>
+                <button class="b1 b2" onclick="appear();">Dark</button>
+                <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
+            </div>
+        </div>
+    </div>
+    <div id="gomenu">
+        <p>Hello, <span class="uname"></span>!</p>
+        <button class="b1 b2" onclick="about();">About</button>
+        <button class="b1 b2" onclick="opapp('filem', 'Files');dfm('/');">Files</button>
+        <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
+        <button class="b1" onclick="toggle('gomenu');">Close</button>
+    </div>
+    <div id="taskbar"><button class="b3" onclick="toggle('gomenu');">Go</button></div>
 </body>
 <script src="./assets/lib/peer.js"></script>
+<script src="./assets/lib/enc.js"></script>
 <script src="./assets/lib/jq.js"></script>
 <script src="./assets/code/fs.js"></script>
 <script src="./assets/code/core.js"></script>
 <script src="./assets/code/init.js"></script>
 <script src="./assets/code/send.js"></script>
+<script src="./assets/apps/about.js"></script>
+<script src="./assets/apps/auth.js"></script>
+<script src="./assets/apps/files.js"></script>
 <script>
     async function boots1() {
         await initializeDB();
-        const silly = await readf('info/setupdone');
-        if (silly) {
-            document.getElementById('sdone').innerHTML = silly;
+        const silly = await readpb('setupdone');
+        const enc = readpb('enc');
+        if (silly === "y") {
+            if (enc === "y") {
+                pw('Enter password to continue.', 'boots2()');
+            } else {
+                boots2();
+            }
+        } else {
+            eraseall();
         }
     }
 
-    document.addEventListener('DOMContentLoaded', async function () {
-        await boots1();
-    });
+    async function boots2() {
+        dest('oobespace');writepb('setupdone', 'y');
+        const name = await readf('/user/info/name');
+        const appear2 = await readf('/user/info/appear');
+        if (appear2 === "dark") {
+            appear();
+        }
+        masschange('uname', name);
+    }
+
+    $(document).ready(boots1);
 </script>
 
 </html>
