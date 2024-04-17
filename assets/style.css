@@ -103,8 +103,8 @@ body {
 }
 
 .dragging {
-    -webkit-backdrop-filter: blur(1px);
-    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
 }
 
 .titlebar {
@@ -139,7 +139,8 @@ body {
 .winb {
     width: 15px;
     height: 15px;
-    margin-right: 7px;
+    border: 2px solid rgba(0, 0, 0, 0) important;
+    margin-right: 8px;
     border-radius: 50%;
     background-color: var(--lightdark3);
     display: flex;
@@ -174,7 +175,7 @@ body {
     transition: 0.3s;
     width: 100% !important;
     height: 100% !important;
-    z-index: 4;
+    z-index: 10;
     border-radius: 0px;
 }
 
@@ -314,8 +315,8 @@ button {
     top: 0px;
     bottom: 0px;
     z-index: 3;
-    -webkit-backdrop-filter: blur(24px);
-    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
 }
 
 .b2 {
@@ -443,4 +444,96 @@ a:active {
         padding: 10px;
         bottom: 15px;
     }
+}
+
+#setupbg {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    background: linear-gradient(217deg, rgba(255, 51, 51), rgba(0, 36, 255), rgba(0, 255, 127)),
+    linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(0, 36, 255)),
+    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 255, 127), rgba(255, 51, 51));
+    background-size: 600% 600%;
+    animation: gradientShift 10s infinite alternate;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    25% {
+        background-position: 0% 100%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    75% {
+        background-position: 100% 0%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+#sorryapple {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#hellosvg {
+    fill: none;
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-miterlimit: 10;
+    stroke-width: 48px;
+    stroke-dasharray: 5800px;
+    stroke-dashoffset: 5800px;
+    animation: anim__hello linear 10s forwards infinite;
+    width: 220px;
+    max-width: 60%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@keyframes anim__hello {
+    0% {
+        stroke-dashoffset: 5800;
+    }
+
+    6.25% {
+        stroke-dashoffset: 5800;
+    }
+
+    25% {
+        stroke-dashoffset: 0;
+    }
+
+    80% {
+        stroke-dashoffset: 0;
+    }
+    
+    100% {
+        stroke-dashoffset: 5800;
+    }
+}
+
+@keyframes fucker {
+    0% {opacity: 0%; transform: scale(0);}
+    85% {opacity: 0%; transform: scale(0);}
+    100% {opacity: 100%; transform: scale(1);}
 }

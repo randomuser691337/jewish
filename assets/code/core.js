@@ -52,7 +52,6 @@ function touch() {
     });
 }
 
-
 function gen(length) {
     if (length <= 0) {
         console.error('Length should be greater than 0');
@@ -129,7 +128,7 @@ function opapp(id, name) {
         btn.onclick = function () {
             maxi(id);
         };
-        document.getElementById('taskbar').appendChild(btn);
+        document.getElementById('taskbara').appendChild(btn);
     } else {
         log('<!> Error making window.');
         log('   <i> Window: ' + div);
@@ -275,10 +274,10 @@ function reboot(delay) {
     }
 }
 
-function setupd() {
-    writepb('setupdone', 'y');
-    writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
-    reboot(400);
+async function setupd() {
+    await writepb('setupdone', 'y');
+    await writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
+    reboot(500);
 }
 
 function appear(m) {
@@ -328,3 +327,36 @@ function cm(cont) {
         setTimeout(function () { dest(fuckyou); }, 100);
     }
 }
+
+async function unlock(yeah) {
+    const fullBg = document.getElementById(yeah);
+    const windowHeight = window.innerHeight;
+    const transitionEndPromise = new Promise(resolve => {
+        fullBg.addEventListener('transitionend', function transitionEndHandler() {
+            fullBg.removeEventListener('transitionend', transitionEndHandler); // Remove the event listener
+            resolve();
+        });
+    });
+
+    fullBg.style.transition = `transform 0.5s ease`;
+    fullBg.style.transform = `translateY(-${windowHeight}px)`;
+    await transitionEndPromise;
+    fullBg.style.display = 'none';
+    fullBg.style.transform = 'translateY(0)';
+}
+
+function updateClock() {
+    const currentTime = new Date();
+    let hours = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
+    const seconds = currentTime.getSeconds();
+    const formattedHours = hours < 10 ? `0${hours}` : hours;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+    const formattedTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    const elements = document.getElementsByClassName("time");
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].innerText = formattedTime;
+    }
+}
+setInterval(updateClock, 1000);
