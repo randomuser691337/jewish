@@ -48,7 +48,7 @@ function about(value) {
     masschange('lastedit', lastedit);
 }
 async function aboutm() {
-    let so = await readvar('setupon');
+    let so = await readf('/system/setupon');
     if (so === null || so === undefined) {
         so = "Unknown";
     }

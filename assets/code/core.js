@@ -174,10 +174,10 @@ function mini(window) {
     };
     $('#' + window).animate({
         'left': '50%',
-        'top': '100%',
+        'top': '90%',
         'transform': 'translateX(-50%) scale(0.2)',
         'opacity': '1'
-    }, 200, function () {
+    }, 150, function () {
         $('#' + window).hide();
     });
 }
@@ -191,7 +191,7 @@ function maxi(window) {
             'opacity': '1',
             'left': originalPosition.left,
             'top': originalPosition.top
-        }, 200, function () {
+        }, 150, function () {
             $('#' + window).css({
                 'top': originalPosition.top,
                 'left': originalPosition.left,
