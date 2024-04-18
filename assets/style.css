@@ -107,7 +107,7 @@ body {
     backdrop-filter: blur(0px);
 }
 
-.titlebar {
+.tb {
     display: flex;
     align-items: center;
     justify-content: space-between;

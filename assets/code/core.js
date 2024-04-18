@@ -3,7 +3,7 @@ $(document).ready(touch);
 function touch() {
     var zIndex = 1;
 
-    $('.titlebar').not('.dragged').on('mousedown touchstart', function (event) {
+    $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
@@ -70,7 +70,8 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     windowDiv.style.width = width;
     windowDiv.style.height = height;
     var titlebarDiv = document.createElement('div');
-    titlebarDiv.classList.add('titlebar');
+    titlebarDiv.classList.add('d');
+    titlebarDiv.classList.add('tb');
     var navigationButtonsDiv = document.createElement('div');
     navigationButtonsDiv.classList.add('tnav');
     var closeButton = document.createElement('div');
@@ -110,9 +111,42 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     var contentDiv = document.createElement('div');
     contentDiv.classList.add('content');
     windowDiv.appendChild(contentDiv);
-    document.body.appendChild(windowDiv);
+    document.getElementById('windowspace').appendChild(windowDiv);
     contentDiv.innerHTML = contents;
     touch(); opapp(windowDiv.id, titlebarText);
+}
+
+function wal(content, btn1, n) {
+    const windowId = gen(6);
+    const windowContainer = document.createElement('div');
+    windowContainer.className = 'window';
+    windowContainer.id = windowId;
+    windowContainer.style.display = "block";
+    windowContainer.style.zIndex = 2;
+    windowContainer.style.width = '300px';
+    windowContainer.style.height = 'auto';
+    const titleBar = document.createElement('div');
+    titleBar.className = 'd';
+    titleBar.style.border = "none";
+    titleBar.style.borderRadius = "12px";
+    titleBar.style.padding = "10px";
+    if (!n) { n = "Okay" }
+    titleBar.innerHTML = content + `<p style="display: flex; justify-content: space-between;"><button class="b1 wc" style="flex: 1;" onclick="clapp('${windowId}');dest('${windowId}');">Close</button><button class="b1 wc" style="flex: 1; ${btn1 ? '' : 'display: none;'}" onclick="clapp('${windowId}');dest('${windowId}');${btn1}">${n}</button></p>`;
+    windowContainer.appendChild(titleBar);
+    document.getElementById('windowspace').appendChild(windowContainer);
+    touch(); opapp(windowId, 'Alert');
+}
+
+function centerel(el) {
+    const element = document.getElementById(el);
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const elementWidth = element.offsetWidth;
+    const elementHeight = element.offsetHeight;
+    const leftPosition = (screenWidth - elementWidth) / 2;
+    const topPosition = (screenHeight - elementHeight) / 2;
+    element.style.left = `${leftPosition}px`;
+    element.style.top = `${topPosition}px`;
 }
 
 function opapp(id, name) {
@@ -120,6 +154,7 @@ function opapp(id, name) {
     const div = document.getElementById(id);
     const check = document.getElementById("btn_" + id);
     if (div && !check) {
+        centerel(id); 
         showf(id);
         const btn = document.createElement('button');
         btn.className = "b3";
@@ -360,3 +395,7 @@ function updateClock() {
     }
 }
 setInterval(updateClock, 1000);
+
+function eprompt() {
+   wal(`<p><span class="med">Warning:</span> Erasing WebDesk will destroy all data inside of it.</p><p>After erase, you will be directed to Setup Assistant.</p>`, 'eraseall()', 'Erase');
+}

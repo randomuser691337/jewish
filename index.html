@@ -73,7 +73,7 @@
     </div>
     <div id="windowspace" style="z-index: 1;">
         <div class="window" id="filem" style="width: 400px;">
-            <div class="titlebar">
+            <div class="d tb">
                 <div class="tnav">
                     <div class="winb red" onclick="clapp('filem');"></div>
                     <div class="winb yel" onclick="mini('filem');"></div>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="window" id="settings" style="width: 300px;">
-            <div class="titlebar">
+            <div class="d tb">
                 <div class="tnav">
                     <div class="winb red" onclick="clapp('settings');"></div>
                     <div class="winb yel" onclick="mini('settings');"></div>
@@ -98,12 +98,18 @@
             <div class="content">
                 <div id="settmain">
                     <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
+                    <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
                 </div>
                 <div id="settapp" class="hide">
                     <p>Appearance</p>
                     <button class="b1 b2" onclick="appear('l');">Light</button>
                     <button class="b1 b2" onclick="appear();">Dark</button>
                     <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
+                </div>
+                <div id="settgen" class="hide">
+                    <p>General</p>
+                    <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
+                    <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
                 </div>
             </div>
         </div>
