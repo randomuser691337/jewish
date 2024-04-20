@@ -1,7 +1,7 @@
 $(document).ready(touch);
 
 function touch() {
-    var zIndex = 1;
+    var zIndex = 5;
 
     $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
@@ -78,7 +78,7 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     closeButton.classList.add('winb');
     if (c === undefined) {
         closeButton.classList.add('red');
-        closeButton.addEventListener('click', function () {
+        closeButton.addEventListener('mousedown', function () {
             clapp(windowDiv.id); dest(windowDiv.id, 100);
         });
     }
@@ -87,7 +87,7 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     minimizeButton.classList.add('winb');
     if (m === undefined) {
         minimizeButton.classList.add('yel');
-        minimizeButton.addEventListener('click', function () {
+        minimizeButton.addEventListener('mousedown', function () {
             mini(windowDiv.id);
         });
     }
@@ -95,7 +95,7 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     maximizeButton.classList.add('winb');
     if (a === undefined) {
         maximizeButton.classList.add('gre');
-        maximizeButton.addEventListener('click', function () {
+        maximizeButton.addEventListener('mousedown', function () {
             max(windowDiv.id);
         });
     }
@@ -111,7 +111,7 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     var contentDiv = document.createElement('div');
     contentDiv.classList.add('content');
     windowDiv.appendChild(contentDiv);
-    document.getElementById('windowspace').appendChild(windowDiv);
+    document.body.appendChild(windowDiv);
     contentDiv.innerHTML = contents;
     touch(); opapp(windowDiv.id, titlebarText);
 }
@@ -131,9 +131,9 @@ function wal(content, btn1, n) {
     titleBar.style.borderRadius = "12px";
     titleBar.style.padding = "10px";
     if (!n) { n = "Okay" }
-    titleBar.innerHTML = content + `<p style="display: flex; justify-content: space-between;"><button class="b1 wc" style="flex: 1;" onclick="clapp('${windowId}');dest('${windowId}');">Close</button><button class="b1 wc" style="flex: 1; ${btn1 ? '' : 'display: none;'}" onclick="clapp('${windowId}');dest('${windowId}');${btn1}">${n}</button></p>`;
+    titleBar.innerHTML = content + `<p style="display: flex; justify-content: space-between;"><button class="b1 wc" style="flex: 1;" onmousedown="clapp('${windowId}');dest('${windowId}');">Close</button><button class="b1 wc" style="flex: 1; ${btn1 ? '' : 'display: none;'}" onmousedown="clapp('${windowId}');dest('${windowId}');${btn1}">${n}</button></p>`;
     windowContainer.appendChild(titleBar);
-    document.getElementById('windowspace').appendChild(windowContainer);
+    document.body.appendChild(windowContainer);
     touch(); opapp(windowId, 'Alert');
 }
 
@@ -154,7 +154,7 @@ function opapp(id, name) {
     const div = document.getElementById(id);
     const check = document.getElementById("btn_" + id);
     if (div && !check) {
-        centerel(id); 
+        centerel(id);
         showf(id);
         const btn = document.createElement('button');
         btn.className = "b3";
@@ -198,40 +198,21 @@ function max(id) {
     }
 }
 
-var originalPositions = {};
-
 function mini(window) {
-    var currentPosition = $('#' + window).position();
-    originalPositions[window] = {
-        top: currentPosition.top,
-        left: currentPosition.left
-    };
     $('#' + window).animate({
-        'left': '50%',
-        'top': '90%',
-        'transform': 'translateX(-50%) scale(0.2)',
-        'opacity': '1'
-    }, 150, function () {
+        'transform': 'scale(0)',
+        'opacity': '0'
+    }, 120, function () {
         $('#' + window).hide();
     });
 }
 
 function maxi(window) {
     $('#' + window).show();
-    var originalPosition = originalPositions[window];
-    if (originalPosition) {
-        $('#' + window).animate({
-            'transform': 'translateX(-50%) scale(1)',
-            'opacity': '1',
-            'left': originalPosition.left,
-            'top': originalPosition.top
-        }, 150, function () {
-            $('#' + window).css({
-                'top': originalPosition.top,
-                'left': originalPosition.left,
-            })
-        });
-    }
+    $('#' + window).animate({
+        'transform': 'scale(1)',
+        'opacity': '1',
+    }, 120);
 }
 
 function cv(varName, varValue) {
@@ -397,5 +378,5 @@ function updateClock() {
 setInterval(updateClock, 1000);
 
 function eprompt() {
-   wal(`<p><span class="med">Warning:</span> Erasing WebDesk will destroy all data inside of it.</p><p>After erase, you will be directed to Setup Assistant.</p>`, 'eraseall()', 'Erase');
+    wal(`<p><span class="med">Warning:</span> Erasing WebDesk will destroy all data inside of it.</p><p>After erase, you will be directed to Setup Assistant.</p>`, 'showf(`deathcurtain`, 400);eraseall(true);', 'Erase');
 }

@@ -1,0 +1,11 @@
+#rainbowSlider {
+    width: 85%;
+    background: linear-gradient(to left,
+            red, orange, yellow, green, blue, indigo, violet, red) !important;
+    border: none;
+}
+
+@keyframes silly232 {
+    0% {opacity: 100%; display: block !important;}
+    100% {opacity: 0%; display: block !important;}
+}

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--I don't know what I'm doing, feel free to message me with bugfixes-->
 <head>
     <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/stylep2.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 16, 2024";
+        var lastedit = "April 19, 2024";
         var locked = false;
     </script>
 </head>
 
 <body>
+    <div id="deathcurtain" style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000;"></div>
     <div id="oobespace">
         <div id="setupbg" onmousedown="unlock('setupbg');">
             <div id="sorryapple">
@@ -30,12 +32,12 @@
         </div>
         <div class="setup">
             <div id="setup1">
-                <p>Welcome to WebDesk!</p>
+                <p class="h3">Welcome to WebDesk!</p>
                 <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
                     onclick="fesw('setup1', 'setup2');">Let's go!</button>
             </div>
             <div id="setup2" class="hide" style="max-width: 290px;">
-                <p>Encrypt or stay unencrypted?</p>
+                <p class="h3">Encryption</p>
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
                 <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
@@ -43,7 +45,7 @@
                     onclick="writepb('enc', 'n');fesw('setup2', 'setupn');">Don't encrypt</button>
             </div>
             <div id="setups" class="hide">
-                <p>Password Setup</p>
+                <p class="h3">Password Setup</p>
                 <p>Enter a password to decrypt WebDesk with.</p>
                 <p>Don't lose this password, as your data is gone without it.</p>
                 <input class="i1" type="password" id="oobep" placeholder="Password here"></input>
@@ -52,65 +54,75 @@
                     password, next!</button>
             </div>
             <div id="setupn" class="hide">
-                <p>User Setup</p>
+                <p class="h3">User Setup</p>
                 <p>Enter a username to use with WebDesk.</p>
                 <input class="i1" id="ooben" placeholder="Username here"></input>
                 <button class="b1"
-                    onclick="const n = document.getElementById('ooben').value; writef('/user/info/name', n);fesw('setupn', 'setupf');">Set
+                    onclick="const n = document.getElementById('ooben').value; writef('/user/info/name', n);fesw('setupn', 'setupc');">Set
                     username, next!</button>
             </div>
-            <div id="setupf" class="hide">
-                <p>Setup is done!</p>
-                <p>Click "Go To Desktop" to finish. Have fun!</p>
-                <button class="b1 b2" onclick="setupd();">Go To Desktop</button>
+            <div id="setupc" class="hide">
+                <p class="h3">Appearance</p>
+                <p>Select an accent color, and a theme.</p>
+                <p class="bold">Accent color</p>
+                <input type="range" id="rainbowSlider" min="0" max="360" value="0">
+                <p class="bold">Theme</p>
+                <button class="b1 b2" onclick="appear('l');">Light mode</button>
+                <button class="b1 b2" onclick="appear();">Dark mode</button>
+                <button class="b1" onclick="fesw('setupc', 'setupf');">Done</button>
             </div>
-            <div id="setupa" class="hide">
+            <div id="setupf" class="hide">
+                <p class="h3">Setup is done!</p>
+                <p>Click "Reboot" to finish. Have fun!</p>
+                <button class="b1 b2" onclick="setupd();">Reboot</button>
+            </div>
+            <div id="setupa" class="hide" style="max-width: 240px;">
                 <p class="authcont">Enter password to continue.</p>
-                <input id="authp" class="i1" placeholder="Password here"></input>
-                <button class="b1 b2" onclick="authg();">OK</button>
+                <input id="authp" class="i1" type="password" placeholder="Password here"></input>
+                <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
+                    onclick="authg();">OK</button>
             </div>
         </div>
     </div>
-    <div id="windowspace" style="z-index: 1;">
-        <div class="window" id="filem" style="width: 400px;">
-            <div class="d tb">
-                <div class="tnav">
-                    <div class="winb red" onclick="clapp('filem');"></div>
-                    <div class="winb yel" onclick="mini('filem');"></div>
-                    <div class="winb gre" onclick="max('filem');"></div>
-                </div>
-                <div class="title">Files</div>
+    <div class="window" id="filem" style="width: 400px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('filem');"></div>
+                <div class="winb yel" onmousedown="mini('filem');"></div>
+                <div class="winb gre" onmousedown="max('filem');"></div>
             </div>
-            <div class="content">
-                <div id="breadcrumbs"></div>
-                <div id="directoryContents"></div>
-            </div>
+            <div class="title">Files</div>
         </div>
-        <div class="window" id="settings" style="width: 300px;">
-            <div class="d tb">
-                <div class="tnav">
-                    <div class="winb red" onclick="clapp('settings');"></div>
-                    <div class="winb yel" onclick="mini('settings');"></div>
-                    <div class="winb gre" onclick="max('settings');"></div>
-                </div>
-                <div class="title">Settings</div>
+        <div class="content">
+            <div id="breadcrumbs"></div>
+            <div id="directoryContents"></div>
+        </div>
+    </div>
+    <div class="window" id="settings" style="width: 300px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('settings');"></div>
+                <div class="winb yel" onmousedown="mini('settings');"></div>
+                <div class="winb gre" onmousedown="max('settings');"></div>
             </div>
-            <div class="content">
-                <div id="settmain">
-                    <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
-                    <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
-                </div>
-                <div id="settapp" class="hide">
-                    <p>Appearance</p>
-                    <button class="b1 b2" onclick="appear('l');">Light</button>
-                    <button class="b1 b2" onclick="appear();">Dark</button>
-                    <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
-                </div>
-                <div id="settgen" class="hide">
-                    <p>General</p>
-                    <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
-                    <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
-                </div>
+            <div class="title">Settings</div>
+        </div>
+        <div class="content">
+            <div id="settmain">
+                <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
+                <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
+            </div>
+            <div id="settapp" class="hide">
+                <p>Appearance</p>
+                <button class="b1 b2" onclick="appear('l');">Light</button>
+                <button class="b1 b2" onclick="appear();">Dark</button>
+
+                <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
+            </div>
+            <div id="settgen" class="hide">
+                <p>General</p>
+                <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
+                <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
         </div>
     </div>
@@ -134,8 +146,10 @@
 <script src="./assets/apps/about.js"></script>
 <script src="./assets/apps/auth.js"></script>
 <script src="./assets/apps/files.js"></script>
+<script src="./assets/apps/slider.js"></script>
 <script>
     async function boots1() {
+        hidef('deathcurtain', 400);
         await initializeDB();
         const silly = await readpb('setupdone');
         const enc = readpb('enc');
@@ -148,6 +162,7 @@
         } else {
             eraseall();
             showf('setupbg');
+            writef('/user/info/accent', '100, 5, 255');
         }
     }
 
@@ -155,9 +170,11 @@
         dest('oobespace'); writepb('setupdone', 'y');
         const name = await readf('/user/info/name');
         const appear2 = await readf('/user/info/appear');
+        const accent = await readf('/user/info/accent');
         if (appear2 === "dark") {
             appear();
         }
+        cv('accent', accent);
         masschange('uname', name);
     }
 

@@ -89,7 +89,7 @@ function writef(name, value) {
   const transaction = db.transaction(['files'], 'readwrite');
   const objectStore = transaction.objectStore('files');
   const enc = encrypt(value);
-  const file = { path: name, value: enc }; 
+  const file = { path: name, value: enc };
   objectStore.put(file);
 }
 
@@ -105,19 +105,24 @@ function readf(name) {
         const decryptedValue = decrypt(file.value);
         resolve(decryptedValue);
       } else {
-        reject("File not found");
+        reject(`<!> Couldn't find ${name}`);
       }
     };
     request.onerror = function (event) {
       reject("Error reading file");
+      wal(`<p>A severe FS error has occured.</p><p>WebDesk might not be able to continue safely.</p>', 'send("${target.event}");wal("${target.event}");`, 'View & Report');
     };
   });
 }
 
-function eraseall() {
+async function eraseall(reb = false) {
   const transaction = db.transaction(['files'], 'readwrite');
   const objectStore = transaction.objectStore('files');
-  erasepb();objectStore.clear();
+  await erasepb();
+  await objectStore.clear();
+  if (reb) {
+    reboot(400);
+  }
 }
 
 function delf(name) {

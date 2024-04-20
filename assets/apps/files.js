@@ -101,7 +101,7 @@ async function dfm(dir) {
   async function populateContents(contents) {
     directoryContentsDiv.innerHTML = '';
     if (contents.length === 1 && contents[0].isFolder && breadcrumbs.length > 1) {
-      // If only one folder is present and not at root, automatically click on it
+      // If only one folder is present and not at root, automatically click on it because im fucking stupid and its a viable solution
       const folderElement = document.createElement('div');
       folderElement.classList.add('file-folder');
       folderElement.textContent = 'Folder: ' + contents[0].name;

@@ -13,6 +13,7 @@
     --blur1: 6px;
     --blur2: 10px;
     --bgurl: url("./wall/light.png");
+    --ap: 255, 0, 0;
 }
 
 @font-face {
@@ -64,7 +65,7 @@ body {
     top: 50%;
     padding: 12px;
     border: 2px solid var(--bordercolor);
-    background-color: var(--lightdark);
+    background-color: var(--lightdark2);
     border-radius: var(--rad1);
     max-width: 85% !important;
     animation: 0.5s yeah;
@@ -74,15 +75,13 @@ body {
     position: fixed;
     transform: translate(-50%, -50%) scale(1.0);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
-    -webkit-backdrop-filter: blur(var(--blur1));
-    backdrop-filter: blur(var(--blur1));
     left: 50%;
     top: 50%;
     padding: 12px;
     width: 300px;
     height: auto;
     border: 2px solid var(--bordercolor);
-    background-color: var(--lightdark);
+    background-color: var(--lightdark2);
     border-radius: var(--rad1);
     max-width: 85% !important;
     display: none;
@@ -98,6 +97,7 @@ body {
     border: 1px solid var(--bordercolor);
     max-width: 85%;
     max-height: 90%;
+    z-index: 5;
     background-color: var(--lightdark);
     display: none;
 }
@@ -183,7 +183,7 @@ body {
     transition: 0.3s;
 }
 
-.window.max .titlebar {
+.window.max .tb {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -314,9 +314,9 @@ button {
     right: 0px;
     top: 0px;
     bottom: 0px;
-    z-index: 3;
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
+    z-index: 2;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
 }
 
 .b2 {
@@ -410,6 +410,7 @@ a:active {
     max-width: 70%;
     cursor: pointer;
     border: 1px solid var(--lightdarkb);
+    z-index: 9999;
 }
 
 .cm {
@@ -452,7 +453,7 @@ a:active {
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 9999;
+    z-index: 1000;
     width: 100%;
     height: 100vh;
     display: none;
