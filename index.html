@@ -98,6 +98,20 @@
             <div id="directoryContents"></div>
         </div>
     </div>
+    <div class="window" id="term" style="width: 280px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('term');"></div>
+                <div class="winb yel" onmousedown="mini('term');"></div>
+                <div class="winb gre" onmousedown="max('term');"></div>
+            </div>
+            <div class="title">Terminal</div>
+        </div>
+        <div class="content">
+            <input class="i1" id="termbox" placeholder="Enter JS code here"></i1>
+            <button class="b1" onclick="document.getElementById('termbox').value = '';">Clear</button><button class="b1" onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
+        </div>
+    </div>
     <div class="window" id="settings" style="width: 300px;">
         <div class="d tb">
             <div class="tnav">
@@ -130,6 +144,7 @@
         <p>Hello, <span class="uname"></span>!</p>
         <button class="b1 b2" onclick="about();">About</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files');dfm('/');">Files</button>
+        <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
         <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>

@@ -296,7 +296,7 @@ async function setupd() {
     reboot(500);
 }
 
-function appear(m) {
+async function appear(m) {
     if (m === "l") {
         cv('lightdark', `rgb(255, 255, 255, 0.65)`);
         cv('lightdark2', '#fff');
@@ -305,7 +305,7 @@ function appear(m) {
         cv('bg', '#fff');
         cv('fontc', '#000');
         cv('bgurl', 'url("./wall/light.png")');
-        writef('/user/info/appear', 'light');
+        await writef('/user/info/appear', 'light');
     } else {
         cv('lightdark', `rgb(40, 40, 40, 0.65)`);
         cv('lightdark2', '#1a1a1a');
@@ -314,7 +314,7 @@ function appear(m) {
         cv('bg', '#000');
         cv('fontc', '#fff');
         cv('bgurl', 'url("./wall/dark.png")');
-        writef('/user/info/appear', 'dark');
+        await writef('/user/info/appear', 'dark');
     }
 }
 
