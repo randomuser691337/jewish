@@ -543,6 +543,8 @@ a:active {
 .line {
     display: inline-block;
     height: 2px;
+    padding: 0px;
+    margin: 0px;
     background-color: var(--lightdark3);
     width: 90%;
 }

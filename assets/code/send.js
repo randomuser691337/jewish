@@ -1,6 +1,4 @@
 const peer = new Peer(gen(4));
-var fname;
-var fblob;
 peer.on('open', (id) => {
     masschange('mcode', id);
 });
@@ -12,8 +10,15 @@ peer.on('connection', (conn) => {
 });
 
 async function downloadFile(data, name) {
-    await writevar(`/user/files/${name}`, data);
+    await writef(`/user/files/${name}`, data);
     snack(`Recieved and wrote a file to /user/files/${name}`, 4000);
+}
+
+function sends(name, file) {
+    fname = name;
+    fblob = file;
+    opapp('sendf');
+    masschange('fname', name);
 }
 
 function sendf(id) {
@@ -22,10 +27,10 @@ function sendf(id) {
         file: fblob
     };
 
-    const conn = peer.connect(id); 
+    const conn = peer.connect(id);
 
     conn.on('open', () => {
-        conn.send(dataToSend); 
+        conn.send(dataToSend);
         snack('File has been sent.', '2500');
     });
 

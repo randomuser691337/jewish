@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--I don't know what I'm doing, feel free to message me with bugfixes-->
+
 <head>
     <link rel="stylesheet" href="./assets/style.css">
     <link rel="stylesheet" href="./assets/stylep2.css">
@@ -11,11 +12,15 @@
         var ver = "0.0.9";
         var lastedit = "April 22, 2024";
         var locked = false;
+        var fname;
+        var fblob;
     </script>
 </head>
 
 <body>
-    <div id="deathcurtain" style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000;"></div>
+    <div id="deathcurtain"
+        style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000;">
+    </div>
     <div id="oobespace">
         <div id="setupbg" onmousedown="unlock('setupbg');">
             <div id="sorryapple">
@@ -73,10 +78,13 @@
             </div>
             <div id="setupl" class="hide">
                 <p class="h3">Location Services</p>
-                <p>You can optionally enable Location Services, to update the weather in your location, use certain weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
-                <p>At the moment, your location is only processed through OpenWeatherMap. This info is not sent or collected by WebDesk.</p>
+                <p>You can optionally enable Location Services, to update the weather in your location, use certain
+                    weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
+                <p>At the moment, your location is only processed through OpenWeatherMap. This info is not sent or
+                    collected by WebDesk.</p>
                 <input class="i1" placeholder="Enter your country and city" id="oobeloc"></input>
-                <button class="b1" onclick="fesw('setupl', 'setupf');">No thanks</button><button class="b1" onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
+                <button class="b1" onclick="fesw('setupl', 'setupf');">No thanks</button><button class="b1"
+                    onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
             </div>
             <div id="setupf" class="hide">
                 <p class="h3">Setup is done!</p>
@@ -116,24 +124,41 @@
         </div>
         <div class="content">
             <input class="i1" id="termbox" placeholder="Enter JS code here"></i1>
-            <button class="b1" onclick="document.getElementById('termbox').value = '';">Clear</button><button class="b1" onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
+            <button class="b1" onclick="document.getElementById('termbox').value = '';">Clear</button><button class="b1"
+                onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
     <div class="window" id="sendf" style="width: 280px;">
         <div class="d tb">
             <div class="tnav">
-                <div class="winb red" onmousedown="clapp('term');"></div>
-                <div class="winb yel" onmousedown="mini('term');"></div>
-                <div class="winb gre" onmousedown="max('term');"></div>
+                <div class="winb"></div>
+                <div class="winb"></div>
+                <div class="winb"></div>
             </div>
-            <div class="title">Terminal</div>
+            <div class="title">ID is <span class="mcode med">----</span></div>
         </div>
         <div class="content">
-            <p>Your DeskID is <span class="mcode med">----</span></p>
-            <div class="line"></div>
-            <p>Send Files</p>
-            <p class="smt">You can also recieve songs from Shuffler, and in the same way.</p>
-            <p>(in development)</p>
+            <p>Sending "<span class="med fname">undefined</span>"</p>
+            <p class="smt">Go to the other WebDesk, open "Recieve", and type the ID below, then hit "Send".</p>
+            <input id="sendi" placeholder="Enter DeskID" class="i1"></input>
+            <button class="b1" onclick="fname = undefined; fblob = undefined; clapp('sendf');">Cancel</button><button
+                class="b1" onclick="sendf(document.getElementById('sendi').value);">Send</button>
+        </div>
+    </div>
+    <div class="window" id="recif" style="width: 280px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('recif');"></div>
+                <div class="winb yel" onmousedown="mini('recif');"></div>
+                <div class="winb gre" onmousedown="max('recif');"></div>
+            </div>
+            <div class="title">Recieve</div>
+        </div>
+        <div class="content">
+            <p>Your DeskID is</p>
+            <p class="h2 mcode">----</p>
+            <p class="smt">Sharing? Open Files, find what you want to send, select it, and hit "Send".</p>
+            <p class="smt">Note: You can also recieve songs from Shuffler.</p>
         </div>
     </div>
     <div class="window" id="settings" style="width: 300px;">
@@ -169,6 +194,7 @@
         <button class="b1 b2" onclick="about();">About</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
+        <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Recieve</button>
         <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>

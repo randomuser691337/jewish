@@ -126,7 +126,7 @@ async function dfm(dir) {
           element.addEventListener('click', async () => {
             const f = await readf(`${directoryPath}${item.name}`);
             const tard = "i";
-            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');">Delete</button><button class="b3">Close</button>`);
+            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');">Delete</button><button class="b3">Close</button>`);
           });
         }
         directoryContentsDiv.appendChild(element);
