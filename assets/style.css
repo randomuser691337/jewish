@@ -9,7 +9,7 @@
     --fz1: 16px;
     --fz2: 14px;
     --rad1: 15px;
-    --rad2: 10px;
+    --rad2: 11px;
     --blur1: 6px;
     --blur2: 10px;
     --bgurl: url("./wall/light.png");
@@ -105,6 +105,7 @@ body {
 .dragging {
     -webkit-backdrop-filter: blur(0px);
     backdrop-filter: blur(0px);
+    background-color: var(--lightdark2);
 }
 
 .tb {
@@ -457,9 +458,9 @@ a:active {
     width: 100%;
     height: 100vh;
     display: none;
-    background: linear-gradient(217deg, rgba(255, 51, 51), rgba(0, 36, 255), rgba(0, 255, 127)),
-    linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(0, 36, 255)),
-    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 255, 127), rgba(255, 51, 51));
+    background: linear-gradient(217deg, rgba(240, 50, 50), rgba(0, 36, 255), rgba(0, 255, 127)),
+    linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(255, 0, 200)),
+    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(255, 51, 51));
     background-size: 600% 600%;
     animation: gradientShift 10s infinite alternate;
 }

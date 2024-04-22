@@ -9,7 +9,7 @@
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 19, 2024";
+        var lastedit = "April 22, 2024";
         var locked = false;
     </script>
 </head>
@@ -69,7 +69,14 @@
                 <p class="bold">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
-                <button class="b1" onclick="fesw('setupc', 'setupf');">Done</button>
+                <button class="b1" onclick="fesw('setupc', 'setupl');">Done</button>
+            </div>
+            <div id="setupl" class="hide">
+                <p class="h3">Location Services</p>
+                <p>You can optionally enable Location Services, to update the weather in your location, use certain weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
+                <p>At the moment, your location is only processed through OpenWeatherMap. This info is not sent or collected by WebDesk.</p>
+                <input class="i1" placeholder="Enter your country and city" id="oobeloc"></input>
+                <button class="b1" onclick="fesw('setupl', 'setupf');">No thanks</button><button class="b1" onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
             </div>
             <div id="setupf" class="hide">
                 <p class="h3">Setup is done!</p>

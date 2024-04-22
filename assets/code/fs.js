@@ -102,8 +102,7 @@ function readf(name) {
     request.onsuccess = function (event) {
       const file = event.target.result;
       if (file) {
-        const decryptedValue = decrypt(file.value);
-        resolve(decryptedValue);
+        resolve(decrypt(file.value));
       } else {
         reject(`<!> Couldn't find ${name}`);
       }
