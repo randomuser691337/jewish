@@ -119,6 +119,23 @@
             <button class="b1" onclick="document.getElementById('termbox').value = '';">Clear</button><button class="b1" onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
+    <div class="window" id="sendf" style="width: 280px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('term');"></div>
+                <div class="winb yel" onmousedown="mini('term');"></div>
+                <div class="winb gre" onmousedown="max('term');"></div>
+            </div>
+            <div class="title">Terminal</div>
+        </div>
+        <div class="content">
+            <p>Your DeskID is <span class="mcode med">----</span></p>
+            <div class="line"></div>
+            <p>Send Files</p>
+            <p class="smt">You can also recieve songs from Shuffler, and in the same way.</p>
+            <p>(in development)</p>
+        </div>
+    </div>
     <div class="window" id="settings" style="width: 300px;">
         <div class="d tb">
             <div class="tnav">

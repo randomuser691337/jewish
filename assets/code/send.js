@@ -1,39 +1,35 @@
-const ok = gen(6);
-const senderPeer = new Peer(); 
-let connect; 
-
-function sendFile(filePath) {
-    const receiverId = connect;
-
-    readf(filePath)
-        .then(fileData => {
-            senderPeer.connect(receiverId, { reliable: true }); 
-
-            senderPeer.on('connection', function (connection) {
-                connection.send({ type: 'file', name: filePath.split('/').pop(), data: fileData }); 
-            });
-        })
-        .catch(error => console.error("Error reading file:", error));
-}
-
-
-const receiverPeer = new Peer(ok);
-
-receiverPeer.on('open', function (peerId) {
-    console.log('Receiver peer ID:', peerId);
+const peer = new Peer(gen(4));
+var fname;
+var fblob;
+peer.on('open', (id) => {
+    masschange('mcode', id);
 });
 
-receiverPeer.on('connection', function (connection) {
-    connection.on('data', function (data) {
-        if (data.type === 'file') {
-            console.log('File received!');
-            const fileName = data.name;
-            const fileData = data.data;
-            saveFile(fileName, fileData);
-        }
+peer.on('connection', (conn) => {
+    conn.on('data', (data) => {
+        downloadFile(data.file, data.name);
     });
 });
 
-function saveFile(fileName, fileData) {
-    writef(fileName, fileData);
+async function downloadFile(data, name) {
+    await writevar(`/user/files/${name}`, data);
+    snack(`Recieved and wrote a file to /user/files/${name}`, 4000);
+}
+
+function sendf(id) {
+    const dataToSend = {
+        name: fname,
+        file: fblob
+    };
+
+    const conn = peer.connect(id); 
+
+    conn.on('open', () => {
+        conn.send(dataToSend); 
+        snack('File has been sent.', '2500');
+    });
+
+    conn.on('error', (err) => {
+        snack('An error occured while sending your file.', '2500');
+    });
 }

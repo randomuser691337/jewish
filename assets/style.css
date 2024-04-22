@@ -458,9 +458,9 @@ a:active {
     width: 100%;
     height: 100vh;
     display: none;
-    background: linear-gradient(217deg, rgba(240, 50, 50), rgba(0, 36, 255), rgba(0, 255, 127)),
+    background: linear-gradient(217deg, rgba(240, 50, 50), rgba(30, 120, 255), rgba(0, 255, 127)),
     linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(255, 0, 200)),
-    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(255, 51, 51));
+    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(240, 30, 30));
     background-size: 600% 600%;
     animation: gradientShift 10s infinite alternate;
 }
@@ -502,7 +502,7 @@ a:active {
     stroke-width: 48px;
     stroke-dasharray: 5800px;
     stroke-dashoffset: 5800px;
-    animation: anim__hello linear 10s forwards infinite;
+    animation: anim__hello linear 9s forwards infinite;
     width: 220px;
     max-width: 60%;
     display: flex;
@@ -538,4 +538,11 @@ a:active {
     0% {opacity: 0%; transform: scale(0);}
     85% {opacity: 0%; transform: scale(0);}
     100% {opacity: 100%; transform: scale(1);}
+}
+
+.line {
+    display: inline-block;
+    height: 2px;
+    background-color: var(--lightdark3);
+    width: 90%;
 }
