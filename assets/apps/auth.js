@@ -3,10 +3,8 @@ var exeboot;
 function pw(set, func) {
     fesw('setup1', 'setupa');
     masschange('authcont', set);
-    exeboot = func;ß
+    exeboot = func;
 }
-
-
 
 async function authg() {
     const i = document.getElementById('authp');
