@@ -228,7 +228,8 @@
         const id = readpb('deskid');
         if (id === null) {
             writepb('deskid', gen(4));
-            reboot(800);
+            reboot(4000);
+            cm(`<p>Rebooting in 4 seconds to apply an update</p>`);
         } else {
             dserv(id);
             hidef('deathcurtain', 400);
