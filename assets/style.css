@@ -6,8 +6,9 @@
     --bordercolor: rgba(180, 180, 180, 0.2);
     --bg: #fff;
     --fontc: #000;
-    --fz1: 16px;
-    --fz2: 14px;
+    --fontc2: #222;
+    --fz1: 15px;
+    --fz2: 13px;
     --rad1: 15px;
     --rad2: 11px;
     --blur1: 6px;
@@ -88,6 +89,21 @@ body {
     animation: 0.5s yeah;
 }
 
+@keyframes winanim {
+    0% {
+        -webkit-backdrop-filter: blur(0px);
+        backdrop-filter: blur(0px);
+        transform: scale(0.5);
+        opacity: 0%;
+    }
+    100% {
+        -webkit-backdrop-filter: blur(0px);
+        backdrop-filter: blur(0px);
+        transform: scale(1.0);
+        opacity: 100%;
+    }
+}
+
 .window {
     position: absolute;
     border-radius: var(--rad1);
@@ -100,6 +116,7 @@ body {
     z-index: 5;
     background-color: var(--lightdark);
     display: none;
+    animation: winanim 0.3s;
 }
 
 .dragging {
@@ -113,8 +130,8 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 7px;
-    padding-left: 11px;
-    padding-right: 11px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: var(--lightdark2);
     width: 100%;
     box-sizing: border-box;
@@ -138,10 +155,10 @@ body {
 }
 
 .winb {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     border: 2px solid rgba(0, 0, 0, 0) important;
-    margin-right: 8px;
+    margin-right: 6px;
     border-radius: 50%;
     background-color: var(--lightdark3);
     display: flex;
@@ -225,13 +242,6 @@ input:placeholder {
     color: var(--fontc);
 }
 
-.rsmt {
-    font-size: var(--fz3);
-    color: var(--fontc2);
-    padding: 0px;
-    margin: 0px;
-}
-
 .h2 {
     font-size: 22px;
     font-family: 'PoppinsM', Arial;
@@ -259,6 +269,7 @@ input:placeholder {
 button {
     color: var(--fontc);
     font-family: 'PoppinsM', Arial;
+    user-select: none;
 }
 
 .b1 {
@@ -381,7 +392,7 @@ button {
     height: 100%;
     background-color: rgba(var(--accent), 0.7);
     width: 0%;
-    border-radius: 5.5px;
+    border-radius: 40px;
 }
 
 a {
@@ -401,7 +412,7 @@ a:active {
 
 .snack {
     position: fixed;
-    background-color: var(--lightdark);
+    background-color: var(--lightdark2);
     bottom: 15px;
     border-radius: var(--rad1);
     padding: 10px;
@@ -410,7 +421,6 @@ a:active {
     animation: fade 0.7s;
     max-width: 70%;
     cursor: pointer;
-    border: 1px solid var(--lightdarkb);
     z-index: 9999;
 }
 
@@ -419,7 +429,7 @@ a:active {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--lightdark);
+    background-color: var(--lightdark2);
     border: 2px solid rgba(var(--accent), 0.3);
     z-index: 9990;
     padding: 10px;
@@ -459,8 +469,8 @@ a:active {
     height: 100vh;
     display: none;
     background: linear-gradient(217deg, rgba(240, 50, 50), rgba(30, 120, 255), rgba(0, 255, 127)),
-    linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(255, 0, 200)),
-    linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(240, 30, 30));
+        linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(255, 0, 200)),
+        linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(240, 30, 30));
     background-size: 600% 600%;
     animation: gradientShift 10s infinite alternate;
 }
@@ -528,16 +538,27 @@ a:active {
     80% {
         stroke-dashoffset: 0;
     }
-    
+
     100% {
         stroke-dashoffset: 5800;
     }
 }
 
 @keyframes fucker {
-    0% {opacity: 0%; transform: scale(0);}
-    85% {opacity: 0%; transform: scale(0);}
-    100% {opacity: 100%; transform: scale(1);}
+    0% {
+        opacity: 0%;
+        transform: scale(0);
+    }
+
+    85% {
+        opacity: 0%;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 100%;
+        transform: scale(1);
+    }
 }
 
 .line {
@@ -547,4 +568,35 @@ a:active {
     margin: 0px;
     background-color: var(--lightdark3);
     width: 90%;
+}
+
+#menubar {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    background-color: var(--lightdark);
+    padding-right: 12px;
+    width: 100%;
+    border-bottom: 1px solid var(--bordercolor);
+}
+
+.mb {
+    background-color: transparent;
+    border: none;
+    transition: 0.005s;
+    cursor: pointer;
+    font-size: var(--fz1);
+}
+
+.mb:hover {
+    opacity: 75%;
+}
+
+.mb:active {
+    opacity: 50%;
 }

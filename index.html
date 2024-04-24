@@ -70,7 +70,7 @@
                 <p class="h3">Appearance</p>
                 <p>Select an accent color, and a theme.</p>
                 <p class="bold">Accent color</p>
-                <input type="range" id="rainbowSlider" min="0" max="360" value="0">
+                <input type="range" class="accs" min="0" max="360" value="0">
                 <p class="bold">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
@@ -176,17 +176,28 @@
                 <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
             </div>
             <div id="settapp" class="hide">
-                <p>Appearance</p>
-                <button class="b1 b2" onclick="appear('l');">Light</button>
-                <button class="b1 b2" onclick="appear();">Dark</button>
-
+                <p class="h3">Appearance</p>
+                <p class="med">Accent color</p>
+                <input type="range" class="accs" min="0" max="360" value="0">
+                <p class="med">Theme</p>
+                <button class="b1 b2" onclick="appear('l');">Light mode</button>
+                <button class="b1 b2" onclick="appear();">Dark mode</button>
                 <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
             </div>
             <div id="settgen" class="hide">
                 <p>General</p>
+                <button class="b1 b2" onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID saved will need your new one to send files.</p>`, 'chid()', 'Change ID');">Change DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
+        </div>
+    </div>
+    <div id="menubar">
+        <div class="tnav">
+            <button class="mb bold" onclick="snack('Early implementation. Nothing here yet.', '3500');">WebDesk</button>
+        </div>
+        <div class="title" style="padding-right: 6px;">
+            <button class="mb time">--:--</button>
         </div>
     </div>
     <div id="gomenu">
@@ -215,6 +226,13 @@
 <script>
     async function boots1() {
         hidef('deathcurtain', 400);
+        var id = await readpb('deskid');
+        if (id === null) {
+            await writepb('deskid', gen(4));
+            reboot();
+        } else {
+            dserv(id);
+        }
         await initializeDB();
         const silly = await readpb('setupdone');
         const enc = readpb('enc');
@@ -227,7 +245,7 @@
         } else {
             eraseall();
             showf('setupbg');
-            writef('/user/info/accent', '100, 5, 255');
+            await writef('/user/info/accent', '100, 5, 255');
         }
     }
 
@@ -239,7 +257,9 @@
         if (appear2 === "dark") {
             appear();
         }
-        cv('accent', accent);
+        if (accent) {
+            cv('accent', accent);
+        }
         masschange('uname', name);
     }
 

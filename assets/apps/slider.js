@@ -1,15 +1,18 @@
-const rainbowSlider = document.getElementById('rainbowSlider');
-rainbowSlider.addEventListener('input', () => {
-    const hue = rainbowSlider.value;
-    const rgbColor = hslToRgb(hue / 360, 1, 0.5);
-    cv('accent', rgbColor);
-});
+const rainbowSliders = document.querySelectorAll('.accs');
 
-rainbowSlider.addEventListener('change', async () => {
-    const hue = rainbowSlider.value;
-    const rgbColor = hslToRgb(hue / 360, 1, 0.5);
-    console.log(`<i> (${rgbColor})`)
-    await writef('/user/info/accent', `${rgbColor}`);
+rainbowSliders.forEach(rainbowSlider => {
+    rainbowSlider.addEventListener('input', () => {
+        const hue = rainbowSlider.value;
+        const rgbColor = hslToRgb(hue / 360, 1, 0.5);
+        cv('accent', rgbColor);
+    });
+
+    rainbowSlider.addEventListener('change', async () => {
+        const hue = rainbowSlider.value;
+        const rgbColor = hslToRgb(hue / 360, 1, 0.5);
+        console.log(`<i> (${rgbColor})`)
+        await writef('/user/info/accent', `${rgbColor}`);
+    });
 });
 
 function hslToRgb(h, s, l) {

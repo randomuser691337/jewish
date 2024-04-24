@@ -66,7 +66,6 @@ function encrypt(value) {
   }
 }
 
-// Decrypt data
 function decrypt(value) {
   const enc = readpb('enc');
   if (enc === "y") {
@@ -104,12 +103,12 @@ function readf(name) {
       if (file) {
         resolve(decrypt(file.value));
       } else {
-        reject(`<!> Couldn't find ${name}`);
+        console.log(`<!> Couldn't find "${name}"`);
+        resolve(undefined);
       }
     };
     request.onerror = function (event) {
-      reject("Error reading file");
-      wal(`<p>A severe FS error has occured.</p><p>WebDesk might not be able to continue safely.</p>', 'send("${target.event}");wal("${target.event}");`, 'View & Report');
+      wal(`<p>A severe FS error has occured.</p><p>WebDesk might not be able to continue safely.</p>', 'send("${event}");wal("${target.event}");`, 'View & Report');
     };
   });
 }

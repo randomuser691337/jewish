@@ -13,16 +13,10 @@ function loadCSS(cssFilePath) {
     });
 }
 
-
 function loadJS(jsFilePath) {
     readf(jsFilePath, function (jsContent) {
         const script = document.createElement('script');
         script.textContent = jsContent;
         document.body.appendChild(script);
     });
-}
-
-
-function loadSite() {
-    loadCSS('/assets/style.css');
 }

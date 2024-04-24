@@ -184,7 +184,6 @@ function clapp(id) {
     }
 }
 
-
 function max(id) {
     const wid = document.getElementById(id);
     if (wid) {
@@ -199,20 +198,12 @@ function max(id) {
 }
 
 function mini(window) {
-    $('#' + window).animate({
-        'transform': 'scale(0)',
-        'opacity': '0'
-    }, 120, function () {
-        $('#' + window).hide();
-    });
+    hidef(window, 120);
 }
 
+
 function maxi(window) {
-    $('#' + window).show();
-    $('#' + window).animate({
-        'transform': 'scale(1)',
-        'opacity': '1',
-    }, 120);
+    showf(window, 0);
 }
 
 function cv(varName, varValue) {
@@ -285,6 +276,7 @@ function guestmode() {
 function reboot(delay) {
     if (delay) {
         setTimeout(function () { window.location.reload(); }, delay);
+        hidef('deathcurtain', delay);
     } else {
         window.location.reload();
     }
@@ -293,6 +285,7 @@ function reboot(delay) {
 async function setupd() {
     await writepb('setupdone', 'y');
     await writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
+    await writef('/system/setupon', getdate());
     reboot(500);
 }
 
@@ -304,6 +297,7 @@ async function appear(m) {
         cv('bordercolor', 'rgba(180, 180, 180, 0.2)');
         cv('bg', '#fff');
         cv('fontc', '#000');
+        cv('fontc2', '#222');
         cv('bgurl', 'url("./wall/light.png")');
         await writef('/user/info/appear', 'light');
     } else {
@@ -313,9 +307,19 @@ async function appear(m) {
         cv('bordercolor', 'rgba(100, 100, 100, 0.2)');
         cv('bg', '#000');
         cv('fontc', '#fff');
+        cv('fontc2', '#bbb');
         cv('bgurl', 'url("./wall/dark.png")');
         await writef('/user/info/appear', 'dark');
     }
+}
+
+async function id() {
+    return readpb('deskid');
+}
+
+function chid() {
+   writepb('deskid', gen(4));
+   reboot(300);
 }
 
 function snack(cont, t) {
@@ -344,12 +348,21 @@ function cm(cont) {
     }
 }
 
+function getdate() {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const currentDate = new Date();
+    const month = months[currentDate.getMonth()];
+    const day = currentDate.getDate();
+    const year = currentDate.getFullYear();
+    return(`${month} ${day}, ${year}`);
+}
+
 async function unlock(yeah) {
     const fullBg = document.getElementById(yeah);
     const windowHeight = window.innerHeight;
     const transitionEndPromise = new Promise(resolve => {
         fullBg.addEventListener('transitionend', function transitionEndHandler() {
-            fullBg.removeEventListener('transitionend', transitionEndHandler); // Remove the event listener
+            fullBg.removeEventListener('transitionend', transitionEndHandler);
             resolve();
         });
     });
