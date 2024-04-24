@@ -1,0 +1,4 @@
+<p class="h2">Changelog</p>
+<p class="bold">Apr 24, 2024 - Version 0.0.9</p>
+<p>- Fixed constant reboot issue</p>
+<p>

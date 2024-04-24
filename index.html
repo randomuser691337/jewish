@@ -10,7 +10,7 @@
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 23, 2024";
+        var lastedit = "April 24, 2024";
         var locked = false;
         var fname;
         var fblob;
@@ -186,7 +186,7 @@
             </div>
             <div id="settgen" class="hide">
                 <p>General</p>
-                <button class="b1 b2" onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID saved will need your new one to send files.</p>`, 'chid()', 'Change ID');">Change DeskID</button>
+                <button class="b1 b2" onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');">Change DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
@@ -225,10 +225,10 @@
 <script src="./assets/apps/slider.js"></script>
 <script>
     async function boots1() {
-        var id = await readpb('deskid');
+        const id = readpb('deskid');
         if (id === null) {
-            await writepb('deskid', gen(4));
-            reboot(600);
+            writepb('deskid', gen(4));
+            reboot(800);
         } else {
             dserv(id);
             hidef('deathcurtain', 400);

@@ -318,8 +318,8 @@ async function id() {
 }
 
 function chid() {
-   writepb('deskid', gen(4));
-   reboot(300);
+    writepb('deskid', gen(4));
+    reboot(300);
 }
 
 function snack(cont, t) {
@@ -354,7 +354,7 @@ function getdate() {
     const month = months[currentDate.getMonth()];
     const day = currentDate.getDate();
     const year = currentDate.getFullYear();
-    return(`${month} ${day}, ${year}`);
+    return (`${month} ${day}, ${year}`);
 }
 
 async function unlock(yeah) {
@@ -392,4 +392,22 @@ setInterval(updateClock, 1000);
 
 function eprompt() {
     wal(`<p><span class="med">Warning:</span> Erasing WebDesk will destroy all data inside of it.</p><p>After erase, you will be directed to Setup Assistant.</p>`, 'showf(`deathcurtain`, 400);eraseall(true);', 'Erase');
+}
+
+function framecon(cont) {
+    const random = gen(8);
+    const iframe = `<iframe class="embed" id="${random}" srcdoc="${cont}" height="500px"></iframe>`;
+    mkw(iframe, 'Files - Website', '600px');
+}
+
+// Don't question my method, it's to keep things neat even though it gives you brain cancer
+function doc(path, title, width, height) {
+    fetch(path)
+        .then(response => response.text())
+        .then(data => {
+            mkw(data, title, width, height, true);
+        })
+        .catch(error => {
+            mkw(`<p>Couldn't load doc; check console.</p>`, 'Document Error', '270px');
+        });
 }
