@@ -186,7 +186,9 @@
             </div>
             <div id="settgen" class="hide">
                 <p>General</p>
-                <button class="b1 b2" onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');">Change DeskID</button>
+                <button class="b1 b2"
+                    onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');">Change
+                    DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
@@ -225,15 +227,6 @@
 <script src="./assets/apps/slider.js"></script>
 <script>
     async function boots1() {
-        const id = await readpb('deskid');
-        if (id === null) {
-            writepb('deskid', gen(4));
-            reboot(4000);
-            cm(`<p>Rebooting in 4 seconds to apply an update</p>`);
-        } else {
-            dserv(id);
-            hidef('deathcurtain', 400);
-        }
         await initializeDB();
         const silly = await readpb('setupdone');
         const enc = readpb('enc');
@@ -248,6 +241,18 @@
             showf('setupbg');
             await writef('/user/info/accent', '100, 5, 255');
         }
+        const fucker = gen(4);
+        const deskid = readpb('deskid');
+        if (deskid === null) {
+            writepb('deskid', fucker);
+            dserv(fucker);
+            console.log(`<!> Created DeskID: ${fucker}`);
+        } else {
+            dserv(deskid);
+            console.log(`<i> DeskID exists: ${deskid}`)
+        }
+        hidef('deathcurtain', 400);
+        console.log(`<i> Boot successful!`);
     }
 
     async function boots2() {

@@ -155,8 +155,8 @@ body {
 }
 
 .winb {
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border: 2px solid rgba(0, 0, 0, 0) important;
     margin-right: 7px;
     border-radius: 50%;
@@ -591,13 +591,10 @@ a:active {
     transition: 0.005s;
     cursor: pointer;
     font-size: var(--fz1);
-    padding: 0px; margin: 0px;
-}
-
-.mb:hover {
-    opacity: 75%;
+    border-radius: 4px;
+    padding: 3px 6px;
 }
 
 .mb:active {
-    opacity: 50%;
+    background-color: rgba(var(--accent), 0.12);
 }
