@@ -225,7 +225,7 @@
 <script src="./assets/apps/slider.js"></script>
 <script>
     async function boots1() {
-        const id = readpb('deskid');
+        const id = await readpb('deskid');
         if (id === null) {
             writepb('deskid', gen(4));
             reboot(4000);
