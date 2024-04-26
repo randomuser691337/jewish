@@ -5,17 +5,14 @@ function touch() {
 
     $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
+        var $otherWindows = $('.window').not($window);
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
-            var resistance = 3;
             $window.css('z-index', zIndex++);
-
             if (event.type === 'mousedown') {
-                $window.addClass('dragging');
                 offsetX = event.clientX - $window.offset().left;
                 offsetY = event.clientY - $window.offset().top;
             } else if (event.type === 'touchstart') {
-                $window.addClass('dragging');
                 var touch = event.originalEvent.touches[0];
                 offsetX = touch.clientX - $window.offset().left;
                 offsetY = touch.clientY - $window.offset().top;
@@ -26,16 +23,15 @@ function touch() {
                 if (event.type === 'mousemove') {
                     newX = event.clientX - offsetX;
                     newY = event.clientY - offsetY;
+                    $window.addClass('dragging');
                 } else if (event.type === 'touchmove') {
                     var touch = event.originalEvent.touches[0];
                     newX = touch.clientX - offsetX;
                     newY = touch.clientY - offsetY;
+                    $window.addClass('dragging');
                 }
 
-                if (Math.abs(newX - $window.offset().left) > resistance ||
-                    Math.abs(newY - $window.offset().top) > resistance) {
-                    $window.offset({ top: newY, left: newX });
-                }
+                $window.offset({ top: newY, left: newX });
             });
 
             $(document).on('mouseup touchend', function () {
@@ -63,7 +59,7 @@ function gen(length) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function mkw(contents, titlebarText, width, height, c, m, a) {
+function mkw(contents, titlebarText, width, height, c, m, a, icon) {
     var windowDiv = document.createElement('div');
     windowDiv.classList.add('window');
     windowDiv.id = gen(8);
@@ -113,7 +109,7 @@ function mkw(contents, titlebarText, width, height, c, m, a) {
     windowDiv.appendChild(contentDiv);
     document.body.appendChild(windowDiv);
     contentDiv.innerHTML = contents;
-    touch(); opapp(windowDiv.id, titlebarText);
+    touch(); opapp(windowDiv.id, titlebarText, icon);
 }
 
 function wal(content, btn1, n) {
@@ -149,17 +145,21 @@ function centerel(el) {
     element.style.top = `${topPosition}px`;
 }
 
-function opapp(id, name) {
+function opapp(id, name, img) {
     hidef('gomenu');
     const div = document.getElementById(id);
     const check = document.getElementById("btn_" + id);
     if (div && !check) {
         centerel(id);
         showf(id);
-        const btn = document.createElement('button');
-        btn.className = "b3";
+        const btn = document.createElement('img');
+        btn.className = "tbi";
         btn.id = "btn_" + id;
-        btn.innerText = name;
+        if (img) {
+            btn.src = img;
+        } else {
+            btn.src = "./assets/img/apps/notfound.svg";
+        }
         btn.onclick = function () {
             maxi(id);
         };
@@ -270,7 +270,7 @@ function masschange(classn, val) {
 
 function guestmode() {
     dest('oobespace');
-    mkw(`<p>You're in Guest Mode.</p><p>Data will be destroyed on next reload.</p>`, 'WebDesk Setup');
+    mkw(`<p>You're in Guest Mode.</p><p>Data will be destroyed on next reload.</p>`, 'WebDesk Setup', undefined, undefined, undefined, true, undefined);
 }
 
 function reboot(delay) {
@@ -294,7 +294,7 @@ async function appear(m) {
         cv('lightdark', `rgb(255, 255, 255, 0.65)`);
         cv('lightdark2', '#fff');
         cv('lightdark3', '#ddd');
-        cv('bordercolor', 'rgba(180, 180, 180, 0.2)');
+        cv('bordercolor', 'rgba(160, 160, 160, 0.2)');
         cv('bg', '#fff');
         cv('fontc', '#000');
         cv('fontc2', '#222');
@@ -304,7 +304,7 @@ async function appear(m) {
         cv('lightdark', `rgb(40, 40, 40, 0.65)`);
         cv('lightdark2', '#1a1a1a');
         cv('lightdark3', '#2a2a2a');
-        cv('bordercolor', 'rgba(100, 100, 100, 0.2)');
+        cv('bordercolor', 'rgba(120, 120, 120, 0.2)');
         cv('bg', '#000');
         cv('fontc', '#fff');
         cv('fontc2', '#bbb');
@@ -400,7 +400,6 @@ function framecon(cont) {
     mkw(iframe, 'Files - Website', '600px');
 }
 
-// Don't question my method, it's to keep things neat even though it gives you brain cancer
 function doc(path, title, width, height) {
     fetch(path)
         .then(response => response.text())
@@ -410,4 +409,8 @@ function doc(path, title, width, height) {
         .catch(error => {
             mkw(`<p>Couldn't load doc; check console.</p>`, 'Document Error', '270px');
         });
+}
+
+function rmbl() {
+    wal(`<p>Are you sure you want to delete your startup code?</p><p>Depending on your changes, WebDesk may stop working correctly.</p>`, 'delpb(`bootload`);reboot(400);', 'Delete & Reboot');
 }

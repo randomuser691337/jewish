@@ -41,7 +41,7 @@ function about(value) {
         </div>
     </div>`;
     if (value === undefined) {
-        mkw(win, `About`, '300px', './assets/img/favicon.png');
+        mkw(win, `About`, '300px', undefined, undefined, undefined, true, './assets/img/favicon.png');
     }
 
     masschange('ver', ver);
@@ -52,15 +52,15 @@ async function aboutm() {
     if (so === null || so === undefined) {
         so = "Unknown";
     }
-    let ve = await readvar('ogver');
+    let ve = await readf('/system/ogver');
     if (ve === null || ve === undefined) {
         ve = "Unknown";
     }
     let en = readpb('enc');
-    if (en === "no") {
-        en = "no";
-    } else {
+    if (en === "y") {
         en = "yes";
+    } else {
+        en = "no";
     }
     let bl = readpb('bootload');
     if (bl === null || bl === undefined) {
@@ -70,9 +70,9 @@ async function aboutm() {
     }
     const win = `<p><span class="med">Set up on: </span>${so}</p>
     <p><span class="med">Original version: </span>${ve}</p>
-    <p onclick="" style="cursor: pointer;"><span class="med">Startup script: </span>${bl}</p>
+    <p onclick="rmbl();" style="cursor: pointer;"><span class="med">Startup script: </span>${bl}</p>
     <p><span class="med">Encrypting: </span>${en}</p>`
-    mkw(win, 'About', '300px');
+    mkw(win, 'About', '300px', undefined, undefined, undefined, true, './assets/img/apps/info.svg');
 }
 function cm(cont) {
     const snackElement = document.createElement("div");

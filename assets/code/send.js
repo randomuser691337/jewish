@@ -17,9 +17,9 @@ async function dserv(id) {
 async function downloadFile(data, name) {
     try {
         await writef(`/user/files/${name}`, data);
-        snack(`Received and wrote a file to /user/files/${name}`, 4000);
+        cm(`<p>Received and wrote a file to /user/files/${name}. WebDesk may freeze for a second.</p><button class="b3">Dismiss</button>`);
     } catch (error) {
-        console.error('Error while downloading file:', error);
+        console.error('<!> Error while writing file:', error);
         snack('An error occurred while writing the file.', 4000);
     }
 }

@@ -160,7 +160,7 @@ body {
     border: 2px solid rgba(0, 0, 0, 0) important;
     margin-right: 7px;
     border-radius: 50%;
-    background-color: var(--lightdark3);
+    background-color: rgba(127, 127, 127, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,19 +212,6 @@ body {
 
 .content {
     padding: 10px;
-}
-
-#taskbar {
-    position: fixed;
-    left: 50%;
-    bottom: 4px;
-    transform: translate(-50%);
-    border: 2px solid var(--bordercolor);
-    background-color: var(--lightdark);
-    -webkit-backdrop-filter: blur(var(--blur1));
-    backdrop-filter: blur(var(--blur1));
-    border-radius: var(--rad2);
-    padding: 5px;
 }
 
 p {
@@ -470,7 +457,7 @@ a:active {
     display: none;
     background: linear-gradient(217deg, rgba(240, 50, 50), rgba(30, 120, 255), rgba(0, 255, 127)),
         linear-gradient(127deg, rgba(0, 255, 127), rgba(255, 51, 51), rgba(255, 0, 200)),
-        linear-gradient(336deg, rgba(255, 255, 0), rgba(0, 220, 40), rgba(240, 30, 30));
+        linear-gradient(336deg, rgba(255, 200, 0), rgba(60, 220, 80), rgba(240, 30, 30));
     background-size: 600% 600%;
     animation: gradientShift 10s infinite alternate;
 }
@@ -561,15 +548,6 @@ a:active {
     }
 }
 
-.line {
-    display: inline-block;
-    height: 2px;
-    padding: 0px;
-    margin: 0px;
-    background-color: var(--lightdark3);
-    width: 90%;
-}
-
 #menubar {
     position: fixed;
     left: 0px;
@@ -597,4 +575,41 @@ a:active {
 
 .mb:active {
     background-color: rgba(var(--accent), 0.12);
+}
+
+#taskbar {
+    position: fixed;
+    left: 50%;
+    bottom: 4px;
+    transform: translate(-50%);
+    border: 2px solid var(--bordercolor);
+    background-color: var(--lightdark);
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
+    border-radius: var(--rad1);
+    padding: 3px;
+}
+
+@keyframes show {
+    0% {transform: scale(0); opacity: 0%;}
+    100% {transform: scale(1); opacity: 100%;}
+}
+
+.tbi {
+    width: 48px !important; height: 48px !important;
+    border-radius: var(--rad2);
+    border: none;
+    cursor: pointer;
+    vertical-align: middle; margin: 2px;
+    background-color: var(--lightdark3);
+    transition: 0.04s;
+    animation: show 0.2s;
+}
+
+.tbi:hover {
+    opacity: 70%;   
+}
+
+.tbi:active {
+    transform: scale(0.8);
 }

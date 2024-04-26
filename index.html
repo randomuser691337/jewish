@@ -205,14 +205,13 @@
     <div id="gomenu">
         <p>Hello, <span class="uname"></span>!</p>
         <button class="b1 b2" onclick="about();">About</button>
-        <button class="b1 b2" onclick="opapp('filem', 'Files');dfm('/');">Files</button>
+        <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
         <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Recieve</button>
-        <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
+        <button class="b1 b2" onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
-    <div id="taskbar"><button class="b3" onclick="toggle('gomenu');">Go</button><span id="taskbara"></span><button
-            class="b3 time" onclick="toggle('controlmenu');">Time</button></div>
+    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span id="taskbara"></span></div>
 </body>
 <script src="./assets/lib/peer.js"></script>
 <script src="./assets/lib/enc.js"></script>
