@@ -5,7 +5,6 @@ function touch() {
 
     $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
-        var $otherWindows = $('.window').not($window);
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
             $window.css('z-index', zIndex++);
@@ -298,6 +297,7 @@ async function appear(m) {
         cv('bg', '#fff');
         cv('fontc', '#000');
         cv('fontc2', '#222');
+        cv('inv', '0');
         cv('bgurl', 'url("./wall/light.png")');
         await writef('/user/info/appear', 'light');
     } else {
@@ -308,6 +308,7 @@ async function appear(m) {
         cv('bg', '#000');
         cv('fontc', '#fff');
         cv('fontc2', '#bbb');
+        cv('inv', '1');
         cv('bgurl', 'url("./wall/dark.png")');
         await writef('/user/info/appear', 'dark');
     }

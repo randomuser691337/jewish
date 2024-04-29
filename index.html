@@ -10,10 +10,11 @@
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 24, 2024";
+        var lastedit = "April 28, 2024";
         var locked = false;
         var fname;
         var fblob;
+        var nvol = 1.0;
     </script>
 </head>
 
@@ -199,9 +200,10 @@
             <button class="mb bold" onclick="snack('Early implementation. Nothing here yet.', '3500');">WebDesk</button>
         </div>
         <div class="title" style="padding-right: 6px;">
+            <img src="./assets/img/batt/bc.svg" id="bi"></img>
             <button class="mb time">--:--</button>
         </div>
-    </div>
+    </div>    
     <div id="gomenu">
         <p>Hello, <span class="uname"></span>!</p>
         <button class="b1 b2" onclick="about();">About</button>
@@ -217,6 +219,7 @@
 <script src="./assets/lib/enc.js"></script>
 <script src="./assets/lib/jq.js"></script>
 <script src="./assets/code/fs.js"></script>
+<script src="./assets/code/misc.js"></script>
 <script src="./assets/code/core.js"></script>
 <script src="./assets/code/init.js"></script>
 <script src="./assets/code/send.js"></script>

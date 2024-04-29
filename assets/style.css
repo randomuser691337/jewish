@@ -15,6 +15,7 @@
     --blur2: 10px;
     --bgurl: url("./wall/light.png");
     --ap: 255, 0, 0;
+    --inv: 0;
 }
 
 @font-face {
@@ -262,9 +263,9 @@ button {
 .b1 {
     padding: 4px 6px;
     border-radius: 8px;
-    background-color: rgba(var(--accent), 0.15);
+    background-color: rgba(var(--accent), 0.2);
     font-size: 1em;
-    border: 2px solid rgba(var(--accent), 0.4);
+    border: 2px solid transparent;
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.08s ease-in-out;
@@ -272,16 +273,16 @@ button {
 }
 
 .b1:hover {
-    background-color: rgba(var(--accent), 0.3);
-    border-color: rgba(var(--accent), 0.6);
+    background-color: rgba(var(--accent), 0.4);
+    border: 2px solid rgba(var(--accent), 0.5);
     transform: scale(0.96);
 }
 
 .b1:active {
-    background-color: rgba(var(--accent), 0.42);
-    border-color: rgba(var(--accent), 0.8);
+    background-color: rgba(var(--accent), 0.5);
+    border: 2px solid rgba(var(--accent), 0.6);
     transform: scale(0.90);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .b3 {
@@ -581,13 +582,16 @@ a:active {
     position: fixed;
     left: 50%;
     bottom: 4px;
-    transform: translate(-50%);
+    transform: translateX(-50%);
     border: 2px solid var(--bordercolor);
     background-color: var(--lightdark);
     -webkit-backdrop-filter: blur(var(--blur1));
     backdrop-filter: blur(var(--blur1));
     border-radius: var(--rad1);
-    padding: 3px;
+    padding: 2px;
+    white-space: nowrap;
+    overflow-x: auto;
+    max-width: 90%;
 }
 
 @keyframes show {
@@ -596,7 +600,7 @@ a:active {
 }
 
 .tbi {
-    width: 48px !important; height: 48px !important;
+    width: 44px !important; height: 44px !important;
     border-radius: var(--rad2);
     border: none;
     cursor: pointer;
@@ -612,4 +616,10 @@ a:active {
 
 .tbi:active {
     transform: scale(0.8);
+}
+
+#bi {
+    vertical-align: middle;
+    filter: invert(var(--inv));
+    margin-bottom: 1px;
 }
