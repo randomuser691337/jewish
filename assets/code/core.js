@@ -200,7 +200,6 @@ function mini(window) {
     hidef(window, 120);
 }
 
-
 function maxi(window) {
     showf(window, 0);
 }
@@ -234,6 +233,17 @@ function showf(d1, anim) {
             $(dr1).fadeIn(anim);
         } else {
             $(dr1).fadeIn(170);
+        }
+    }
+}
+
+function showfi(d1, anim) {
+    const dr1 = document.getElementById(d1);
+    if (dr1) {
+        if (anim) {
+            $(dr1).fadeIn(anim).css("display", "inline-block");
+        } else {
+            $(dr1).fadeIn(170).css("display", "inline-block");
         }
     }
 }
@@ -405,7 +415,7 @@ function doc(path, title, width, height) {
     fetch(path)
         .then(response => response.text())
         .then(data => {
-            mkw(data, title, width, height, true);
+            mkw(data, title, width, height);
         })
         .catch(error => {
             mkw(`<p>Couldn't load doc; check console.</p>`, 'Document Error', '270px');
@@ -414,4 +424,14 @@ function doc(path, title, width, height) {
 
 function rmbl() {
     wal(`<p>Are you sure you want to delete your startup code?</p><p>Depending on your changes, WebDesk may stop working correctly.</p>`, 'delpb(`bootload`);reboot(400);', 'Delete & Reboot');
+}
+
+function panic(detail, msg) {
+    showf('prohibit');
+    document.getElementById('perr').href = `https://errdesk.vercel.app/?e=${detail}&d=${msg}`;
+    setTimeout(function () {
+        Object.keys(window).forEach(key => {
+            delete window[key];
+        });
+    }, 300);
 }

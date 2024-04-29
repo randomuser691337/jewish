@@ -15,12 +15,22 @@
         var fname;
         var fblob;
         var nvol = 1.0;
+        var copied;
+        var copiedn;
     </script>
 </head>
 
 <body>
     <div id="deathcurtain"
         style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000;">
+    </div>
+    <div id="prohibit"
+        style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; display: none;">
+        <div style="position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+            <img src="./assets/img/warn.svg" style="width: 100px; margin-bottom: 3px; filter: invert(1);"></img>
+            <p><a class="bold" id="perr" href="https://errdesk.vercel.app?e=what" target="_blank"
+                    style="color: #fff !important;">errdesk.vercel.app</a></p>
+        </div>
     </div>
     <div id="oobespace">
         <div id="setupbg" onmousedown="unlock('setupbg');">
@@ -77,7 +87,7 @@
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
                 <button class="b1" onclick="fesw('setupc', 'setupl');">Done</button>
             </div>
-            <div id="setupl" class="hide" style="max-width: 290px;">
+            <div id="setupl" class="hide" style="max-width: 320px;">
                 <p class="h3">Location Services</p>
                 <p>You can optionally enable Location Services, to update the weather in your location, use certain
                     weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
@@ -199,79 +209,94 @@
         <div class="tnav">
             <button class="mb bold" onclick="snack('Early implementation. Nothing here yet.', '3500');">WebDesk</button>
         </div>
-        <div class="title" style="padding-right: 6px;">
-            <img src="./assets/img/batt/bc.svg" id="bi"></img>
+        <div class="title">
+            <img src="./assets/img/no.svg" id="bi"></img>
             <button class="mb time">--:--</button>
         </div>
-    </div>    
+    </div>
     <div id="gomenu">
         <p>Hello, <span class="uname"></span>!</p>
         <button class="b1 b2" onclick="about();">About</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
         <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Recieve</button>
-        <button class="b1 b2" onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
+        <button class="b1 b2"
+            onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
-    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span id="taskbara"></span></div>
-</body>
-<script src="./assets/lib/peer.js"></script>
-<script src="./assets/lib/enc.js"></script>
-<script src="./assets/lib/jq.js"></script>
-<script src="./assets/code/fs.js"></script>
-<script src="./assets/code/misc.js"></script>
-<script src="./assets/code/core.js"></script>
-<script src="./assets/code/init.js"></script>
-<script src="./assets/code/send.js"></script>
-<script src="./assets/apps/about.js"></script>
-<script src="./assets/apps/auth.js"></script>
-<script src="./assets/apps/files.js"></script>
-<script src="./assets/apps/slider.js"></script>
-<script>
-    async function boots1() {
-        await initializeDB();
-        const silly = await readpb('setupdone');
-        const enc = readpb('enc');
-        if (silly === "y") {
-            if (enc === "y") {
-                pw('Enter password to continue.', 'boots2()');
-            } else {
-                boots2();
+    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span
+            id="taskbara"></span></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="./assets/lib/peer.js"></script>
+    <script src="./assets/lib/enc.js"></script>
+    <script src="./assets/lib/jq.js"></script>
+    <script src="./assets/code/fs.js"></script>
+    <script src="./assets/code/misc.js"></script>
+    <script src="./assets/code/core.js"></script>
+    <script src="./assets/code/init.js"></script>
+    <script src="./assets/code/send.js"></script>
+    <script src="./assets/apps/about.js"></script>
+    <script src="./assets/apps/auth.js"></script>
+    <script src="./assets/apps/files.js"></script>
+    <script src="./assets/apps/slider.js"></script>
+    <script>
+        async function boots1() {
+            try {
+                await initializeDB();
+                const silly = await readpb('setupdone');
+                const enc = readpb('enc');
+                if (silly === "y") {
+                    if (enc === "y") {
+                        pw('Enter password to continue.', 'boots2()');
+                    } else {
+                        boots2();
+                    }
+                } else {
+                    eraseall();
+                    showf('setupbg');
+                    await writef('/user/info/accent', '100, 5, 255');
+                }
+                const fucker = gen(4);
+                const deskid = readpb('deskid');
+                if (deskid === null) {
+                    writepb('deskid', fucker);
+                    dserv(fucker);
+                    console.log(`<!> Created DeskID: ${fucker}`);
+                } else {
+                    dserv(deskid);
+                    console.log(`<i> DeskID exists: ${deskid}`)
+                }
+                hidef('deathcurtain', 400);
+                console.log(`<i> Boot successful!`);
+            } catch (error) {
+                panic('2', error);
             }
-        } else {
-            eraseall();
-            showf('setupbg');
-            await writef('/user/info/accent', '100, 5, 255');
         }
-        const fucker = gen(4);
-        const deskid = readpb('deskid');
-        if (deskid === null) {
-            writepb('deskid', fucker);
-            dserv(fucker);
-            console.log(`<!> Created DeskID: ${fucker}`);
-        } else {
-            dserv(deskid);
-            console.log(`<i> DeskID exists: ${deskid}`)
-        }
-        hidef('deathcurtain', 400);
-        console.log(`<i> Boot successful!`);
-    }
 
-    async function boots2() {
-        dest('oobespace'); writepb('setupdone', 'y');
-        const name = await readf('/user/info/name');
-        const appear2 = await readf('/user/info/appear');
-        const accent = await readf('/user/info/accent');
-        if (appear2 === "dark") {
-            appear();
+        async function boots2() {
+            try {
+                dest('oobespace'); writepb('setupdone', 'y');
+                const name = await readf('/user/info/name');
+                const appear2 = await readf('/user/info/appear');
+                const accent = await readf('/user/info/accent');
+                const check = await readf('/system/check');
+                if (check !== "DontModifyOrYouWillBrickWebDesk") {
+                    panic('6', '/system/check is corrupted.');
+                }
+                if (appear2 === "dark") {
+                    appear();
+                }
+                if (accent) {
+                    cv('accent', accent);
+                }
+                masschange('uname', name);
+            } catch (error) {
+                panic('3', error);
+            }
         }
-        if (accent) {
-            cv('accent', accent);
-        }
-        masschange('uname', name);
-    }
 
-    $(document).ready(boots1);
-</script>
+        $(document).ready(boots1);
+    </script>
+</body>
 
 </html>

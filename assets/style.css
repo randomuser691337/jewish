@@ -43,6 +43,7 @@ body {
     background-attachment: fixed;
     background-size: cover;
     text-align: center;
+    margin: 0px; padding: 0px;
     background-image: var(--bgurl);
 }
 
@@ -114,6 +115,8 @@ body {
     border: 1px solid var(--bordercolor);
     max-width: 85%;
     max-height: 90%;
+    width: auto;
+    height: auto;
     z-index: 5;
     background-color: var(--lightdark);
     display: none;
@@ -551,17 +554,16 @@ a:active {
 
 #menubar {
     position: fixed;
-    left: 0px;
-    right: 0px;
-    top: 0px;
+    left: 3px;
+    right: 3px;
+    top: 3px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 3px;
     background-color: var(--lightdark);
-    padding-right: 12px;
-    width: 100%;
-    border-bottom: 1px solid var(--bordercolor);
+    border-radius: 50px;
+    border: 1px solid var(--bordercolor);
 }
 
 .mb {
@@ -570,12 +572,12 @@ a:active {
     transition: 0.005s;
     cursor: pointer;
     font-size: var(--fz1);
-    border-radius: 4px;
-    padding: 3px 6px;
+    border-radius: 16px;
+    padding: 3px 8px;
 }
 
 .mb:active {
-    background-color: rgba(var(--accent), 0.12);
+    background-color: rgba(var(--accent), 0.2);
 }
 
 #taskbar {
@@ -622,4 +624,5 @@ a:active {
     vertical-align: middle;
     filter: invert(var(--inv));
     margin-bottom: 1px;
+    display: none;
 }

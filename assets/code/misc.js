@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const batteryImage = document.getElementById("bi");
     function updateBatteryStatus() {
         navigator.getBattery().then(battery => {
+            showfi('bi', '100');
             const batteryLevel = battery.level * 100;
             const charging = battery.charging;
 

@@ -1,9 +1,7 @@
-// Object to store directory contents
 function viewmed(val, name, mediaType) {
   if (!(mediaType === 'i' && val.startsWith("data:image/")) &&
     !(mediaType === 'v' && val.startsWith("data:video/"))) {
-    console.error("Invalid media data format");
-    return;
+    console.log('<!> Media type may be invalid.');
   }
 
   const mediaTag = mediaType === 'i' ? 'img' : 'video'; // Adjusted mediaType checks
@@ -126,7 +124,7 @@ async function dfm(dir) {
           element.addEventListener('click', async () => {
             const f = await readf(`${directoryPath}${item.name}`);
             const tard = "i";
-            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');">Delete</button><button class="b3">Close</button>`);
+            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');dfm('${directoryPath}');">Delete</button><button class="b1 b2" onclick="copied = '${f}'; copiedn = '${item.name}';">Copy</button><button class="b1 b2" onclick="writef('${directoryPath}${copiedn}', '${copied}');dfm('${directoryPath}');">Paste</button><button class="b3">Close</button>`);
           });
         }
         directoryContentsDiv.appendChild(element);

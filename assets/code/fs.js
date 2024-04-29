@@ -9,6 +9,7 @@ function initializeDB() {
       const request = window.indexedDB.open('WebDeskDB', 1);
       request.onerror = function (event) {
         reject("<!> shit:" + event.target.errorCode);
+        panic('1', event.target.errorCode);
       };
       request.onsuccess = function (event) {
         db = event.target.result;
@@ -77,6 +78,7 @@ function decrypt(value) {
       return CryptoJS.AES.decrypt(value, pass).toString(CryptoJS.enc.Utf8);
     } catch (error) {
       console.error('Decryption error:', error.message);
+      panic('4', error.message);
       return null;
     }
   } else {
@@ -108,7 +110,7 @@ function readf(name) {
       }
     };
     request.onerror = function (event) {
-      wal(`<p>A severe FS error has occured.</p><p>WebDesk might not be able to continue safely.</p>', 'send("${event}");wal("${target.event}");`, 'View & Report');
+       panic('5', event.target.errorCode);
     };
   });
 }
