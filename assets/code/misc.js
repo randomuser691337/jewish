@@ -6,12 +6,14 @@ window.addEventListener('DOMContentLoaded', () => {
             showfi('bi', '100');
             const batteryLevel = battery.level * 100;
             const charging = battery.charging;
-
+            document.getElementById('bi').onclick = function () { snack(`Battery is at ${batteryLevel}%`, '2000') }
             if (charging) {
                 batteryImage.src = "./assets/img/batt/bc.svg";
-            } else if (batteryLevel <= 33) {
+            } else if (batteryLevel <= 12) {
+                batteryImage.src = "./assets/img/batt/be.svg";
+            } else if (batteryLevel <= 38) {
                 batteryImage.src = "./assets/img/batt/bl.svg";
-            } else if (batteryLevel >= 70) {
+            } else if (batteryLevel >= 75) {
                 batteryImage.src = "./assets/img/batt/bf.svg";
             } else {
                 batteryImage.src = "./assets/img/batt/bm.svg";

@@ -162,7 +162,9 @@ function opapp(id, name, img) {
         btn.onclick = function () {
             maxi(id);
         };
-        document.getElementById('taskbara').appendChild(btn);
+        if (document.getElementById('taskbara')) {
+            document.getElementById('taskbara').appendChild(btn);
+        }
     } else {
         log('<!> Error making window.');
         log('   <i> Window: ' + div);
@@ -179,7 +181,9 @@ function clapp(id) {
     if (div) {
         hidef(id);
         const fuck = "btn_" + id;
-        dest(fuck);
+        if (document.getElementById(fuck)) {
+            dest(fuck);
+        }
     }
 }
 
@@ -207,6 +211,11 @@ function maxi(window) {
 function cv(varName, varValue) {
     const root = document.documentElement;
     root.style.setProperty(`--${varName}`, `${varValue}`);
+}
+
+async function chacc(rgb) {
+    cv('accent', rgb);
+    await writef('/user/info/accent', rgb);
 }
 
 function fesw(d1, d2) {
@@ -285,20 +294,20 @@ function guestmode() {
 function reboot(delay) {
     if (delay) {
         setTimeout(function () { window.location.reload(); }, delay);
-        hidef('deathcurtain', delay);
+        showf('deathcurtain', 0, hidef('deathcurtain', delay));
     } else {
         window.location.reload();
     }
 }
 
 async function setupd() {
-    await writepb('setupdone', 'y');
+    await writef('/system/ogver', ver);
     await writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
     await writef('/system/setupon', getdate());
     reboot(500);
 }
 
-async function appear(m) {
+async function appear(m, no) {
     if (m === "l") {
         cv('lightdark', `rgb(255, 255, 255, 0.65)`);
         cv('lightdark2', '#fff');
@@ -309,7 +318,9 @@ async function appear(m) {
         cv('fontc2', '#222');
         cv('inv', '0');
         cv('bgurl', 'url("./wall/light.png")');
-        await writef('/user/info/appear', 'light');
+        if (no === undefined) {
+            await writef('/user/info/appear', 'light');
+        }
     } else {
         cv('lightdark', `rgb(40, 40, 40, 0.65)`);
         cv('lightdark2', '#1a1a1a');
@@ -320,7 +331,9 @@ async function appear(m) {
         cv('fontc2', '#bbb');
         cv('inv', '1');
         cv('bgurl', 'url("./wall/dark.png")');
-        await writef('/user/info/appear', 'dark');
+        if (no === undefined) {
+            await writef('/user/info/appear', 'dark');
+        }
     }
 }
 
@@ -427,7 +440,11 @@ function rmbl() {
 }
 
 function panic(detail, msg) {
-    showf('prohibit');
+    if (document.getElementById('prohibit')) {
+        showf('prohibit');
+    } else {
+        wal(`<p>WebDesk tried to crash, but is in recovery or in a special mode.<p><p>Message: <span class="med">${msg}</span></p><p>Error code: <span class="med">${detail}</span>`)
+    }
     document.getElementById('perr').href = `https://errdesk.vercel.app/?e=${detail}&d=${msg}`;
     setTimeout(function () {
         Object.keys(window).forEach(key => {

@@ -12,6 +12,10 @@ async function dserv(id) {
             if (data.name === "MigrationPackDeskFuck") {
                 snack('Migrating...');
                 restorefs(data.file);
+            } else if (data.name === "MigrationPackDeskFuckEnc") {
+                snack('Migrating...');
+                restorefs(data.file);
+                writepb('enc', 'y');
             } else {
                 downloadFile(data.file, data.name);
             }
@@ -60,39 +64,57 @@ function sendf(id) {
     }
 }
 
+async function migaway(id) {
+    snack('Preparing to migrate...', '3000');
+    const fucker = await readpb('enc')
+    if (fucker === "y") {
+       fname = "MigrationPackDeskFuckEnc";
+    } else {
+        fname = "MigrationPackDeskFuck";
+    }
+
+    fblob = await compressfs();
+    sendf(id);
+}
+
 async function compressfs() {
-    const zip = new JSZip();
-    await new Promise((resolve, reject) => {
-        const transaction = db.transaction(['files'], 'readonly');
-        const objectStore = transaction.objectStore('files');
-        const request = objectStore.getAll();
-        request.onsuccess = function (event) {
-            const files = event.target.result;
-            files.forEach(file => {
-                zip.file(file.path, decrypt(file.value));
-            });
-            resolve();
-        };
-        request.onerror = function (event) {
-            panic('5', event.target.errorCode);
-            reject(event.target.errorCode);
-        };
+    return new Promise(async (resolve, reject) => {
+        try {
+            const zip = new JSZip();
+            const transaction = db.transaction(['files'], 'readonly');
+            const objectStore = transaction.objectStore('files');
+            const request = objectStore.getAll();
+            request.onsuccess = function (event) {
+                const files = event.target.result;
+                files.forEach(file => {
+                    zip.file(file.path, decrypt(file.value));
+                });
+                resolve(zip.generateAsync({ type: "blob" }));
+            };
+            request.onerror = function (event) {
+                panic('5', event.target.errorCode);
+                reject(event.target.errorCode);
+            };
+        } catch (error) {
+            reject(error);
+        }
     });
-    fname = "MigrationPackDeskFuck";
-    fblob = zip.generateAsync({ type: "blob" });
 }
 
 async function restorefs(zipBlob) {
     console.log('<i> Restore Stage 1: Get zip and erase data');
-    const zip = await JSZip.loadAsync(zipBlob);
-    await eraseall();
-    console.log('<i> Restore Stage 2: Open zip and extract to FS');
-    await Promise.all(Object.keys(zip.files).map(async filename => {
-      const file = zip.files[filename];
-      const value = await file.async("string");
-      writef(filename, value);
-    }));
-    
-    console.log("<i> Filesystem restored successfully.");
-  }
-  
+    try {
+        const zip = await JSZip.loadAsync(zipBlob);
+        await eraseall();
+        console.log('<i> Restore Stage 2: Open zip and extract to FS');
+        await Promise.all(Object.keys(zip.files).map(async filename => {
+            const file = zip.files[filename];
+            const value = await file.async("string");
+            writef(filename, value);
+        }));
+        reboot(400);
+    } catch (error) {
+        console.log('<!> Error while restoring filesystem:', error);
+        snack('An error occurred while restoring the filesystem.', 4000);
+    }
+}

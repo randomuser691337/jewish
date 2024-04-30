@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="./assets/style.css">
     <link rel="stylesheet" href="./assets/stylep2.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 28, 2024";
+        var lastedit = "April 29, 2024";
         var locked = false;
         var fname;
         var fblob;
@@ -28,8 +29,7 @@
         style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; display: none;">
         <div style="position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);">
             <img src="./assets/img/warn.svg" style="width: 100px; margin-bottom: 3px; filter: invert(1);"></img>
-            <p><a class="bold" id="perr" href="https://errdesk.vercel.app?e=what" target="_blank"
-                    style="color: #fff !important;">errdesk.vercel.app</a></p>
+            <p><a class="bold" id="perr" href="https://errdesk.vercel.app?e=what" style="color: #fff !important;">errdesk.vercel.app</a></p>
         </div>
     </div>
     <div id="oobespace">
@@ -46,13 +46,28 @@
                     Press to open</p>
             </div>
         </div>
-        <div class="setup">
-            <div id="setup1">
+        <div class="setup" style="width: 500px; height: 360px;">
+            <div
+                style="width: 100%; border: 1px solid var(--lightdark3); box-sizing: border-box; display: flex; align-items: center;
+            justify-content: space-between; padding: 2px; border-radius: var(--rad2); text-align: left; margin-bottom: 6px;">
+                <div class="tnav"><button class="b4" onclick="eraseall();reboot(400);">Start Over</button></div>
+                <div class="title"><button class="time b4"
+                        style="background-color: transparent !important;">--:--</button></div>
+            </div>
+            <div id="setup1" class="setupp">
                 <p class="h3">Welcome to WebDesk!</p>
                 <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
-                    onclick="fesw('setup1', 'setup2');">Let's go!</button>
+                    onclick="fesw('setup1', 'setupqs');">Let's go!</button>
             </div>
-            <div id="setup2" class="hide" style="max-width: 290px;">
+            <div id="setupqs" class="hide setupp">
+                <p class="h3">Quick Start</p>
+                <p>If you have an existing WebDesk, you can copy your data over instantly.</p>
+                <p>On the other WebDesk, go to Settings -> Migrate -> and enter the code below:</p>
+                <p class="h2 mcode">----</p>
+                <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
+                    onclick="fesw('setupqs', 'setup2');">No thanks</button>
+            </div>
+            <div id="setup2" class="hide setupp">
                 <p class="h3">Encryption</p>
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
@@ -60,7 +75,7 @@
                     onclick="writepb('enc', 'y');fesw('setup2', 'setups');">Encrypt</button><button class="b1"
                     onclick="writepb('enc', 'n');fesw('setup2', 'setupn');">Don't encrypt</button>
             </div>
-            <div id="setups" class="hide">
+            <div id="setups" class="hide setupp">
                 <p class="h3">Password Setup</p>
                 <p>Enter a password to decrypt WebDesk with.</p>
                 <p>Don't lose this password, as your data is gone without it.</p>
@@ -69,7 +84,7 @@
                     onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupn');">Set
                     password, next!</button>
             </div>
-            <div id="setupn" class="hide">
+            <div id="setupn" class="hide setupp">
                 <p class="h3">User Setup</p>
                 <p>Enter a username to use with WebDesk.</p>
                 <input class="i1" id="ooben" placeholder="Username here"></input>
@@ -77,17 +92,23 @@
                     onclick="const n = document.getElementById('ooben').value; writef('/user/info/name', n);fesw('setupn', 'setupc');">Set
                     username, next!</button>
             </div>
-            <div id="setupc" class="hide">
+            <div id="setupc" class="hide setupp">
                 <p class="h3">Appearance</p>
                 <p>Select an accent color, and a theme.</p>
                 <p class="bold">Accent color</p>
-                <input type="range" class="accs" min="0" max="360" value="0">
+                <button class="acb" style="background: rgb(210, 30, 30);" onclick="chacc('210, 30, 30');"></button>
+                <button class="acb" style="background: rgb(210, 120, 30);" onclick="chacc('210, 120, 30');"></button>
+                <button class="acb" style="background: rgb(210, 180, 20);" onclick="chacc('210, 180, 20');"></button>
+                <button class="acb" style="background: rgb(50, 160, 20);" onclick="chacc('50, 160, 20');"></button>
+                <button class="acb" style="background: rgb(40, 70, 235);" onclick="chacc('40, 70, 235');"></button>
+                <button class="acb" style="background: rgb(120, 60, 235);" onclick="chacc('120, 60, 235');"></button>
+                <button class="acb" style="background: rgb(180, 180, 180);" onclick="chacc('200, 200, 200');"></button>
                 <p class="bold">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
                 <button class="b1" onclick="fesw('setupc', 'setupl');">Done</button>
             </div>
-            <div id="setupl" class="hide" style="max-width: 320px;">
+            <div id="setupl" class="hide setupp">
                 <p class="h3">Location Services</p>
                 <p>You can optionally enable Location Services, to update the weather in your location, use certain
                     weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
@@ -97,12 +118,12 @@
                 <button class="b1" onclick="fesw('setupl', 'setupf');">No thanks</button><button class="b1"
                     onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
             </div>
-            <div id="setupf" class="hide">
+            <div id="setupf" class="hide setupp">
                 <p class="h3">Setup is done!</p>
                 <p>Click "Reboot" to finish. Have fun!</p>
                 <button class="b1 b2" onclick="setupd();">Reboot</button>
             </div>
-            <div id="setupa" class="hide" style="max-width: 240px;">
+            <div id="setupa" class="hide setupp">
                 <p class="authcont">Enter password to continue.</p>
                 <input id="authp" class="i1" type="password" placeholder="Password here"></input>
                 <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
@@ -184,6 +205,7 @@
         <div class="content">
             <div id="settmain">
                 <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
+                <button class="b1 b2" onclick="fesw('settmain', 'settmig');">Migrate Away</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
             </div>
             <div id="settapp" class="hide">
@@ -201,7 +223,15 @@
                     onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');">Change
                     DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
+                <button class="b1 b2" onclick="window.location.href = './rec.html';">Recovery (Reboot)</button>
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
+            </div>
+            <div id="settmig" class="hide">
+                <p>Migration</p>
+                <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
+                <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
+                <input class="i1" id="maway" placeholder="ID here..."></input>
+                <button class="b1" onclick="fesw('settmig', 'settmain');">Back</button><button class="b1" onclick="migaway(document.getElementById('maway').value);">Move</button>
             </div>
         </div>
     </div>
@@ -243,15 +273,18 @@
         async function boots1() {
             try {
                 await initializeDB();
-                const silly = await readpb('setupdone');
+                const silly = await readf('/system/setupon');
                 const enc = readpb('enc');
-                if (silly === "y") {
+                if (silly !== undefined) {
                     if (enc === "y") {
                         pw('Enter password to continue.', 'boots2()');
                     } else {
                         boots2();
                     }
                 } else {
+                    if (await readpb('setupdone') === "y") {
+                        await writef('/system/setupon', 'Unknown');
+                    }
                     eraseall();
                     showf('setupbg');
                     await writef('/user/info/accent', '100, 5, 255');
