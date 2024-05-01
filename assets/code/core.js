@@ -1,13 +1,16 @@
 $(document).ready(touch);
 
 function touch() {
-    var zIndex = 5;
-
     $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
-            $window.css('z-index', zIndex++);
+            var highestZIndex = Math.max.apply(null, $('.window').map(function () {
+                return parseInt($(this).css('z-index')) || 1;
+            }).get());
+
+            $window.css('z-index', highestZIndex + 1);
+
             if (event.type === 'mousedown') {
                 offsetX = event.clientX - $window.offset().left;
                 offsetY = event.clientY - $window.offset().top;

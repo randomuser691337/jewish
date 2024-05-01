@@ -57,15 +57,7 @@
             <div id="setup1" class="setupp">
                 <p class="h3">Welcome to WebDesk!</p>
                 <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
-                    onclick="fesw('setup1', 'setupqs');">Let's go!</button>
-            </div>
-            <div id="setupqs" class="hide setupp">
-                <p class="h3">Quick Start</p>
-                <p>If you have an existing WebDesk, you can copy your data over instantly.</p>
-                <p>On the other WebDesk, go to Settings -> Migrate -> and enter the code below:</p>
-                <p class="h2 mcode">----</p>
-                <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
-                    onclick="fesw('setupqs', 'setup2');">No thanks</button>
+                    onclick="fesw('setup1', 'setup2');">Let's go!</button>
             </div>
             <div id="setup2" class="hide setupp">
                 <p class="h3">Encryption</p>
@@ -73,7 +65,15 @@
                 <p>Encryption keeps your data safe behind a password.</p>
                 <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
                     onclick="writepb('enc', 'y');fesw('setup2', 'setups');">Encrypt</button><button class="b1"
-                    onclick="writepb('enc', 'n');fesw('setup2', 'setupn');">Don't encrypt</button>
+                    onclick="writepb('enc', 'n');fesw('setup2', 'setupqs');">Don't encrypt</button>
+            </div>
+            <div id="setupqs" class="hide setupp">
+                <p class="h3">Quick Start</p>
+                <p>If you have an existing WebDesk, you can copy your data over instantly.</p>
+                <p>On the other WebDesk, go to Settings -> Migrate Away -> and enter the code below:</p>
+                <p class="h2 mcode">----</p>
+                <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
+                    onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setups" class="hide setupp">
                 <p class="h3">Password Setup</p>
@@ -81,7 +81,7 @@
                 <p>Don't lose this password, as your data is gone without it.</p>
                 <input class="i1" type="password" id="oobep" placeholder="Password here"></input>
                 <button class="b1"
-                    onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupn');">Set
+                    onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupqs');">Set
                     password, next!</button>
             </div>
             <div id="setupn" class="hide setupp">
@@ -193,7 +193,7 @@
             <p class="smt">Note: You can also recieve songs from Shuffler.</p>
         </div>
     </div>
-    <div class="window" id="settings" style="width: 300px;">
+    <div class="window" id="settings" style="width: 350px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('settings');"></div>
@@ -211,7 +211,13 @@
             <div id="settapp" class="hide">
                 <p class="h3">Appearance</p>
                 <p class="med">Accent color</p>
-                <input type="range" class="accs" min="0" max="360" value="0">
+                <button class="acb" style="background: rgb(210, 30, 30);" onclick="chacc('210, 30, 30');"></button>
+                <button class="acb" style="background: rgb(210, 120, 30);" onclick="chacc('210, 120, 30');"></button>
+                <button class="acb" style="background: rgb(210, 180, 20);" onclick="chacc('210, 180, 20');"></button>
+                <button class="acb" style="background: rgb(50, 160, 20);" onclick="chacc('50, 160, 20');"></button>
+                <button class="acb" style="background: rgb(40, 70, 235);" onclick="chacc('40, 70, 235');"></button>
+                <button class="acb" style="background: rgb(120, 60, 235);" onclick="chacc('120, 60, 235');"></button>
+                <button class="acb" style="background: rgb(180, 180, 180);" onclick="chacc('200, 200, 200');"></button>
                 <p class="med">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
@@ -268,7 +274,6 @@
     <script src="./assets/apps/about.js"></script>
     <script src="./assets/apps/auth.js"></script>
     <script src="./assets/apps/files.js"></script>
-    <script src="./assets/apps/slider.js"></script>
     <script>
         async function boots1() {
             try {

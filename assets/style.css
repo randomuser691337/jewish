@@ -104,6 +104,7 @@ body {
     border-radius: var(--rad1);
     max-width: 85% !important;
     display: none;
+    z-index: 9500;
     animation: 0.5s yeah;
 }
 
@@ -628,26 +629,28 @@ a:active {
 
 @keyframes show {
     0% {
-        transform: scale(0);
+        width: 0px;
+        height: 0px;
         opacity: 0%;
     }
 
     100% {
-        transform: scale(1);
+        width: 44px;
+        height: 44px;
         opacity: 100%;
     }
 }
 
 .tbi {
-    width: 44px !important;
-    height: 44px !important;
+    width: 44px;
+    height: 44px;
     border-radius: var(--rad2);
     border: none;
     cursor: pointer;
     vertical-align: middle;
     margin: 2px;
     background-color: var(--lightdark3);
-    transition: 0.04s;
+    transition: 0.06s;
     animation: show 0.2s;
 }
 
@@ -667,9 +670,9 @@ a:active {
 }
 
 .acb {
-    width: 23px !important;
-    height: 23px !important;
-    border-radius: 10px;
+    width: 21px !important;
+    height: 21px !important;
+    border-radius: 7px;
     margin: 1px;
     margin-top: 4px;
     padding: 0px !important;
