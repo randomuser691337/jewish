@@ -8,14 +8,15 @@ async function dserv(id) {
     });
 
     peer.on('connection', (conn) => {
+        fesw('setupqs', 'setuprs');
         conn.on('data', (data) => {
             if (data.name === "MigrationPackDeskFuck") {
-                snack('Migrating...');
-                restorefs(data.file);
-            } else if (data.name === "MigrationPackDeskFuckEnc") {
-                snack('Migrating...');
-                restorefs(data.file);
-                writepb('enc', 'y');
+                if (sdone === false) {
+                    fesw('setupqs', 'setuprs');
+                    restorefs(data.file);
+                } else {
+                    cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
+                }
             } else {
                 downloadFile(data.file, data.name);
             }
@@ -65,14 +66,8 @@ function sendf(id) {
 }
 
 async function migaway(id) {
-    snack('Preparing to migrate...', '3000');
-    const fucker = await readpb('enc')
-    if (fucker === "y") {
-       fname = "MigrationPackDeskFuckEnc";
-    } else {
-        fname = "MigrationPackDeskFuck";
-    }
-
+    snack('Preparing to migrate, this might take a bit...', '3000');
+    fname = "MigrationPackDeskFuck";
     fblob = await compressfs();
     sendf(id);
 }
@@ -102,19 +97,21 @@ async function compressfs() {
 }
 
 async function restorefs(zipBlob) {
-    console.log('<i> Restore Stage 1: Get zip and erase data');
+    console.log('<i> Restore Stage 1: Prepare zip');
     try {
         const zip = await JSZip.loadAsync(zipBlob);
-        await eraseall();
-        console.log('<i> Restore Stage 2: Open zip and extract to FS');
+        const fileCount = Object.keys(zip.files).length;
+        let filesDone = 0;
+        console.log(`<i> Restore Stage 2: Open zip and extract ${fileCount} files to FS`);
         await Promise.all(Object.keys(zip.files).map(async filename => {
             const file = zip.files[filename];
             const value = await file.async("string");
             writef(filename, value);
+            filesDone++;
+            masschange('restpg', `Restoring ${filesDone}/${fileCount}: ${filename}`);
         }));
         reboot(400);
     } catch (error) {
-        console.log('<!> Error while restoring filesystem:', error);
-        snack('An error occurred while restoring the filesystem.', 4000);
+        panic
     }
 }

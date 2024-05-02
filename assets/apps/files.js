@@ -1,10 +1,10 @@
-function viewmed(val, name, mediaType) {
-  if (!(mediaType === 'i' && val.startsWith("data:image/")) &&
-    !(mediaType === 'v' && val.startsWith("data:video/"))) {
+function viewmed(val, name) {
+  if (!(val.startsWith("data:image/")) &&
+    !(val.startsWith("data:video/"))) {
     console.log('<!> Media type may be invalid.');
   }
 
-  const mediaTag = mediaType === 'i' ? 'img' : 'video'; // Adjusted mediaType checks
+  const mediaTag = mediaType === 'i' ? 'img' : 'video';
   const mediaSrcAttribute = mediaType === 'i' ? 'src' : 'src';
   const fuck = gen(7);
   const mediaElement = `<${mediaTag} class="embed" ${mediaSrcAttribute}="${val}" id="${fuck}" controls></${mediaTag}>`;
@@ -17,8 +17,6 @@ function viewmed(val, name, mediaType) {
     dest(fucker);
   });
 }
-
-const directoryContentsCache = {};
 
 async function dfm(dir) {
   const directoryContentsDiv = document.getElementById('directoryContents');
@@ -51,50 +49,39 @@ async function dfm(dir) {
     }
   });
 
-  // Check if contents for current directory are cached
-  if (directoryContentsCache[directoryPath]) {
-    // Use cached contents to populate contents div
-    populateContents(directoryContentsCache[directoryPath]);
-  } else {
-    // Open transaction to read files from database
-    const transaction = db.transaction(['files'], 'readonly');
-    const objectStore = transaction.objectStore('files');
+  // Open transaction to read files from database
+  const transaction = db.transaction(['files'], 'readonly');
+  const objectStore = transaction.objectStore('files');
 
-    const contents = [];
+  const contents = [];
 
-    const request = objectStore.openCursor();
+  const request = objectStore.openCursor();
 
-    request.onsuccess = function (event) {
-      const cursor = event.target.result;
-      if (cursor) {
-        const filePath = cursor.value.path;
+  request.onsuccess = function (event) {
+    const cursor = event.target.result;
+    if (cursor) {
+      const filePath = cursor.value.path;
 
-        if (filePath.startsWith(directoryPath) && filePath !== directoryPath) {
-          const relativePath = filePath.substring(directoryPath.length);
-          const parts = relativePath.split('/');
-          const itemName = parts[0];
-          const isFolder = parts.length > 1;
+      if (filePath.startsWith(directoryPath) && filePath !== directoryPath) {
+        const relativePath = filePath.substring(directoryPath.length);
+        const parts = relativePath.split('/');
+        const itemName = parts[0];
+        const isFolder = parts.length > 1;
 
-          if (!contents.find(item => item.name === itemName)) {
-            contents.push({ name: itemName, isFolder });
-          }
+        if (!contents.find(item => item.name === itemName)) {
+          contents.push({ name: itemName, isFolder });
         }
-        cursor.continue();
-      } else {
-        // Cache directory contents
-        directoryContentsCache[directoryPath] = contents;
-
-        // Populate contents div
-        populateContents(contents);
       }
-    };
+      cursor.continue();
+    } else {
+      populateContents(contents);
+    }
+  };
 
-    request.onerror = function (event) {
-      directoryContentsDiv.innerHTML = '<div>Error listing directory contents</div>';
-      console.error("Error listing directory contents");
-    };
-  }
-
+  request.onerror = function (event) {
+    directoryContentsDiv.innerHTML = '<div>Error listing directory contents</div>';
+    console.error("Error listing directory contents");
+  };
   // Function to populate contents div
   async function populateContents(contents) {
     directoryContentsDiv.innerHTML = '';
@@ -132,65 +119,65 @@ async function dfm(dir) {
     }
   }
 }
-  function isFileTooLarge(file) {
-    // Convert file size to megabytes
-    const fileSizeInMB = file.size / (1024 * 1024);
-    return fileSizeInMB > 15;
-  }
+function isFileTooLarge(file) {
+  // Convert file size to megabytes
+  const fileSizeInMB = file.size / (1024 * 1024);
+  return fileSizeInMB > 15;
+}
 
-  var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
+var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
 
-  // Function to handle file upload
-  async function handleFileUpload(file) {
-    if (locked === false) {
-      try {
-        const reader = new FileReader();
-        reader.onload = async () => {
-          const content = reader.result;
-          await writef(`/user/files/${file.name}`, content);
-        };
-        reader.readAsDataURL(file);
-        snack('Uploaded file successfully! WebDesk might have frozen if the file was large, wait for it to unfreeze.', '3000');
-      } catch (error) {
-        snack(`Locker error: ${error}`, '3500');
-        console.log(error);
-      }
-    } else {
-      snack(`Unlock WebDesk to upload.`, '3500');
+// Function to handle file upload
+async function handleFileUpload(file) {
+  if (locked === false) {
+    try {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const content = reader.result;
+        await writef(`/user/files/${file.name}`, content);
+      };
+      reader.readAsDataURL(file);
+      snack('Uploaded file successfully! WebDesk might have frozen if the file was large, wait for it to unfreeze.', '3000');
+    } catch (error) {
+      snack(`Locker error: ${error}`, '3500');
+      console.log(error);
     }
+  } else {
+    snack(`Unlock WebDesk to upload.`, '3500');
   }
+}
 
-  // Event listener for file drag and drop
-  document.addEventListener('DOMContentLoaded', () => {
-    const dropArea = document.body;
+// Event listener for file drag and drop
+document.addEventListener('DOMContentLoaded', () => {
+  const dropArea = document.body;
 
-    dropArea.addEventListener('dragover', (event) => {
-      event.preventDefault();
-    });
-
-    dropArea.addEventListener('dragleave', (event) => {
-      event.preventDefault();
-    });
-
-    dropArea.addEventListener('drop', async (event) => {
-      event.preventDefault();
-      const files = event.dataTransfer.files;
-      for (let i = 0; i < files.length; i++) {
-        await handleFileUpload(files[i]);
-      }
-    });
+  dropArea.addEventListener('dragover', (event) => {
+    event.preventDefault();
   });
 
-  // Manual upload function
-  function upload() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '*/*';
-    input.onchange = async (event) => {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-        await handleFileUpload(files[i]);
-      }
-    };
-    input.click();
-  }
+  dropArea.addEventListener('dragleave', (event) => {
+    event.preventDefault();
+  });
+
+  dropArea.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    for (let i = 0; i < files.length; i++) {
+      await handleFileUpload(files[i]);
+    }
+  });
+});
+
+// Manual upload function
+function upload() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '*/*';
+  input.onchange = async (event) => {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      await handleFileUpload(files[i]);
+    }
+  };
+  input.click();
+}

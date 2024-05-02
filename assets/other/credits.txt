@@ -2,4 +2,4 @@
 <p><a href="https://jquery.com" target="_blank">jQuery:</a> Reducing code size and being easy to deal with.</p>
 <p><a href="https://peerjs.com" target="_blank">PeerJS:</a> Powering all WebDesk to WebDesk services.</p>
 <p><a href="https://fonts.google.com/specimen/Poppins" target="_blank">Poppins:</a> Being WebDesk's main font</p>
-<p><a href="https://astra.teamsakura.it/" target="_blank">astraOS:</a> WebDesk's app icons</p>
+<p><a href="https://astra.teamsakura.it/" target="_blank">astraOS:</a> Some app icons</p>

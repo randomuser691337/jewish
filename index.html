@@ -18,6 +18,7 @@
         var nvol = 1.0;
         var copied;
         var copiedn;
+        var sdone = false;
     </script>
 </head>
 
@@ -29,7 +30,8 @@
         style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; display: none;">
         <div style="position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);">
             <img src="./assets/img/warn.svg" style="width: 100px; margin-bottom: 3px; filter: invert(1);"></img>
-            <p><a class="bold" id="perr" href="https://errdesk.vercel.app?e=what" style="color: #fff !important;">errdesk.vercel.app</a></p>
+            <p><a class="bold" id="perr" href="https://errdesk.vercel.app?e=what"
+                    style="color: #fff !important;">errdesk.vercel.app</a></p>
         </div>
     </div>
     <div id="oobespace">
@@ -50,7 +52,7 @@
             <div
                 style="width: 100%; border: 1px solid var(--lightdark3); box-sizing: border-box; display: flex; align-items: center;
             justify-content: space-between; padding: 2px; border-radius: var(--rad2); text-align: left; margin-bottom: 6px;">
-                <div class="tnav"><button class="b4" onclick="eraseall();reboot(400);">Start Over</button></div>
+                <div class="tnav"><button class="b4" onclick="eprompt();">Start Over</button></div>
                 <div class="title"><button class="time b4"
                         style="background-color: transparent !important;">--:--</button></div>
             </div>
@@ -74,6 +76,11 @@
                 <p class="h2 mcode">----</p>
                 <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
                     onclick="fesw('setupqs', 'setupn');">No thanks</button>
+            </div>
+            <div id="setuprs" class="hide setupp">
+                <p class="h3">Restoring...</p>
+                <p>Please wait. This might take a while depending on file size and encryption.</p>
+                <p class="restpg">Starting restore...</p>
             </div>
             <div id="setups" class="hide setupp">
                 <p class="h3">Password Setup</p>
@@ -106,7 +113,7 @@
                 <p class="bold">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
-                <button class="b1" onclick="fesw('setupc', 'setupl');">Done</button>
+                <button class="b1" onclick="fesw('setupc', 'setupl');setupd();">Done</button>
             </div>
             <div id="setupl" class="hide setupp">
                 <p class="h3">Location Services</p>
@@ -121,7 +128,7 @@
             <div id="setupf" class="hide setupp">
                 <p class="h3">Setup is done!</p>
                 <p>Click "Reboot" to finish. Have fun!</p>
-                <button class="b1 b2" onclick="setupd();">Reboot</button>
+                <button class="b1 b2" onclick="reboot(200);">Reboot</button>
             </div>
             <div id="setupa" class="hide setupp">
                 <p class="authcont">Enter password to continue.</p>
@@ -225,8 +232,7 @@
             </div>
             <div id="settgen" class="hide">
                 <p>General</p>
-                <button class="b1 b2"
-                    onclick="wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');">Change
+                <button class="b1 b2" onclick="idch();">Change
                     DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
                 <button class="b1 b2" onclick="window.location.href = './rec.html';">Recovery (Reboot)</button>
@@ -237,13 +243,15 @@
                 <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
                 <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
                 <input class="i1" id="maway" placeholder="ID here..."></input>
-                <button class="b1" onclick="fesw('settmig', 'settmain');">Back</button><button class="b1" onclick="migaway(document.getElementById('maway').value);">Move</button>
+                <button class="b1" onclick="fesw('settmig', 'settmain');">Back</button><button class="b1"
+                    onclick="migaway(document.getElementById('maway').value);">Move</button>
             </div>
         </div>
     </div>
     <div id="menubar">
         <div class="tnav">
-            <button class="mb bold" onclick="snack('Early implementation. Nothing here yet.', '3500');">WebDesk</button>
+            <button class="mb bold"
+                onclick="cm(`<button onclick='upload();' class='b1 b2'>Add File</button><button onclick='reboot(300);' class='b1 b2'>Reboot WebDesk</button><button class='b1'>Close</button>`);">WebDesk</button>
         </div>
         <div class="title">
             <img src="./assets/img/no.svg" id="bi"></img>
@@ -255,14 +263,14 @@
         <button class="b1 b2" onclick="about();">About</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
-        <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Recieve</button>
+        <button class="b1 b2" onclick="opapp('recif', 'Recieve', './assets/img/apps/recieve.svg');">Recieve</button>
         <button class="b1 b2"
             onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span
             id="taskbara"></span></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="./assets/lib/jszip.js"></script>
     <script src="./assets/lib/peer.js"></script>
     <script src="./assets/lib/enc.js"></script>
     <script src="./assets/lib/jq.js"></script>
@@ -281,6 +289,7 @@
                 const silly = await readf('/system/setupon');
                 const enc = readpb('enc');
                 if (silly !== undefined) {
+                    sdone = true;
                     if (enc === "y") {
                         pw('Enter password to continue.', 'boots2()');
                     } else {
@@ -289,6 +298,8 @@
                 } else {
                     if (await readpb('setupdone') === "y") {
                         await writef('/system/setupon', 'Unknown');
+                        await boots1();
+                        return;
                     }
                     eraseall();
                     showf('setupbg');
@@ -313,12 +324,12 @@
 
         async function boots2() {
             try {
-                dest('oobespace'); writepb('setupdone', 'y');
+                dest('oobespace');
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
                 const accent = await readf('/user/info/accent');
-                const check = await readf('/system/check');
-                if (check !== "DontModifyOrYouWillBrickWebDesk") {
+                const fucker = await readf('/system/check');
+                if (fucker !== "DontModifyOrYouWillBrickWebDesk") {
                     panic('6', '/system/check is corrupted.');
                 }
                 if (appear2 === "dark") {

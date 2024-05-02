@@ -307,7 +307,6 @@ async function setupd() {
     await writef('/system/ogver', ver);
     await writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
     await writef('/system/setupon', getdate());
-    reboot(500);
 }
 
 async function appear(m, no) {
@@ -349,6 +348,10 @@ function chid() {
     reboot(300);
 }
 
+function idch() {
+    wal(`<p>Are you sure you want to change your DeskID?</p><p>Anyone with your ID will need the new one to send files.</p>`, 'chid()', 'Change ID');
+}
+
 function snack(cont, t) {
     if (!t) { t = 2500 }
     var snackElement = document.createElement("div");
@@ -363,10 +366,11 @@ function snack(cont, t) {
     setTimeout(function () { dest(fuckyou); }, t);
 }
 
-function cm(cont) {
+function cm(cont, size) {
     const snackElement = document.createElement("div");
     snackElement.className = "cm";
     const fuckyou = gen(7);
+    if (size) { snackElement.style.width = size; }
     snackElement.id = fuckyou;
     snackElement.innerHTML = cont;
     document.body.appendChild(snackElement);

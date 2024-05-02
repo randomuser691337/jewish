@@ -12,6 +12,8 @@ async function authg() {
     const ok = await readf('/system/check');
     if (ok === 'DontModifyOrYouWillBrickWebDesk') {
         dest('oobespace'); eval(exeboot);
+    } else if (ok === undefined) {
+        panic('6', '/system/check is corrupted.');
     } else {
         snack('Incorrect password.');
     }

@@ -329,12 +329,20 @@ button {
     margin: 1px;
 }
 
-.b3,
+.b3:hover {
+    background-color: rgba(var(--accent), 0.4);
+}
+
+.b3:active {
+    background-color: rgba(var(--accent), 0.35);
+    transform: scale(0.90);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .b4:hover {
     border: 1px solid rgba(var(--accent), 0.35);
 }
 
-.b3,
 .b4:active {
     background-color: rgba(var(--accent), 0.35);
     border-color: rgba(var(--accent), 0.8);
@@ -368,7 +376,7 @@ button {
     padding: 4px 7px;
     border-radius: var(--rad2);
     border: 2px solid rgba(var(--accent));
-    background-color: rgba(var(--accent), 0.1);
+    background-color: rgba(var(--accent), 0.2);
     font-size: var(--fz1);
     color: var(--fontc);
     width: 100%;
@@ -380,7 +388,7 @@ button {
 }
 
 .i1:focus {
-    background-color: rgba(var(--accent), 0.3);
+    background-color: rgba(var(--accent), 0.35);
 }
 
 .container {
@@ -585,22 +593,24 @@ a:active {
 
 #menubar {
     position: fixed;
-    left: 3px;
-    right: 3px;
-    top: 3px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 3px;
+    padding: 4px;
     background-color: var(--lightdark);
-    border-radius: 50px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     border: 1px solid var(--bordercolor);
+    transition: 0.3s;
 }
 
 .mb {
     background-color: transparent;
     border: none;
-    transition: 0.005s;
+    transition: 0.07s;
     cursor: pointer;
     font-size: var(--fz1);
     border-radius: 16px;

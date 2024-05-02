@@ -1,4 +1,5 @@
 <p class="h2">Changelog</p>
-<p class="bold">Apr 24, 2024 - Version 0.0.9</p>
-<p>- Fixed constant reboot issue</p>
-<p>
+<p class="bold">May 2, 2024 - Version 0.0.9</p>
+<p>- Migration is now much faster and better</p>
+<p>- Internal bug fixes and improvements</p>
+<p>- Better UI design</p>
