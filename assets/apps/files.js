@@ -1,20 +1,32 @@
+var imgExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'heic'];
+var videoExtensions = ['mp4', 'avi', 'mov', 'mkv'];
+
 function viewmed(val, name) {
-  if (!(val.startsWith("data:image/")) &&
-    !(val.startsWith("data:video/"))) {
+  let mediaType;
+  let fileExtension = name.split('.').pop().toLowerCase();
+
+  if (imgExtensions.includes(fileExtension)) {
+    mediaType = 'img';
+  } else if (videoExtensions.includes(fileExtension)) {
+    mediaType = 'video';
+  } else {
     console.log('<!> Media type may be invalid.');
+    return;
   }
 
-  const mediaTag = mediaType === 'i' ? 'img' : 'video';
-  const mediaSrcAttribute = mediaType === 'i' ? 'src' : 'src';
-  const fuck = gen(7);
-  const mediaElement = `<${mediaTag} class="embed" ${mediaSrcAttribute}="${val}" id="${fuck}" controls></${mediaTag}>`;
-  const hi = gen(7);
+  const mediaTag = mediaType === 'img' ? 'img' : 'video';
+  const mediaSrcAttribute = mediaType === 'img' ? 'src' : 'src';
+  const randomId = gen(7);
+  const mediaElement = `<${mediaTag} class="embed" ${mediaSrcAttribute}="${val}" id="${randomId}" controls></${mediaTag}>`;
+  const containerId = gen(7);
   mkw(mediaElement, name, '300px', undefined, undefined, undefined, undefined);
-  const hi2 = document.getElementById(hi);
-  hi2.addEventListener('click', function () {
-    const fucker = document.getElementById(fuck);
-    fucker.pause();
-    dest(fucker);
+  const containerElement = document.getElementById(containerId);
+  containerElement.addEventListener('click', function () {
+    const mediaElement = document.getElementById(randomId);
+    if (mediaElement) {
+      mediaElement.pause();
+      dest(mediaElement);
+    }
   });
 }
 

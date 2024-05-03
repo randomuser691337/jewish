@@ -213,6 +213,7 @@
             <div id="settmain">
                 <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settmig');">Migrate Away</button>
+                <button class="b1 b2" onclick="fesw('settmain', 'settsys');">System/UI</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
             </div>
             <div id="settapp" class="hide">
@@ -246,6 +247,13 @@
                 <button class="b1" onclick="fesw('settmig', 'settmain');">Back</button><button class="b1"
                     onclick="migaway(document.getElementById('maway').value);">Move</button>
             </div>
+            <div id="settsys" class="hide">
+                <p>System</p>
+                <p>Window button size</p>
+                <p class="smt">Changes the size of the window buttons. Larger recommended for mobile.</p>
+                <button class="b1" onclick="fesw('settsys', 'settmain');">Larger</button>
+                <button class="b1" onclick="fesw('settsys', 'settmain');">Back</button>
+            </div>
         </div>
     </div>
     <div id="menubar">
@@ -268,6 +276,7 @@
             onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
+    <div id="taskapp" style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;" onclick="hidef('taskapp', '140');">Application</div>
     <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span
             id="taskbara"></span></div>
     <script src="./assets/lib/jszip.js"></script>

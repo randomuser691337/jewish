@@ -151,12 +151,15 @@ function opapp(id, name, img) {
     hidef('gomenu');
     const div = document.getElementById(id);
     const check = document.getElementById("btn_" + id);
+    const switcher = document.getElementById('taskbara');
     if (div && !check) {
         centerel(id);
         showf(id);
         const btn = document.createElement('img');
         btn.className = "tbi";
         btn.id = "btn_" + id;
+        btn.addEventListener('mouseover', function () { showf('taskapp', 0); document.getElementById('taskapp').innerText = name; });
+        switcher.addEventListener('mouseleave', function () { hidef('taskapp', 140); });
         if (img) {
             btn.src = img;
         } else {
@@ -165,7 +168,7 @@ function opapp(id, name, img) {
         btn.onclick = function () {
             maxi(id);
         };
-        if (document.getElementById('taskbara')) {
+        if (switcher) {
             document.getElementById('taskbara').appendChild(btn);
         }
     } else {

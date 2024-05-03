@@ -65,9 +65,13 @@ body {
     .setup {
         width: 85% !important;
     }
+    .winb {
+        width: 14px !important; 
+        height: 14px !important;
+    }
     @media (max-height:700px) {
         .setup {
-            height: 85% !important;
+            height: 80% !important;
         }
     }
 }

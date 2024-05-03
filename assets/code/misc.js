@@ -6,7 +6,8 @@ window.addEventListener('DOMContentLoaded', () => {
             showfi('bi', '100');
             const batteryLevel = battery.level * 100;
             const charging = battery.charging;
-            document.getElementById('bi').onclick = function () { snack(`Battery is at ${batteryLevel}%`, '2000') }
+            document.getElementById('bi').onmouseenter = function () { document.getElementById('taskapp').innerText = `Battery is at ${batteryLevel}%`; showf('taskapp'); }
+            document.getElementById('bi').onmouseleave = function () { hidef('taskapp'); }
             if (charging) {
                 batteryImage.src = "./assets/img/batt/bc.svg";
             } else if (batteryLevel <= 12) {
