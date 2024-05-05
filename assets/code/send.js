@@ -1,10 +1,21 @@
 var peer;
+var recn;
+var recb;
+var deskid;
 
 async function dserv(id) {
+    setTimeout(function () {
+        if (deskid === undefined) {
+            console.log('<!> DeskID failed to register, trying again...');
+            dserv(readpb('deskid'));
+        }
+    }, 10000);
     peer = new Peer(id);
 
     peer.on('open', (peerId) => {
         masschange('mcode', peerId);
+        deskid = peerId;
+        console.log('<i> DeskID is online. ID: ' + deskid);
     });
 
     peer.on('connection', (conn) => {
@@ -17,17 +28,29 @@ async function dserv(id) {
                 } else {
                     cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
                 }
+            } else if (data.name === "YesImAlive-WebKey") {
+                notif('WebDrop was accepted.', 'WebDesk Services');
             } else {
-                downloadFile(data.file, data.name);
+                recb = data.file;
+                recn = data.name;
+                play('./assets/other/webdrop.ogg');
+                wal(`<p class="h3">WebDrop</p><p><span class="med dropn">what</span> would like to share <span class="med dropf">what</span></p>`, `acceptdrop();custf('${data.id}', 'YesImAlive-WebKey');`, 'Accept', './assets/img/apps/webdrop.svg');
+                masschange('dropn', data.uname);
+                masschange('dropf', data.name);
             }
         });
     });
 }
 
-async function downloadFile(data, name) {
+async function acceptdrop() {
+    await downf(recb, recn); opapp('filem'); dfm('/user/files');
+}
+
+async function downf(data, name) {
     try {
         await writef(`/user/files/${name}`, data);
-        cm(`<p>Received and wrote a file to /user/files/${name}. WebDesk may freeze for a second.</p><button class="b3">Dismiss</button>`);
+        snack(`WebDrop successful.`);
+        play('./assets/other/complete.ogg');
     } catch (error) {
         console.error('<!> Error while writing file:', error);
         snack('An error occurred while writing the file.', 4000);
@@ -42,9 +65,22 @@ function sends(name, file) {
 }
 
 function sendf(id) {
+    try {
+        custf(id, fname, fblob);
+        snack('File has been sent.', 2500);
+        play('./assets/other/woosh.ogg');
+    } catch (error) {
+        console.error('Error while sending file:', error);
+        snack('An error occurred while sending your file.', 2500);
+    }
+}
+
+function custf(id, fname2, fblob2) {
     const dataToSend = {
-        name: fname,
-        file: fblob
+        name: fname2,
+        file: fblob2,
+        uname: user,
+        id: deskid
     };
 
     try {
@@ -52,7 +88,7 @@ function sendf(id) {
 
         conn.on('open', () => {
             conn.send(dataToSend);
-            snack('File has been sent.', 2500);
+            writejson(id);
         });
 
         conn.on('error', (err) => {
@@ -112,6 +148,42 @@ async function restorefs(zipBlob) {
         }));
         reboot(400);
     } catch (error) {
-        panic
+    }
+}
+
+async function writejson(name) {
+    try {
+        const existingData = await readf('/user/oldhosts.json');
+        const jsonData = existingData ? JSON.parse(existingData) : {};
+        jsonData[name] = { id: name };
+        const json = JSON.stringify(jsonData);
+        await writef('/user/oldhosts.json', json);
+        await readjson();
+    } catch (error) {
+        console.log(`Error writing JSON file: ${error}`);
+    }
+}
+
+async function readjson() {
+    try {
+        document.getElementById('prevsend').innerHTML = ""
+        const fileData = await readf('/user/oldhosts.json');
+        if (fileData) {
+            const jsonData = JSON.parse(fileData);
+            const entries = Object.entries(jsonData);
+            for (const [key, value] of entries) {
+                const fucker = document.createElement('button');
+                fucker.classList = "b4";
+                fucker.addEventListener('click', function () {
+                    sendf(value.id);
+                }); fucker.innerText = `${value.id}`;
+                document.getElementById('prevsend').appendChild(fucker);
+            }
+        } else {
+            console.log(`File not found or empty`);
+        }
+    } catch (error) {
+        console.log(`Error reading JSON file: ${error}`);
+        panic('5', error.message);
     }
 }

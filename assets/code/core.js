@@ -114,7 +114,7 @@ function mkw(contents, titlebarText, width, height, c, m, a, icon) {
     touch(); opapp(windowDiv.id, titlebarText, icon);
 }
 
-function wal(content, btn1, n) {
+function wal(content, btn1, n, icon) {
     const windowId = gen(6);
     const windowContainer = document.createElement('div');
     windowContainer.className = 'window';
@@ -132,7 +132,12 @@ function wal(content, btn1, n) {
     titleBar.innerHTML = content + `<p style="display: flex; justify-content: space-between;"><button class="b1 wc" style="flex: 1;" onmousedown="clapp('${windowId}');dest('${windowId}');">Close</button><button class="b1 wc" style="flex: 1; ${btn1 ? '' : 'display: none;'}" onmousedown="clapp('${windowId}');dest('${windowId}');${btn1}">${n}</button></p>`;
     windowContainer.appendChild(titleBar);
     document.body.appendChild(windowContainer);
-    touch(); opapp(windowId, 'Alert');
+    touch();
+    if (icon) {
+        opapp(windowId, 'Alert', icon);
+    } else {
+        opapp(windowId, 'Alert');
+    }
 }
 
 function centerel(el) {
@@ -178,8 +183,33 @@ function opapp(id, name, img) {
     }
 }
 
+function play(filename) {
+    const audio = new Audio(filename);
+    audio.volume = nvol;
+    audio.play();
+}
+
 function log(c) {
     console.log(c);
+}
+
+function notif(message, name, onclick) {
+    const note = document.createElement('div');
+    note.classList = "notif";
+    note.innerHTML = `<p class="smt">${name}</p>${message}`;
+    const id = gen(7);
+    note.id = id;
+    const note2 = document.createElement('div');
+    note2.classList = "notif2";
+    const id2 = gen(7);
+    note2.id = id2;
+    note2.innerHTML = `<p class="smt">${name}</p>${message}`;
+    document.getElementById('notif').appendChild(note);
+    document.getElementById('notifold').appendChild(note2);
+    play('./assets/other/webdrop.ogg');
+    note.addEventListener('click', function () { dest(id, '100'); });
+    note2.addEventListener('click', function () { dest(id2, '100'); });
+    setTimeout(function () { dest(id, '100'); }, 20000);
 }
 
 function clapp(id) {
@@ -190,6 +220,10 @@ function clapp(id) {
         if (document.getElementById(fuck)) {
             dest(fuck);
         }
+    } else {
+        log('<!> Error closing window.');
+        log('   <i> Window: ' + div);
+        log('   <i> Button: ' + document.getElementById(fuck));
     }
 }
 
@@ -295,6 +329,7 @@ function masschange(classn, val) {
 function guestmode() {
     dest('oobespace');
     mkw(`<p>You're in Guest Mode.</p><p>Data will be destroyed on next reload.</p>`, 'WebDesk Setup', undefined, undefined, undefined, true, undefined);
+    showf('menubar'); showf('taskbar');
 }
 
 function reboot(delay) {

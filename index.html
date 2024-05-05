@@ -11,7 +11,7 @@
     <title>WebDesk</title>
     <script>
         var ver = "0.0.9";
-        var lastedit = "April 29, 2024";
+        var lastedit = "May 5, 2024";
         var locked = false;
         var fname;
         var fblob;
@@ -19,6 +19,7 @@
         var copied;
         var copiedn;
         var sdone = false;
+        var user = "WebDesk User";
     </script>
 </head>
 
@@ -167,10 +168,10 @@
                 onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
-    <div class="window" id="sendf" style="width: 280px;">
+    <div class="window" id="sendf" style="width: 320px;">
         <div class="d tb">
             <div class="tnav">
-                <div class="winb"></div>
+                <div class="winb red" onmousedown="fname = undefined; fblob = undefined; clapp('sendf');"></div>
                 <div class="winb"></div>
                 <div class="winb"></div>
             </div>
@@ -178,26 +179,15 @@
         </div>
         <div class="content">
             <p>Sending "<span class="med fname">undefined</span>"</p>
-            <p class="smt">Go to the other WebDesk, open "Recieve", and type the ID below, then hit "Send".</p>
+            <p class="smt">Ask the other person to open Control Center, then enter their ID below.</p>
+            <p class="smt">You need to be on the same network/router as them, or it won't work.</p>
             <input id="sendi" placeholder="Enter DeskID" class="i1"></input>
             <button class="b1" onclick="fname = undefined; fblob = undefined; clapp('sendf');">Cancel</button><button
                 class="b1" onclick="sendf(document.getElementById('sendi').value);">Send</button>
-        </div>
-    </div>
-    <div class="window" id="recif" style="width: 280px;">
-        <div class="d tb">
-            <div class="tnav">
-                <div class="winb red" onmousedown="clapp('recif');"></div>
-                <div class="winb yel" onmousedown="mini('recif');"></div>
-                <div class="winb gre" onmousedown="max('recif');"></div>
+            <p>Previous senders</p>
+            <div id="prevsend">
+               <p class="smt">None yet... Get out there!</p>
             </div>
-            <div class="title">Recieve</div>
-        </div>
-        <div class="content">
-            <p>Your DeskID is</p>
-            <p class="h2 mcode">----</p>
-            <p class="smt">Sharing? Open Files, find what you want to send, select it, and hit "Send".</p>
-            <p class="smt">Note: You can also recieve songs from Shuffler.</p>
         </div>
     </div>
     <div class="window" id="settings" style="width: 350px;">
@@ -263,21 +253,35 @@
         </div>
         <div class="title">
             <img src="./assets/img/no.svg" id="bi"></img>
-            <button class="mb time">--:--</button>
+            <button class="mb time" onclick="showf('contcent'); hidef('taskapp');"
+                onmouseover="document.getElementById('taskapp').innerText = 'Control Center';showf('taskapp');"
+                onmouseleave="hidef('taskapp');">--:--</button>
         </div>
     </div>
-    <div id="gomenu">
-        <p>Hello, <span class="uname"></span>!</p>
+    <div id="notif">
+
+    </div>
+    <div id="contcent" class="centmen">
+        <p class="h3">Control Center</p>
+        <p>Your DeskID is <span class="mcode bold">----</span></p>
+        <p class="med">Notifications (select to delete)</p>
+        <div id="notifold"></div>
+        <button class="b1" onclick="toggle('contcent');">Close</button>
+    </div>
+    <div id="gomenu" class="centmen">
+        <p class="h3">Hello, <span class="uname"></span>!</p>
+        <p class="smt weather"></p>
         <button class="b1 b2" onclick="about();">About</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
-        <button class="b1 b2" onclick="opapp('recif', 'Recieve', './assets/img/apps/recieve.svg');">Recieve</button>
         <button class="b1 b2"
             onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
-    <div id="taskapp" style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;" onclick="hidef('taskapp', '140');">Application</div>
-    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" src="./assets/img/launch.svg"></img><span
+    <div id="taskapp"
+        style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;"
+        onclick="hidef('taskapp', '140');">Application</div>
+    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" id="gobtn" src="./assets/img/launch.svg"></img><span
             id="taskbara"></span></div>
     <script src="./assets/lib/jszip.js"></script>
     <script src="./assets/lib/peer.js"></script>
@@ -294,6 +298,7 @@
     <script>
         async function boots1() {
             try {
+                hidef('menubar', 0); hidef('taskbar', 0);
                 await initializeDB();
                 const silly = await readf('/system/setupon');
                 const enc = readpb('enc');
@@ -333,7 +338,7 @@
 
         async function boots2() {
             try {
-                dest('oobespace');
+                dest('oobespace', '120');
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
                 const accent = await readf('/user/info/accent');
@@ -348,6 +353,8 @@
                     cv('accent', accent);
                 }
                 masschange('uname', name);
+                user = name;
+                showf('menubar'); showf('taskbar'); readjson();
             } catch (error) {
                 panic('3', error);
             }

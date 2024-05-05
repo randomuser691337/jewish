@@ -94,7 +94,7 @@ body {
     padding: 6px;
 }
 
-#gomenu {
+.centmen {
     position: fixed;
     transform: translate(-50%, -50%) scale(1.0);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
@@ -109,7 +109,12 @@ body {
     max-width: 85% !important;
     display: none;
     z-index: 9500;
-    animation: 0.5s yeah;
+    animation: notif2 0.3s;
+}
+
+@keyframes notif2 {
+    0% {opacity: 40%; transform: translate(-50%, -50%) scale(0.7); filter: blur(6px);}
+    100% {opacity: 100%; transform: translate(-50%, -50%) scale(1.0); filter: blur(0px);}
 }
 
 @keyframes winanim {
@@ -148,6 +153,20 @@ body {
     -webkit-backdrop-filter: blur(0px);
     backdrop-filter: blur(0px);
     background-color: var(--lightdark2);
+}
+
+.border {
+    border: 3px solid #2222cc !important;
+    animation: borderan 2s infinite;
+}
+
+@keyframes borderan {
+    0%, 100% {
+        border-color: #2222cc !important;
+    }
+    50% {
+        border-color: #9999dd !important;
+    }
 }
 
 .tb {
@@ -609,6 +628,13 @@ a:active {
     border-bottom-right-radius: 16px;
     border: 1px solid var(--bordercolor);
     transition: 0.3s;
+    animation: mb 0.75s;
+}
+
+@keyframes mb {
+    0% {padding: 4px;}
+    50% {padding: 11px;}
+    100% {padding: 4px;}
 }
 
 .mb {
@@ -639,6 +665,7 @@ a:active {
     white-space: nowrap;
     overflow-x: auto;
     max-width: 90%;
+    animation: mb 0.75s;
 }
 
 @keyframes show {
@@ -686,7 +713,7 @@ a:active {
 .acb {
     width: 21px !important;
     height: 21px !important;
-    border-radius: 7px;
+    border-radius: 9px;
     margin: 1px;
     margin-top: 4px;
     padding: 0px !important;
@@ -698,4 +725,44 @@ a:active {
 
 .acb:active {
     opacity: 0.6;
+}
+
+#notif {
+    position: fixed;
+    top: 50px; right: 10px;
+    bottom: 10px;
+    width: 250px;
+    overflow-x: visible;
+    overflow-y: auto !important;
+}
+
+.notif {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+    background-color: var(--lightdark2);
+    border: 1px solid var(--bordercolor);
+    padding: 8px;
+    border-radius: var(--rad1);
+    margin-bottom: 2px;
+    animation: notif 0.3s;
+    cursor: pointer;
+}
+
+.notif2 {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+    border: 1px solid var(--bordercolor);
+    padding: 6px;
+    border-radius: var(--rad2);
+    margin-bottom: 2px;
+    font-size: var(--fz2) !important;
+    cursor: pointer;
+}
+
+
+@keyframes notif {
+    0% {opacity: 40%; transform: scale(0.7); filter: blur(8px);}
+    100% {opacity: 100%; transform: scale(1.0); filter: blur(0px);}
 }

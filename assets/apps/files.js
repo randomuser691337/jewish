@@ -94,7 +94,7 @@ async function dfm(dir) {
     directoryContentsDiv.innerHTML = '<div>Error listing directory contents</div>';
     console.error("Error listing directory contents");
   };
-  // Function to populate contents div
+
   async function populateContents(contents) {
     directoryContentsDiv.innerHTML = '';
     if (contents.length === 1 && contents[0].isFolder && breadcrumbs.length > 1) {
