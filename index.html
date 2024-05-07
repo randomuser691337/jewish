@@ -49,14 +49,19 @@
                     Press to open</p>
             </div>
         </div>
-        <div id="setupgo" style="position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; z-index: -1;"></div>
+        <div id="setupgo"
+            style="position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; z-index: -1;">
+        </div>
         <div class="setup" style="width: 500px; height: 360px; display: none;" id="setup">
-            <div
-                style="width: 100%; border: 1px solid var(--lightdark3); box-sizing: border-box; display: flex; align-items: center;
-            justify-content: space-between; padding: 2px; border-radius: var(--rad2); text-align: left; margin-bottom: 6px;">
+            <div class="setupbar" id="setupbar1">
                 <div class="tnav"><button class="b4" onclick="eprompt();">Start Over</button></div>
-                <div class="title"><button class="time b4"
+                <div class="title"><button class="time b4" onclick="fesw('setupbar1', 'setupbar2');"
                         style="background-color: transparent !important;">--:--</button></div>
+            </div>
+            <div class="setupbar" style="display: none;" id="setupbar2">
+                <div class="tnav"><button class="b4" onclick="fesw('setupbar2', 'setupbar1');">Back</button><button class="b4" onclick="opapp('term');">Terminal</button><button class="b4" onclick="opapp('settings');">Settings</button></div>
+                <div class="title"><button class="time b4"
+                        style="background-color: transparent !important;">Debug Utils</button></div>
             </div>
             <div id="setup1" class="setupp">
                 <img class="setupi" src="./assets/img/setup/first.svg"></img>
@@ -77,10 +82,9 @@
                 <img class="setupi" src="./assets/img/setup/quick.png"></img>
                 <p class="h3">Quick Start</p>
                 <p>If you have an existing WebDesk, you can copy your data.</p>
-                <p>On the other WebDesk, go to Settings -> Migrate Away -> and enter the code below:</p>
+                <p>Existing WebDesk: open Settings -> Migrate -> enter code below:</p>
                 <p class="h2 mcode" style="margin-bottom: 4px;">----</p>
-                <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
-                    onclick="fesw('setupqs', 'setupn');">No thanks</button>
+                <button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setuprs" class="hide setupp">
                 <p class="h3">Restoring...</p>
@@ -90,9 +94,9 @@
             <div id="setups" class="hide setupp">
                 <img class="setupi" src="./assets/img/setup/pass.svg"></img>
                 <p class="h3">Password Setup</p>
-                <p>Enter a password to decrypt WebDesk with.</p>
-                <p>Don't lose this password, as your data is gone without it.</p>
-                <input class="i1" type="password" id="oobep" placeholder="Password here"></input>
+                <p>Enter a pass to decrypt WebDesk with.</p>
+                <p>Don't lose this pass, as your data is lost without it.</p>
+                <input type="password" id="oobep" class="i1" placeholder="Password here" />
                 <button class="b1"
                     onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupqs');">Set
                     password</button>
@@ -103,7 +107,7 @@
                 <p>Enter a username to use with WebDesk.</p>
                 <input class="i1" id="ooben" placeholder="Username here"></input>
                 <button class="b1"
-                    onclick="const n = document.getElementById('ooben').value; writef('/user/info/name', n);fesw('setupn', 'setupc');">Set
+                    onclick="const n = document.getElementById('ooben').value;writef('/user/info/name', n);fesw('setupn', 'setupc');">Set
                     username, next!</button>
             </div>
             <div id="setupc" class="hide setupp">
@@ -117,7 +121,7 @@
                 <button class="acb" style="background: rgb(50, 160, 20);" onclick="chacc('50, 160, 20');"></button>
                 <button class="acb" style="background: rgb(40, 70, 235);" onclick="chacc('40, 70, 235');"></button>
                 <button class="acb" style="background: rgb(120, 60, 235);" onclick="chacc('120, 60, 235');"></button>
-                <button class="acb" style="background: rgb(180, 180, 180);" onclick="chacc('200, 200, 200');"></button>
+                <button class="acb" style="background: rgb(200, 200, 200);" onclick="chacc('200, 200, 200');"></button>
                 <p class="bold">Theme</p>
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
@@ -140,7 +144,7 @@
             </div>
             <div id="setupa" class="hide setupp">
                 <p class="authcont">Enter password to continue.</p>
-                <input id="authp" class="i1" type="password" placeholder="Password here"></input>
+                <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
                 <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
                     onclick="authg();">OK</button>
             </div>
@@ -193,7 +197,7 @@
                 class="b1" onclick="sendf(document.getElementById('sendi').value);">Send</button>
             <p>Previous recievers</p>
             <div id="prevsend">
-               <p class="smt">None yet... Get out there!</p>
+                <p class="smt">None yet... Get out there!</p>
             </div>
         </div>
     </div>
@@ -315,6 +319,8 @@
                     sdone = true;
                     dest('setupgo', 0);
                     if (enc === "y") {
+                        showf('setup');
+                        document.getElementById("authp").focus();
                         pw('Enter password to continue.', 'boots2()');
                     } else {
                         boots2();

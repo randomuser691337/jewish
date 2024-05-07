@@ -16,7 +16,7 @@
     --bgurl: url("./wall/light.png");
     --ap: 255, 0, 0;
     --inv: 0;
-    --animbl: 4px;
+    --animbl: 2px;
 }
 
 @font-face {
@@ -431,6 +431,16 @@ button {
     display: none;
 }
 
+.pulse {
+    animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {opacity: 100%;}
+    50% {opacity: 50%;}
+    100% {opacity: 100%;}
+}
+
 .i1 {
     padding: 4px 7px;
     border-radius: var(--rad2);
@@ -836,4 +846,17 @@ a:active {
         transform: scale(1.0);
         filter: blur(0px);
     }
+}
+
+.setupbar {
+    width: 100%;
+    border: 1px solid var(--lightdark3);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
+    border-radius: var(--rad2);
+    text-align: left;
+    margin-bottom: 6px;
 }
