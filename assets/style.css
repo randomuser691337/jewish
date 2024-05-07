@@ -16,6 +16,7 @@
     --bgurl: url("./wall/light.png");
     --ap: 255, 0, 0;
     --inv: 0;
+    --animbl: 4px;
 }
 
 @font-face {
@@ -65,10 +66,12 @@ body {
     .setup {
         width: 85% !important;
     }
+
     .winb {
-        width: 14px !important; 
+        width: 14px !important;
         height: 14px !important;
     }
+
     @media (max-height:700px) {
         .setup {
             height: 80% !important;
@@ -87,11 +90,32 @@ body {
     background-color: var(--lightdark2);
     border-radius: var(--rad1);
     max-width: 85% !important;
-    animation: 0.5s yeah;
+    animation: 0.8s setup;
+}
+
+@keyframes setup {
+    10% {
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0%;
+        filter: blur(var(--animbl));
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.0);
+        opacity: 100%;
+        filter: blur(0px);
+    }
 }
 
 .setupp {
     padding: 6px;
+}
+
+.setupi {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid var(--bordercolor);
 }
 
 .centmen {
@@ -113,8 +137,17 @@ body {
 }
 
 @keyframes notif2 {
-    0% {opacity: 40%; transform: translate(-50%, -50%) scale(0.7); filter: blur(6px);}
-    100% {opacity: 100%; transform: translate(-50%, -50%) scale(1.0); filter: blur(0px);}
+    0% {
+        opacity: 40%;
+        transform: translate(-50%, -50%) scale(0.7);
+        filter: blur(var(--animbl));
+    }
+
+    100% {
+        opacity: 100%;
+        transform: translate(-50%, -50%) scale(1.0);
+        filter: blur(0px);
+    }
 }
 
 @keyframes winanim {
@@ -161,9 +194,12 @@ body {
 }
 
 @keyframes borderan {
-    0%, 100% {
+
+    0%,
+    100% {
         border-color: #2222cc !important;
     }
+
     50% {
         border-color: #9999dd !important;
     }
@@ -309,7 +345,7 @@ button {
     background-color: rgba(var(--accent), 0.2);
     font-size: 1em;
     border: 2px solid transparent;
-    color: var(--text-color);
+    color: var(--fontc);
     cursor: pointer;
     transition: all 0.08s ease-in-out;
     margin: 1px;
@@ -632,9 +668,17 @@ a:active {
 }
 
 @keyframes mb {
-    0% {padding: 4px;}
-    50% {padding: 11px;}
-    100% {padding: 4px;}
+    0% {
+        padding: 4px;
+    }
+
+    50% {
+        padding: 11px;
+    }
+
+    100% {
+        padding: 4px;
+    }
 }
 
 .mb {
@@ -727,9 +771,27 @@ a:active {
     opacity: 0.6;
 }
 
+.controlba {
+    background-color: rgba(var(--accent), 0.4) !important;
+    border: 2px solid rgba(var(--accent), 0.5) !important;
+}
+
+.controlb {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background-color: var(--lightdark3);
+    font-size: 1em;
+    border: 2px solid var(--bordercolor);
+    color: var(--fontc);
+    cursor: pointer;
+    transition: all 0.08s ease-in-out;
+    margin: 1px;
+}
+
 #notif {
     position: fixed;
-    top: 50px; right: 10px;
+    top: 50px;
+    right: 10px;
     bottom: 10px;
     width: 250px;
     overflow-x: visible;
@@ -763,6 +825,15 @@ a:active {
 
 
 @keyframes notif {
-    0% {opacity: 40%; transform: scale(0.7); filter: blur(8px);}
-    100% {opacity: 100%; transform: scale(1.0); filter: blur(0px);}
+    0% {
+        opacity: 40%;
+        transform: scale(0.7);
+        filter: blur(var(--animbl));
+    }
+
+    100% {
+        opacity: 100%;
+        transform: scale(1.0);
+        filter: blur(0px);
+    }
 }

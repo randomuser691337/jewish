@@ -180,7 +180,7 @@ async function readjson() {
                 document.getElementById('prevsend').appendChild(fucker);
             }
         } else {
-            console.log(`File not found or empty`);
+            console.log(`<!> File not found or empty`);
         }
     } catch (error) {
         console.log(`Error reading JSON file: ${error}`);

@@ -341,6 +341,14 @@ function reboot(delay) {
     }
 }
 
+function short(inputString, size) {
+    if (inputString.length <= size) {
+        return inputString;
+    } else {
+        return inputString.slice(0, size - 3) + '...';
+    }
+}
+
 async function setupd() {
     await writef('/system/ogver', ver);
     await writef('/system/check', 'DontModifyOrYouWillBrickWebDesk');
@@ -351,7 +359,7 @@ async function appear(m, no) {
     if (m === "l") {
         cv('lightdark', `rgb(255, 255, 255, 0.65)`);
         cv('lightdark2', '#fff');
-        cv('lightdark3', '#ddd');
+        cv('lightdark3', '#ececec');
         cv('bordercolor', 'rgba(160, 160, 160, 0.2)');
         cv('bg', '#fff');
         cv('fontc', '#000');
@@ -436,7 +444,7 @@ async function unlock(yeah) {
         });
     });
 
-    fullBg.style.transition = `transform 0.5s ease`;
+    fullBg.style.transition = `transform 0.7s ease`;
     fullBg.style.transform = `translateY(-${windowHeight}px)`;
     await transitionEndPromise;
     fullBg.style.display = 'none';

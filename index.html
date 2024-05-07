@@ -36,7 +36,7 @@
         </div>
     </div>
     <div id="oobespace">
-        <div id="setupbg" onmousedown="unlock('setupbg');">
+        <div id="setupbg" onmousedown="unlock('setupbg');showf('setup', 0);dest('setupgo', 500);">
             <div id="sorryapple">
                 <svg id="hellosvg" viewBox="0 0 1230.94 414.57">
                     <path
@@ -49,7 +49,8 @@
                     Press to open</p>
             </div>
         </div>
-        <div class="setup" style="width: 500px; height: 360px;">
+        <div id="setupgo" style="position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000; z-index: -1;"></div>
+        <div class="setup" style="width: 500px; height: 360px; display: none;" id="setup">
             <div
                 style="width: 100%; border: 1px solid var(--lightdark3); box-sizing: border-box; display: flex; align-items: center;
             justify-content: space-between; padding: 2px; border-radius: var(--rad2); text-align: left; margin-bottom: 6px;">
@@ -58,11 +59,13 @@
                         style="background-color: transparent !important;">--:--</button></div>
             </div>
             <div id="setup1" class="setupp">
+                <img class="setupi" src="./assets/img/setup/first.svg"></img>
                 <p class="h3">Welcome to WebDesk!</p>
                 <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
                     onclick="fesw('setup1', 'setup2');">Let's go!</button>
             </div>
             <div id="setup2" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/enc.svg"></img>
                 <p class="h3">Encryption</p>
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
@@ -71,10 +74,11 @@
                     onclick="writepb('enc', 'n');fesw('setup2', 'setupqs');">Don't encrypt</button>
             </div>
             <div id="setupqs" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/quick.png"></img>
                 <p class="h3">Quick Start</p>
-                <p>If you have an existing WebDesk, you can copy your data over instantly.</p>
+                <p>If you have an existing WebDesk, you can copy your data.</p>
                 <p>On the other WebDesk, go to Settings -> Migrate Away -> and enter the code below:</p>
-                <p class="h2 mcode">----</p>
+                <p class="h2 mcode" style="margin-bottom: 4px;">----</p>
                 <button class="b1" onclick="fesw('setupqs', 'setup1');">Back</button><button class="b1"
                     onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
@@ -84,15 +88,17 @@
                 <p class="restpg">Starting restore...</p>
             </div>
             <div id="setups" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/pass.svg"></img>
                 <p class="h3">Password Setup</p>
                 <p>Enter a password to decrypt WebDesk with.</p>
                 <p>Don't lose this password, as your data is gone without it.</p>
                 <input class="i1" type="password" id="oobep" placeholder="Password here"></input>
                 <button class="b1"
                     onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupqs');">Set
-                    password, next!</button>
+                    password</button>
             </div>
             <div id="setupn" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/user.svg"></img>
                 <p class="h3">User Setup</p>
                 <p>Enter a username to use with WebDesk.</p>
                 <input class="i1" id="ooben" placeholder="Username here"></input>
@@ -101,6 +107,7 @@
                     username, next!</button>
             </div>
             <div id="setupc" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/color.svg"></img>
                 <p class="h3">Appearance</p>
                 <p>Select an accent color, and a theme.</p>
                 <p class="bold">Accent color</p>
@@ -118,11 +125,11 @@
             </div>
             <div id="setupl" class="hide setupp">
                 <p class="h3">Location Services</p>
-                <p>You can optionally enable Location Services, to update the weather in your location, use certain
+                <p>You can enable Location Services, to update the weather, use certain
                     weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
-                <p>At the moment, your location is only processed through OpenWeatherMap. This info is not sent or
+                <p>Your location is only processed through OpenWeatherMap. This info is not sent or
                     collected by WebDesk.</p>
-                <input class="i1" placeholder="Enter your country and city" id="oobeloc"></input>
+                <input class="i1" placeholder="Enter your city" id="oobeloc"></input>
                 <button class="b1" onclick="fesw('setupl', 'setupf');">No thanks</button><button class="b1"
                     onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
             </div>
@@ -184,7 +191,7 @@
             <input id="sendi" placeholder="Enter DeskID" class="i1"></input>
             <button class="b1" onclick="fname = undefined; fblob = undefined; clapp('sendf');">Cancel</button><button
                 class="b1" onclick="sendf(document.getElementById('sendi').value);">Send</button>
-            <p>Previous senders</p>
+            <p>Previous recievers</p>
             <div id="prevsend">
                <p class="smt">None yet... Get out there!</p>
             </div>
@@ -264,6 +271,7 @@
     <div id="contcent" class="centmen">
         <p class="h3">Control Center</p>
         <p>Your DeskID is <span class="mcode bold">----</span></p>
+        <button class="controlb ">Silent (Off)</button><button class="controlb controlba">WebDrop (On)</button>
         <p class="med">Notifications (select to delete)</p>
         <div id="notifold"></div>
         <button class="b1" onclick="toggle('contcent');">Close</button>
@@ -295,6 +303,7 @@
     <script src="./assets/apps/about.js"></script>
     <script src="./assets/apps/auth.js"></script>
     <script src="./assets/apps/files.js"></script>
+    <script src="./assets/apps/weather.js"></script>
     <script>
         async function boots1() {
             try {
@@ -304,6 +313,7 @@
                 const enc = readpb('enc');
                 if (silly !== undefined) {
                     sdone = true;
+                    dest('setupgo', 0);
                     if (enc === "y") {
                         pw('Enter password to continue.', 'boots2()');
                     } else {
@@ -329,7 +339,7 @@
                     dserv(deskid);
                     console.log(`<i> DeskID exists: ${deskid}`)
                 }
-                hidef('deathcurtain', 400);
+                hidef('deathcurtain', 600);
                 console.log(`<i> Boot successful!`);
             } catch (error) {
                 panic('2', error);
@@ -338,7 +348,7 @@
 
         async function boots2() {
             try {
-                dest('oobespace', '120');
+                dest('oobespace', 120);
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
                 const accent = await readf('/user/info/accent');
