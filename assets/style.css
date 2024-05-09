@@ -10,13 +10,13 @@
     --fz1: 15px;
     --fz2: 13px;
     --rad1: 15px;
-    --rad2: 11px;
+    --rad2: 12px;
     --blur1: 6px;
     --blur2: 10px;
     --bgurl: url("./wall/light.png");
     --ap: 255, 0, 0;
     --inv: 0;
-    --animbl: 2px;
+    --animbl: 0px;
 }
 
 @font-face {
@@ -343,7 +343,7 @@ button {
     padding: 4px 6px;
     border-radius: 8px;
     background-color: rgba(var(--accent), 0.2);
-    font-size: 1em;
+    font-size: var(--fz1);
     border: 2px solid transparent;
     color: var(--fontc);
     cursor: pointer;
@@ -495,7 +495,7 @@ button {
 }
 
 a {
-    color: var(--font);
+    color: var(--fz1);
     transition: 0.05s;
     text-decoration: underline;
     cursor: pointer;
@@ -787,15 +787,19 @@ a:active {
 }
 
 .controlb {
-    padding: 12px 16px;
-    border-radius: 10px;
+    padding: 10px 14px;
+    border-radius: var(--rad2);
     background-color: var(--lightdark3);
-    font-size: 1em;
+    font-size: var(--fz1);
     border: 2px solid var(--bordercolor);
     color: var(--fontc);
     cursor: pointer;
-    transition: all 0.08s ease-in-out;
+    transition: all 0.06s ease-in-out;
     margin: 1px;
+}
+
+.controlb:active {
+    transform: scale(0.92);
 }
 
 #notif {

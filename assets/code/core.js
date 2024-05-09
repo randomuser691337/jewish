@@ -385,6 +385,15 @@ async function appear(m, no) {
     }
 }
 
+function togcls(id, className) {
+    var element = document.getElementById(id);
+    if (element.classList.contains(className)) {
+        element.classList.remove(className);
+    } else {
+        element.classList.add(className);
+    }
+}
+
 async function id() {
     return readpb('deskid');
 }

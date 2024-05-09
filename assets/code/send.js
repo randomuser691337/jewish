@@ -2,6 +2,7 @@ var peer;
 var recn;
 var recb;
 var deskid;
+var webdrop = true;
 
 async function dserv(id) {
     setTimeout(function () {
@@ -19,26 +20,34 @@ async function dserv(id) {
     });
 
     peer.on('connection', (conn) => {
-        fesw('setupqs', 'setuprs');
-        conn.on('data', (data) => {
-            if (data.name === "MigrationPackDeskFuck") {
-                if (sdone === false) {
-                    fesw('setupqs', 'setuprs');
-                    restorefs(data.file);
+        if (webdrop === true) {
+            fesw('setupqs', 'setuprs');
+            conn.on('data', (data) => {
+                if (data.name === "MigrationPackDeskFuck") {
+                    if (sdone === false) {
+                        fesw('setupqs', 'setuprs');
+                        restorefs(data.file);
+                    } else {
+                        cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
+                    }
+                } else if (data.name === "YesImAlive-WebKey") {
+                    notif('WebDrop was accepted.', 'WebDesk Services');
+                } else if (data.name === "DesktoDeskMsg-WebKey") {
+                    notif(data.file, 'WebDesk Services');
                 } else {
-                    cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
+                    recb = data.file;
+                    recn = data.name;
+                    play('./assets/other/webdrop.ogg');
+                    wal(`<p class="h3">WebDrop</p><p><span class="med dropn">what</span> would like to share <span class="med dropf">what</span></p>`, `acceptdrop();custf('${data.id}', 'YesImAlive-WebKey');`, 'Accept', './assets/img/apps/webdrop.svg');
+                    masschange('dropn', data.uname);
+                    masschange('dropf', data.name);
                 }
-            } else if (data.name === "YesImAlive-WebKey") {
-                notif('WebDrop was accepted.', 'WebDesk Services');
-            } else {
-                recb = data.file;
-                recn = data.name;
-                play('./assets/other/webdrop.ogg');
-                wal(`<p class="h3">WebDrop</p><p><span class="med dropn">what</span> would like to share <span class="med dropf">what</span></p>`, `acceptdrop();custf('${data.id}', 'YesImAlive-WebKey');`, 'Accept', './assets/img/apps/webdrop.svg');
-                masschange('dropn', data.uname);
-                masschange('dropf', data.name);
-            }
-        });
+            });
+        } else {
+            conn.on('data', (data) => {
+                custf(data.id, 'DesktoDeskMsg-WebKey', `<span class="med">${deskid}</span> isn't accepting WebDrops right now.`);
+            });
+        }
     });
 }
 

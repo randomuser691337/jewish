@@ -59,9 +59,11 @@
                         style="background-color: transparent !important;">--:--</button></div>
             </div>
             <div class="setupbar" style="display: none;" id="setupbar2">
-                <div class="tnav"><button class="b4" onclick="fesw('setupbar2', 'setupbar1');">Back</button><button class="b4" onclick="opapp('term');">Terminal</button><button class="b4" onclick="opapp('settings');">Settings</button></div>
-                <div class="title"><button class="time b4"
-                        style="background-color: transparent !important;">Debug Utils</button></div>
+                <div class="tnav"><button class="b4" onclick="fesw('setupbar2', 'setupbar1');">Back</button><button
+                        class="b4" onclick="opapp('term');">Terminal</button><button class="b4"
+                        onclick="opapp('settings');">Settings</button></div>
+                <div class="title"><button class="time b4" style="background-color: transparent !important;">Debug
+                        Utils</button></div>
             </div>
             <div id="setup1" class="setupp">
                 <img class="setupi" src="./assets/img/setup/first.svg"></img>
@@ -233,7 +235,7 @@
                 <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
             </div>
             <div id="settgen" class="hide">
-                <p>General</p>
+                <p class="h3">General</p>
                 <button class="b1 b2" onclick="idch();">Change
                     DeskID</button>
                 <button class="b1 b2" onclick="eprompt();">Erase WebDesk</button>
@@ -241,7 +243,7 @@
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
             <div id="settmig" class="hide">
-                <p>Migration</p>
+                <p class="h3">Migration</p>
                 <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
                 <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
                 <input class="i1" id="maway" placeholder="ID here..."></input>
@@ -249,10 +251,10 @@
                     onclick="migaway(document.getElementById('maway').value);">Move</button>
             </div>
             <div id="settsys" class="hide">
-                <p>System</p>
-                <p>Window button size</p>
-                <p class="smt">Changes the size of the window buttons. Larger recommended for mobile.</p>
-                <button class="b1" onclick="fesw('settsys', 'settmain');">Larger</button>
+                <p class="h3">System</p>
+                <p>Lockdown Mode</p>
+                <p class="smt">Lockdown Mode disables all of WebDesk's online services. WebDesk won't be able to
+                    migrate, WebDrop, or update the weather while enabled.</p>
                 <button class="b1" onclick="fesw('settsys', 'settmain');">Back</button>
             </div>
         </div>
@@ -274,8 +276,9 @@
     </div>
     <div id="contcent" class="centmen">
         <p class="h3">Control Center</p>
-        <p>Your DeskID is <span class="mcode bold">----</span></p>
-        <button class="controlb ">Silent (Off)</button><button class="controlb controlba">WebDrop (On)</button>
+        <p class="lockdown">Your DeskID is <span class="mcode bold">----</span></p>
+        <button class="controlb">Silent</button><button class="controlb controlba lockdown" id="webdroptog"
+            onclick="if (webdrop === true) { togcls('webdroptog', 'controlba'); webdrop = false; snack('Disabled WebDrop.'); } else { togcls('webdroptog', 'controlba'); webdrop = true; snack('Enabled WebDrop.'); }">WebDrop</button>
         <p class="med">Notifications (select to delete)</p>
         <div id="notifold"></div>
         <button class="b1" onclick="toggle('contcent');">Close</button>
