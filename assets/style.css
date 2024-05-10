@@ -79,6 +79,10 @@ body {
     }
 }
 
+.drag-over {
+    opacity: 70%;
+}
+
 .setup {
     position: fixed;
     transform: translate(-50%, -50%) scale(1.0);
@@ -95,15 +99,13 @@ body {
 
 @keyframes setup {
     10% {
-        transform: translate(-50%, -50%) scale(0.6);
+        transform: translate(-50%, -50%) scale(0.5);
         opacity: 0%;
-        filter: blur(var(--animbl));
     }
 
     100% {
         transform: translate(-50%, -50%) scale(1.0);
         opacity: 100%;
-        filter: blur(0px);
     }
 }
 
@@ -416,8 +418,8 @@ button {
     top: 0px;
     bottom: 0px;
     z-index: 2;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .b2 {

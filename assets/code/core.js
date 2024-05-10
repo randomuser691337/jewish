@@ -261,7 +261,7 @@ async function chacc(rgb) {
 function fesw(d1, d2) {
     const dr1 = document.getElementById(d1);
     const dr2 = document.getElementById(d2);
-    $(dr1).fadeOut(140, function () { $(dr2).fadeIn(140); });
+    $(dr1).fadeOut(160, function () { $(dr2).fadeIn(160); });
 }
 
 function hidef(d1, anim) {
@@ -270,7 +270,7 @@ function hidef(d1, anim) {
         if (anim) {
             $(dr1).fadeOut(anim);
         } else {
-            $(dr1).fadeOut(170);
+            $(dr1).fadeOut(210);
         }
     }
 }
@@ -281,7 +281,7 @@ function showf(d1, anim) {
         if (anim) {
             $(dr1).fadeIn(anim);
         } else {
-            $(dr1).fadeIn(170);
+            $(dr1).fadeIn(210);
         }
     }
 }
@@ -393,6 +393,50 @@ function togcls(id, className) {
         element.classList.add(className);
     }
 }
+
+function filepick(acceptType, callback) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = acceptType;
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const fileData = event.target.result;
+            callback(fileData);
+            input.remove();
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    input.addEventListener('change', handleFileSelect);
+    input.click();
+}
+
+function down(filename, filedata) {
+    const blob = new Blob([filedata], { type: 'application/octet-stream' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+async function lback() {
+    try {
+        const desk = await compressfs();
+        const filename = `webdesk-backup.zip`;
+        down(filename, desk);
+        snack('Successfully backed up to your device.', '4000');
+    } catch (error) {
+        notif('An error occured while backing up. Reboot and try again.', 'WebDesk System');
+    }
+}
+
 
 async function id() {
     return readpb('deskid');

@@ -25,7 +25,6 @@ async function dserv(id) {
             conn.on('data', (data) => {
                 if (data.name === "MigrationPackDeskFuck") {
                     if (sdone === false) {
-                        fesw('setupqs', 'setuprs');
                         restorefs(data.file);
                     } else {
                         cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
@@ -144,6 +143,7 @@ async function compressfs() {
 async function restorefs(zipBlob) {
     console.log('<i> Restore Stage 1: Prepare zip');
     try {
+        fesw('setupqs', 'setuprs');
         const zip = await JSZip.loadAsync(zipBlob);
         const fileCount = Object.keys(zip.files).length;
         let filesDone = 0;

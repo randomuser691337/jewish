@@ -28,3 +28,49 @@ window.addEventListener('DOMContentLoaded', () => {
         battery.addEventListener('chargingchange', updateBatteryStatus);
     });
 });
+
+function handlesilly(callback) {
+    // thank you gpt
+    function preventDefaults(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    function highlightDropArea() {
+        document.body.classList.add('drag-over');
+    }
+
+    function unhighlightDropArea() {
+        document.body.classList.remove('drag-over');
+    }
+
+    function handleDrop(event) {
+        preventDefaults(event);
+        unhighlightDropArea();
+
+        const files = event.dataTransfer.files;
+
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                callback(file.name, event.target.result, file);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.addEventListener('dragover', function (event) {
+        preventDefaults(event);
+        highlightDropArea();
+    });
+
+    document.addEventListener('dragleave', function (event) {
+        preventDefaults(event);
+        unhighlightDropArea();
+    });
+
+    document.addEventListener('drop', function (event) {
+        preventDefaults(event);
+        handleDrop(event);
+    });
+}

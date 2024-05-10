@@ -12,7 +12,7 @@
     <script>
         var ver = "0.0.9";
         var lastedit = "May 5, 2024";
-        var locked = false;
+        var locked = true;
         var fname;
         var fblob;
         var nvol = 1.0;
@@ -84,9 +84,10 @@
                 <img class="setupi" src="./assets/img/setup/quick.png"></img>
                 <p class="h3">Quick Start</p>
                 <p>If you have an existing WebDesk, you can copy your data.</p>
-                <p>Existing WebDesk: open Settings -> Migrate -> enter code below:</p>
-                <p class="h2 mcode" style="margin-bottom: 4px;">----</p>
-                <button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
+                <p>Other WebDesk: open Backup app -> Migrate -> enter code below:</p>
+                <p class="h2 mcode" style="margin-bottom: 3px;">----</p>
+                <button class="b1" onclick="filepick('.zip', function (file) {restorefs(file);});">Local
+                    Restore</button><button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setuprs" class="hide setupp">
                 <p class="h3">Restoring...</p>
@@ -181,6 +182,31 @@
                 onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
+    <div class="window" id="backup" style="width: 320px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('backup');"></div>
+                <div class="winb yel" onmousedown="mini('backup');"></div>
+                <div class="winb gre" onmousedown="max('backup');"></div>
+            </div>
+            <div class="title">Backup</div>
+        </div>
+        <div class="content" id="back1">
+            <p class="h3">Welcome!</p>
+            <p class="smt">What do you want to do? Local backup downloads your WebDesk to your files, Migrate copies
+                this WebDesk to a new WebDesk.</p>
+            <button class="b1 b2" onclick="lback();">Make local backup</button>
+            <button class="b1 b2" onclick="fesw('back1', 'back2')">Migrate</button>
+        </div>
+        <div id="back2" class="hide content">
+            <p class="h3">Migration</p>
+            <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
+            <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
+            <input class="i1" id="maway" placeholder="ID here..."></input>
+            <button class="b1" onclick="fesw('back2', 'back1');">Back</button><button class="b1"
+                onclick="migaway(document.getElementById('maway').value);">Move</button>
+        </div>
+    </div>
     <div class="window" id="sendf" style="width: 320px;">
         <div class="d tb">
             <div class="tnav">
@@ -215,7 +241,6 @@
         <div class="content">
             <div id="settmain">
                 <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
-                <button class="b1 b2" onclick="fesw('settmain', 'settmig');">Migrate Away</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settsys');">System/UI</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
             </div>
@@ -242,14 +267,6 @@
                 <button class="b1 b2" onclick="window.location.href = './rec.html';">Recovery (Reboot)</button>
                 <button class="b1" onclick="fesw('settgen', 'settmain');">Back</button>
             </div>
-            <div id="settmig" class="hide">
-                <p class="h3">Migration</p>
-                <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
-                <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
-                <input class="i1" id="maway" placeholder="ID here..."></input>
-                <button class="b1" onclick="fesw('settmig', 'settmain');">Back</button><button class="b1"
-                    onclick="migaway(document.getElementById('maway').value);">Move</button>
-            </div>
             <div id="settsys" class="hide">
                 <p class="h3">System</p>
                 <p>Lockdown Mode</p>
@@ -272,7 +289,6 @@
         </div>
     </div>
     <div id="notif">
-
     </div>
     <div id="contcent" class="centmen">
         <p class="h3">Control Center</p>
@@ -287,6 +303,7 @@
         <p class="h3">Hello, <span class="uname"></span>!</p>
         <p class="smt weather"></p>
         <button class="b1 b2" onclick="about();">About</button>
+        <button class="b1 b2" onclick="opapp('backup', 'Backup');">Backup</button>
         <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
         <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
         <button class="b1 b2"
@@ -357,6 +374,7 @@
 
         async function boots2() {
             try {
+                locked = false;
                 dest('oobespace', 120);
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
@@ -374,6 +392,10 @@
                 masschange('uname', name);
                 user = name;
                 showf('menubar'); showf('taskbar'); readjson();
+                handlesilly(function (name, data) {
+                    writef(`/user/files/${name}`, data);
+                });
+                writef('/readme.txt', `This is the root of your WebDesk. All of your data is stored here, and it's what gets copied when migrating. Do not touch anything in /system, or you might break your WebDesk. Have fun!`);
             } catch (error) {
                 panic('3', error);
             }

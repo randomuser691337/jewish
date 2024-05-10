@@ -139,48 +139,6 @@ function isFileTooLarge(file) {
 
 var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
 
-// Function to handle file upload
-async function handleFileUpload(file) {
-  if (locked === false) {
-    try {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const content = reader.result;
-        await writef(`/user/files/${file.name}`, content);
-      };
-      reader.readAsDataURL(file);
-      snack('Uploaded file successfully! WebDesk might have frozen if the file was large, wait for it to unfreeze.', '3000');
-    } catch (error) {
-      snack(`Locker error: ${error}`, '3500');
-      console.log(error);
-    }
-  } else {
-    snack(`Unlock WebDesk to upload.`, '3500');
-  }
-}
-
-// Event listener for file drag and drop
-document.addEventListener('DOMContentLoaded', () => {
-  const dropArea = document.body;
-
-  dropArea.addEventListener('dragover', (event) => {
-    event.preventDefault();
-  });
-
-  dropArea.addEventListener('dragleave', (event) => {
-    event.preventDefault();
-  });
-
-  dropArea.addEventListener('drop', async (event) => {
-    event.preventDefault();
-    const files = event.dataTransfer.files;
-    for (let i = 0; i < files.length; i++) {
-      await handleFileUpload(files[i]);
-    }
-  });
-});
-
-// Manual upload function
 function upload() {
   const input = document.createElement('input');
   input.type = 'file';
