@@ -21,6 +21,8 @@
         var sdone = false;
         var user = "WebDesk User";
         var silent = false;
+        console.log('=== WebDesk 0.0.9 ===');
+        console.log(`<!> DO NOT EVER share or modify the JS var named "pass", you will regret it as it is your decryption key.`);
     </script>
 </head>
 
@@ -67,6 +69,14 @@
                 <div class="title"><button class="time b4" style="background-color: transparent !important;">Debug
                         Utils</button></div>
             </div>
+            <div id="setupre" class="setupp hide">
+                <img class="setupi" src="./assets/img/warn.svg"></img>
+                <p class="h3">WebDesk Restore</p>
+                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.
+                </p>
+                <button class="b1" onclick="window.location.href = './index.html';">Cancel</button><button class="b1"
+                    onclick="fesw('setupre', 'setup2');">Next</button>
+            </div>
             <div id="setup1" class="setupp">
                 <img class="setupi" src="./assets/img/setup/first.svg"></img>
                 <p class="h3">Welcome to WebDesk!</p>
@@ -78,7 +88,7 @@
                 <p class="h3">Encryption</p>
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
-                <button class="b1" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
+                <button class="b1 resthide" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
                     onclick="writepb('enc', 'y');fesw('setup2', 'setups');">Encrypt</button><button class="b1"
                     onclick="writepb('enc', 'n');fesw('setup2', 'setupqs');">Don't encrypt</button>
             </div>
@@ -86,10 +96,10 @@
                 <img class="setupi" src="./assets/img/setup/quick.png"></img>
                 <p class="h3">Quick Start</p>
                 <p>If you have an existing WebDesk, you can copy your data.</p>
-                <p>Other WebDesk: open Backup app -> Migrate -> enter code below:</p>
-                <p class="h2 mcode" style="margin-bottom: 3px;">----</p>
+                <p class="resthide">Other WebDesk: open Backup app -> Migrate -> enter code below:</p>
+                <p class="h2 mcode resthide" style="margin-bottom: 3px;">----</p>
                 <button class="b1" onclick="filepick('.zip', function (file) {restorefs(file);});">Local
-                    restore</button><button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
+                    restore</button><button class="b1 resthide" onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setuprs" class="hide setupp">
                 <p class="h3">Restoring...</p>
@@ -103,7 +113,7 @@
                 <p>Don't lose this pass, as your data is lost without it.</p>
                 <input type="password" id="oobep" class="i1" placeholder="Password here" />
                 <button class="b1"
-                    onclick="const p = document.getElementById('oobep').value; pass = p; fesw('setups', 'setupqs');">Set
+                    onclick="const p = document.getElementById('oobep').value; setupde(p); fesw('setups', 'setupqs');">Set
                     password</button>
             </div>
             <div id="setupn" class="hide setupp">
@@ -145,13 +155,22 @@
             <div id="setupf" class="hide setupp">
                 <p class="h3">Setup is done!</p>
                 <p>Click "Reboot" to finish. Have fun!</p>
-                <button class="b1 b2" onclick="reboot(200);">Reboot</button>
+                <p class="optnote">Note: If you encrypted, WebDesk will ask for your password.</p>
+                <button class="b1" onclick="reboot(200);">Reboot</button>
             </div>
             <div id="setupa" class="hide setupp">
-                <p class="authcont">Enter password to continue.</p>
+                <p class="authcont h3">Enter password to continue.</p>
+                <p>If you forgot, <a>upload your recovery key</a>.</p>
                 <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
                 <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
                     onclick="authg();">OK</button>
+            </div>
+            <div id="setupca" class="hide setupp">
+                <p class="h3">WebDesk isn't compliant</p>
+                <p>WebDesk's encryption has changed heavily, meaning you need to re-install WebDesk.</p>
+                <p>To re-install, hit "Download" to download a backup to your device. After download, hit "Restore".</p>
+                <button class="b1" onclick="lback();">Download</button><button class="b1"
+                    onclick="window.location.href = './index.html?restore=y';">Restore</button>
             </div>
         </div>
     </div>
@@ -198,7 +217,9 @@
             <div id="pantene" class="list">
                 <p>A really silly testing app.</p>
                 <p class="smt">Category: Entertainment</p>
-                <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3" onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
+                <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3"
+                    onclick="delapp('bantene shampoo');">Delete</button><button class="b3"
+                    onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
             </div>
         </div>
     </div>
@@ -249,13 +270,12 @@
             </div>
         </div>
     </div>
-    
     <div class="window" id="settings" style="width: 350px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('settings');"></div>
                 <div class="winb yel" onmousedown="mini('settings');"></div>
-                <div class="winb gre" onmousedown="max('settings');"></div>
+                <div class="winb"></div>
             </div>
             <div class="title">Settings</div>
         </div>
@@ -336,6 +356,9 @@
             <button class="b1 b2" onclick="opapp('store', 'Store');">Store</button>
             <button class="b1 b2"
                 onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
+            <div id="custapp">
+
+            </div>
         </div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
@@ -363,6 +386,13 @@
             try {
                 hidef('menubar', 0); hidef('taskbar', 0);
                 await initializeDB();
+                if (urlv('restore') === "y") {
+                    showf('setup');
+                    fesw('setup1', 'setupre');
+                    hidecls('resthide');
+                    hidef('deathcurtain', 450); dest('setupgo', 0);
+                    return;
+                }
                 const silly = await readf('/system/setupon');
                 const enc = readpb('enc');
                 if (silly !== undefined) {
@@ -370,7 +400,6 @@
                     dest('setupgo', 0);
                     if (enc === "y") {
                         showf('setup');
-                        document.getElementById("authp").focus();
                         pw('Enter password to continue.', 'boots2()');
                     } else {
                         boots2();

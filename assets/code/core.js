@@ -321,6 +321,19 @@ function toggle(elementId, time3) {
     }
 }
 
+function hidecls(className) {
+    var elements = document.getElementsByClassName(className);
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'none';
+    }
+}
+function showcls(className) {
+    var elements = document.getElementsByClassName(className);
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'inline';
+    }
+}
+
 function masschange(classn, val) {
     const usernameElements = document.getElementsByClassName(classn);
     for (let i = 0; i < usernameElements.length; i++) {
@@ -336,10 +349,10 @@ function guestmode() {
 
 function reboot(delay) {
     if (delay) {
-        setTimeout(function () { window.location.reload(); }, delay);
+        setTimeout(function () { window.location.href = './index.html'; }, delay);
         showf('deathcurtain', 0, hidef('deathcurtain', delay));
     } else {
-        window.location.reload();
+        window.location.href = './index.html';
     }
 }
 
@@ -578,4 +591,17 @@ async function clboot() {
         console.log(`<!> /system/oldhosts.json doesn't exist, creating...`);
         await writef('/user/oldhosts.json', '');
     }
+}
+
+function urlv(varname) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (decodeURIComponent(pair[0]) === varname) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+
+    return undefined;
 }

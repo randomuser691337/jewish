@@ -110,7 +110,7 @@ function readf(name) {
       }
     };
     request.onerror = function (event) {
-       panic('5', event.target.errorCode);
+      panic('5', event.target.errorCode);
     };
   });
 }
@@ -147,4 +147,27 @@ function renf(name, newName) {
       console.log("File not found");
     }
   };
+}
+
+async function setupde(pass2) {
+  pass = pass2;
+  const imlazy = `key${gen(16)}`;
+  await writef('/system/enckey', imlazy);
+  pass = imlazy;
+}
+
+async function ekey(pass2) {
+  pass = pass2;
+  const key = await readf('/system/enckey');
+  if (key) {
+    pass = key;
+    const check = await readf('/system/check');
+    if (check === 'DontModifyOrYouWillBrickWebDesk') {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return "missing";
+  }
 }

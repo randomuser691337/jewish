@@ -8,13 +8,19 @@ function pw(set, func) {
 
 async function authg() {
     const i = document.getElementById('authp');
-    pass = i.value;
-    const ok = await readf('/system/check');
-    if (ok === 'DontModifyOrYouWillBrickWebDesk') {
+    const letmein = await ekey(i.value);
+    if (letmein === true) {
         dest('oobespace'); eval(exeboot);
-    } else if (ok === undefined) {
-        panic('6', '/system/check is corrupted.');
-    } else {
-        snack('Incorrect password.');
+    } else if (letmein === "missing") {
+        const f = document.getElementById('authp').value;
+        pass = f;
+        const fucker = await readf(`/system/check`);
+        if (fucker === "DontModifyOrYouWillBrickWebDesk") {
+            fesw('setupa', 'setupca');
+        } else {
+            snack('Wrong password!');
+        }
+     } else {
+        snack('Wrong password!');
     }
 }

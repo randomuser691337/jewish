@@ -10,7 +10,7 @@ function viewmed(val, name) {
   } else if (videoExtensions.includes(fileExtension)) {
     mediaType = 'video';
   } else {
-    wal(val, name, '400px');
+    mkw(val, name, '400px');
     return;
   }
 
@@ -139,15 +139,25 @@ function isFileTooLarge(file) {
 
 var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
 
-function upload() {
+async function handleFileUpload(file) {
+  const reader = new FileReader();
+  reader.onload = async (event) => {
+      const fileContents = event.target.result;
+      const originalFileName = file.name;
+      await writef(`/user/files/${originalFileName}`, fileContents);
+  };
+  reader.readAsText(file);
+}
+
+async function upload() {
   const input = document.createElement('input');
   input.type = 'file';
   input.accept = '*/*';
   input.onchange = async (event) => {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-      await handleFileUpload(files[i]);
-    }
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+          await handleFileUpload(files[i]);
+      }
   };
   input.click();
 }

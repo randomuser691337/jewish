@@ -125,6 +125,7 @@ body {
     padding: 12px;
     width: 300px;
     height: auto;
+    max-height: 85%;
     border: 2px solid var(--bordercolor);
     background-color: var(--lightdark2);
     border-radius: var(--rad1);

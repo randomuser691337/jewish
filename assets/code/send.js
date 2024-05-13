@@ -147,18 +147,26 @@ async function restorefs(zipBlob) {
         let filesDone = 0;
         console.log(`<i> Restore Stage 2: Open zip and extract ${fileCount} files to FS`);
         await Promise.all(Object.keys(zip.files).map(async filename => {
-            const file = zip.files[filename];
-            const value = await file.async("string");
-            writef(filename, value);
-            filesDone++;
-            masschange('restpg', `Restoring ${filesDone}/${fileCount}: ${filename}`);
+            console.log(`<i> Restoring file: ${filename}`);
+            if (filename === "system/enckey") {
+                console.log(`<i> Skipped a file: ${filename}`);
+                masschange('restpg', `Restoring ${filesDone}/${fileCount}: Skipped file: WebDesk specific`);
+            } else {
+                const file = zip.files[filename];
+                const value = await file.async("string");
+                writef(filename, value);
+                filesDone++;
+                masschange('restpg', `Restoring ${filesDone}/${fileCount}: ${filename}`);
+            }
         }));
-        reboot(400);
+        fesw('setuprs', 'setupf');
+        masschange('optnote', `Restore successful, delete any backups because they're unsafe.'`);
     } catch (error) {
+        console.error('Error during restoration:', error);
     }
 }
 
-async function writejson(name) {
+async function writejson(name) { 
     try {
         const existingData = await readf('/user/oldhosts.json');
         const jsonData = existingData ? JSON.parse(existingData) : {};
@@ -191,6 +199,6 @@ async function readjson() {
         }
     } catch (error) {
         console.log(`Error reading JSON file: ${error}`);
-        panic('5', error.message);
+        notif(`Couldn't get previous WebDrop recievers. Your WebDrop ID list will not appear.`, 'WebDesk Services');
     }
 }

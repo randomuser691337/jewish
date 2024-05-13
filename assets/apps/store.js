@@ -12,6 +12,24 @@ async function addapp(name, cont) {
     }
 }
 
+async function delapp(name) {
+    try {
+        const existingData = await readf('/system/apps.json');
+        const jsonData = JSON.parse(existingData);
+        if (jsonData.hasOwnProperty(name)) {
+            delete jsonData[name];
+            const json = JSON.stringify(jsonData);
+            await writef('/system/apps.json', json);
+            snack(`Uninstalled ${name} successfully.`);
+            fucker2(name, 'yes');
+        } else {
+            snack('App not installed.');
+        }
+    } catch (error) {
+        console.log(`<!> Error deleting app ${name}: ${error}`);
+    }
+}
+
 async function readapps() {
     try {
         const fileData = await readf('/system/apps.json');
@@ -35,15 +53,19 @@ async function readapps() {
         }
     } catch (error) {
         console.log(`Error reading JSON file: ${error}`);
-        panic('5', error.message);
+        notif(`Couldn't get installed apps. Any apps you installed will not show up.`, 'WebDesk Services');
     }
 }
 
-function fucker2(text) {
+function fucker2(text, byebye) {
     const buttons = document.querySelectorAll('#applist button');
     for (const button of buttons) {
         if (button.innerText === text) {
-            return true;
+            if (byebye === "yes") {
+                button.remove();
+            } else {
+                return true;
+            }
         }
     }
     return false;
