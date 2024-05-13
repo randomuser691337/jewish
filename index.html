@@ -20,6 +20,7 @@
         var copiedn;
         var sdone = false;
         var user = "WebDesk User";
+        var silent = false;
     </script>
 </head>
 
@@ -55,7 +56,8 @@
         <div class="setup" style="width: 500px; height: 360px; display: none;" id="setup">
             <div class="setupbar" id="setupbar1">
                 <div class="tnav"><button class="b4" onclick="eprompt();">Start Over</button></div>
-                <div class="title"><button class="time b4" onclick="fesw('setupbar1', 'setupbar2');"
+                <div class="title"><button class="time b4"
+                        onclick="if (locked === false) {fesw('setupbar1', 'setupbar2');} else {snack('Unlock WebDesk first.');}"
                         style="background-color: transparent !important;">--:--</button></div>
             </div>
             <div class="setupbar" style="display: none;" id="setupbar2">
@@ -87,7 +89,7 @@
                 <p>Other WebDesk: open Backup app -> Migrate -> enter code below:</p>
                 <p class="h2 mcode" style="margin-bottom: 3px;">----</p>
                 <button class="b1" onclick="filepick('.zip', function (file) {restorefs(file);});">Local
-                    Restore</button><button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
+                    restore</button><button class="b1" onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setuprs" class="hide setupp">
                 <p class="h3">Restoring...</p>
@@ -182,6 +184,24 @@
                 onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
+    <div class="window" id="store" style="width: 280px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('store');"></div>
+                <div class="winb yel" onmousedown="mini('store');"></div>
+                <div class="winb"></div>
+            </div>
+            <div class="title">Store</div>
+        </div>
+        <div class="content">
+            <button class="b1 b2" onclick="toggle('pantene');">bantene shampoo</button>
+            <div id="pantene" class="list">
+                <p>A really silly testing app.</p>
+                <p class="smt">Category: Entertainment</p>
+                <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3" onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
+            </div>
+        </div>
+    </div>
     <div class="window" id="backup" style="width: 320px;">
         <div class="d tb">
             <div class="tnav">
@@ -229,6 +249,7 @@
             </div>
         </div>
     </div>
+    
     <div class="window" id="settings" style="width: 350px;">
         <div class="d tb">
             <div class="tnav">
@@ -293,21 +314,29 @@
     <div id="contcent" class="centmen">
         <p class="h3">Control Center</p>
         <p class="lockdown">Your DeskID is <span class="mcode bold">----</span></p>
-        <button class="controlb">Silent</button><button class="controlb controlba lockdown" id="webdroptog"
+        <button class="controlb" id="siltog"
+            onclick="if (silent === true) {silent=false;nvol=1.0;togcls('siltog', 'controlba');snack('Disabled Silent Mode.');play('./assets/other/webdrop.ogg');} else {silent=true;nvol=0;togcls('siltog', 'controlba');snack('Enabled Silent Mode.');}">Silent</button><button
+            class="controlb controlba lockdown" id="webdroptog"
             onclick="if (webdrop === true) { togcls('webdroptog', 'controlba'); webdrop = false; snack('Disabled WebDrop.'); } else { togcls('webdroptog', 'controlba'); webdrop = true; snack('Enabled WebDrop.'); }">WebDrop</button>
         <p class="med">Notifications (select to delete)</p>
-        <div id="notifold"></div>
+        <div id="notifold">
+            <div class="notif2" id="defnotif">No notifications yet.</div>
+        </div>
         <button class="b1" onclick="toggle('contcent');">Close</button>
     </div>
     <div id="gomenu" class="centmen">
         <p class="h3">Hello, <span class="uname"></span>!</p>
         <p class="smt weather"></p>
-        <button class="b1 b2" onclick="about();">About</button>
-        <button class="b1 b2" onclick="opapp('backup', 'Backup');">Backup</button>
-        <button class="b1 b2" onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
-        <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
-        <button class="b1 b2"
-            onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
+        <div id="applist">
+            <button class="b1 b2" onclick="about();">About</button>
+            <button class="b1 b2" onclick="opapp('backup', 'Backup');">Backup</button>
+            <button class="b1 b2"
+                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
+            <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
+            <button class="b1 b2" onclick="opapp('store', 'Store');">Store</button>
+            <button class="b1 b2"
+                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
+        </div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
@@ -328,6 +357,7 @@
     <script src="./assets/apps/auth.js"></script>
     <script src="./assets/apps/files.js"></script>
     <script src="./assets/apps/weather.js"></script>
+    <script src="./assets/apps/store.js"></script>
     <script>
         async function boots1() {
             try {
@@ -351,6 +381,7 @@
                         await boots1();
                         return;
                     }
+                    locked = false;
                     eraseall();
                     showf('setupbg');
                     await writef('/user/info/accent', '100, 5, 255');
@@ -365,7 +396,7 @@
                     dserv(deskid);
                     console.log(`<i> DeskID exists: ${deskid}`)
                 }
-                hidef('deathcurtain', 600);
+                hidef('deathcurtain', 450);
                 console.log(`<i> Boot successful!`);
             } catch (error) {
                 panic('2', error);
@@ -374,8 +405,9 @@
 
         async function boots2() {
             try {
+                await clboot();
                 locked = false;
-                dest('oobespace', 120);
+                dest('oobespace', 140);
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
                 const accent = await readf('/user/info/accent');
@@ -391,7 +423,9 @@
                 }
                 masschange('uname', name);
                 user = name;
-                showf('menubar'); showf('taskbar'); readjson();
+                showf('menubar'); showf('taskbar');
+                await readjson();
+                await readapps();
                 handlesilly(function (name, data) {
                     writef(`/user/files/${name}`, data);
                 });

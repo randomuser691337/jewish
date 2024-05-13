@@ -10,7 +10,7 @@ function viewmed(val, name) {
   } else if (videoExtensions.includes(fileExtension)) {
     mediaType = 'video';
   } else {
-    console.log('<!> Media type may be invalid.');
+    wal(val, name, '400px');
     return;
   }
 

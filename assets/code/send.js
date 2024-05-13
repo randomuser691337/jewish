@@ -20,9 +20,9 @@ async function dserv(id) {
     });
 
     peer.on('connection', (conn) => {
-        if (webdrop === true) {
-            fesw('setupqs', 'setuprs');
-            conn.on('data', (data) => {
+        fesw('setupqs', 'setuprs');
+        conn.on('data', (data) => {
+            if (webdrop === true) {
                 if (data.name === "MigrationPackDeskFuck") {
                     if (sdone === false) {
                         restorefs(data.file);
@@ -41,12 +41,10 @@ async function dserv(id) {
                     masschange('dropn', data.uname);
                     masschange('dropf', data.name);
                 }
-            });
-        } else {
-            conn.on('data', (data) => {
+            } else {
                 custf(data.id, 'DesktoDeskMsg-WebKey', `<span class="med">${deskid}</span> isn't accepting WebDrops right now.`);
-            });
-        }
+            }
+        });
     });
 }
 

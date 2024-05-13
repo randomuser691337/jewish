@@ -1,0 +1,2 @@
+var pantene = `<video class="embed" src='./assets/apps/pantene/pantene.mp4' autoplay loop></video>`;
+mkw(pantene, 'bantene soap', '300px', undefined, undefined, undefined, true, 'https://i1.sndcdn.com/artworks-f0HUEtPMNlyYXbkZ-ylvzfQ-t500x500.jpg');

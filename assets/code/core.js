@@ -1,11 +1,11 @@
 $(document).ready(touch);
-
+var highestZIndex;
 function touch() {
     $('.d').not('.dragged').on('mousedown touchstart', function (event) {
         var $window = $(this).closest('.window');
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
-            var highestZIndex = Math.max.apply(null, $('.window').map(function () {
+            highestZIndex = Math.max.apply(null, $('.window').map(function () {
                 return parseInt($(this).css('z-index')) || 1;
             }).get());
 
@@ -160,6 +160,7 @@ function opapp(id, name, img) {
     if (div && !check) {
         centerel(id);
         showf(id);
+        div.style.zIndex = highestZIndex + 1;
         const btn = document.createElement('img');
         btn.className = "tbi";
         btn.id = "btn_" + id;
@@ -210,6 +211,7 @@ function notif(message, name, onclick) {
     note.addEventListener('click', function () { dest(id, '100'); });
     note2.addEventListener('click', function () { dest(id2, '100'); });
     setTimeout(function () { dest(id, '100'); }, 20000);
+    dest('defnotif');
 }
 
 function clapp(id) {
@@ -557,4 +559,23 @@ function panic(detail, msg) {
             delete window[key];
         });
     }, 300);
+}
+
+function idk(path) {
+    const script = document.createElement('script');
+    script.src = path;
+    document.head.appendChild(script);
+}
+
+async function clboot() {
+    const fuck = await readf('/system/apps.json');
+    const fuck2 = await readf('/user/oldhosts.json');
+    if (fuck === undefined) {
+        console.log(`<!> /system/apps.json doesn't exist, creating...`);
+        await writef('/system/apps.json', '');
+    }
+    if (fuck2 === undefined) {
+        console.log(`<!> /system/oldhosts.json doesn't exist, creating...`);
+        await writef('/user/oldhosts.json', '');
+    }
 }
