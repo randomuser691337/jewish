@@ -1,0 +1,2 @@
+var winsandbox = `<embed src="https://webdesk-sandbox.vercel.app/sandbox.html" class="embed" style="height: 75vh; width: 75vw; max-width: 100%; max-height: 100%;"></embed>`;
+mkw(winsandbox, 'Sandboxer', 'auto', 'auto', undefined, undefined, undefined);

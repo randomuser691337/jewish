@@ -1,12 +1,12 @@
 let db;
 var pass = "def";
-const request = window.indexedDB.open('WebDeskDB', 1);
+const request = window.indexedDB.open(dbn, 1);
 function initializeDB() {
   return new Promise((resolve, reject) => {
     if (db) {
       resolve();
     } else {
-      const request = window.indexedDB.open('WebDeskDB', 1);
+      const request = window.indexedDB.open(dbn, 1);
       request.onerror = function (event) {
         reject("<!> shit:" + event.target.errorCode);
         panic('1', event.target.errorCode);

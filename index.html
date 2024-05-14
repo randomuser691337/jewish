@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>WebDesk</title>
     <script>
+        var dbn = "WebDeskDB";
         var ver = "0.0.9";
         var lastedit = "May 5, 2024";
         var locked = true;
@@ -220,6 +221,15 @@
                 <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3"
                     onclick="delapp('bantene shampoo');">Delete</button><button class="b3"
                     onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
+            </div>
+            <button class="b1 b2" onclick="toggle('sandboxer');">Sandboxer</button>
+            <div id="sandboxer" class="list">
+                <p>Run a WebDesk in a WebDesk in a temporary environment!</p>
+                <p>Can be used to test apps or run risky software.</p>
+                <p class="smt">Category: Utilities</p>
+                <button class="b3" onclick="hidef('sandboxer');">Close</button><button class="b3"
+                    onclick="delapp('Sandboxer');">Delete</button><button class="b3"
+                    onclick="addapp('Sandboxer', './assets/apps/sandbox/index.js');">Install</button>
             </div>
         </div>
     </div>

@@ -553,6 +553,7 @@ a:active {
     overflow: auto;
     max-height: 75%;
     vertical-align: middle;
+    border: none !important;
 }
 
 @keyframes fade {
