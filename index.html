@@ -12,7 +12,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "May 5, 2024";
+        var lastedit = "May 14, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -23,7 +23,7 @@
         var user = "WebDesk User";
         var silent = false;
         console.log('=== WebDesk 0.0.9 ===');
-        console.log(`<!> DO NOT EVER share or modify the JS var named "pass", you will regret it as it is your decryption key.`);
+        console.log(`<!> Don't paste random code here, because WebDesk can be compromised. Your data, passwords, etc can be stolen!`);
     </script>
 </head>
 
@@ -71,10 +71,9 @@
                         Utils</button></div>
             </div>
             <div id="setupre" class="setupp hide">
-                <img class="setupi" src="./assets/img/warn.svg"></img>
+                <img class="setupi" src="./assets/img/apps/notfound.svg"></img>
                 <p class="h3">WebDesk Restore</p>
-                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.
-                </p>
+                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.</p>
                 <button class="b1" onclick="window.location.href = './index.html';">Cancel</button><button class="b1"
                     onclick="fesw('setupre', 'setup2');">Next</button>
             </div>
@@ -169,7 +168,7 @@
             <div id="setupca" class="hide setupp">
                 <p class="h3">WebDesk isn't compliant</p>
                 <p>WebDesk's encryption has changed heavily, meaning you need to re-install WebDesk.</p>
-                <p>To re-install, hit "Download" to download a backup to your device. After download, hit "Restore".</p>
+                <p>To re-install, hit "Download" to save a backup to your device. After download, hit "Restore".</p>
                 <button class="b1" onclick="lback();">Download</button><button class="b1"
                     onclick="window.location.href = './index.html?restore=y';">Restore</button>
             </div>
@@ -204,7 +203,7 @@
                 onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
         </div>
     </div>
-    <div class="window" id="store" style="width: 280px;">
+    <div class="window" id="store" style="width: 340px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('store');"></div>
@@ -251,7 +250,7 @@
         </div>
         <div id="back2" class="hide content">
             <p class="h3">Migration</p>
-            <p>Enter the ID shown on the other WebDesk below, and hit "Move".</p>
+            <p>Enter the ID shown below on the other WebDesk, and hit "Move".</p>
             <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
             <input class="i1" id="maway" placeholder="ID here..."></input>
             <button class="b1" onclick="fesw('back2', 'back1');">Back</button><button class="b1"
