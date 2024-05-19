@@ -74,3 +74,29 @@ function handlesilly(callback) {
         handleDrop(event);
     });
 }
+
+function upload() {
+    function handleFiles(files) {
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                writef(`/user/files/${file.name}`, event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function openFilePicker() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.multiple = true;
+
+        input.addEventListener('change', function (event) {
+            handleFiles(event.target.files);
+        });
+
+        input.click();
+    }
+
+    openFilePicker();
+}

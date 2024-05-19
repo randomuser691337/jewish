@@ -158,8 +158,8 @@ function opapp(id, name, img) {
     const check = document.getElementById("btn_" + id);
     const switcher = document.getElementById('taskbara');
     if (div && !check) {
+        div.style.display = "block";
         centerel(id);
-        showf(id);
         div.style.zIndex = highestZIndex + 1;
         const btn = document.createElement('img');
         btn.className = "tbi";
@@ -372,7 +372,7 @@ async function setupd() {
 
 async function appear(m, no) {
     if (m === "l") {
-        cv('lightdark', `rgb(255, 255, 255, 0.65)`);
+        cv('lightdark', `rgb(255, 255, 255, 0.60)`);
         cv('lightdark2', '#fff');
         cv('lightdark3', '#ececec');
         cv('bordercolor', 'rgba(160, 160, 160, 0.2)');
@@ -385,7 +385,7 @@ async function appear(m, no) {
             await writef('/user/info/appear', 'light');
         }
     } else {
-        cv('lightdark', `rgb(40, 40, 40, 0.65)`);
+        cv('lightdark', `rgb(40, 40, 40, 0.60)`);
         cv('lightdark2', '#1a1a1a');
         cv('lightdark3', '#2a2a2a');
         cv('bordercolor', 'rgba(120, 120, 120, 0.2)');

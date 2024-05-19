@@ -10,14 +10,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>WebDesk</title>
     <script>
+        var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "April 29, 2024";
+        var lastedit = "May 19, 2024";
         var locked = false;
         var fname;
         var fblob;
         var nvol = 1.0;
         var copied;
         var copiedn;
+        var sdone = false;
     </script>
     <style>
         :root {
@@ -31,20 +33,29 @@
 </head>
 
 <body>
+    <div id="taskapp"
+        style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;"
+        onclick="hidef('taskapp', '140');">Application</div>
     <div id="deathcurtain"
         style="z-index: 9999; position: fixed; left: 0px; top: 0px; bottom: 0px; right: 0px; background-color: #000;">
     </div>
-    <div style="position: fixed; left: 0px; right: 0px; bottom: 0px; top: 0px; z-index: -1; background: hsla(0, 0%, 39%, 1);
-    background: radial-gradient(circle, hsla(0, 0%, 39%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
-    background: -moz-radial-gradient(circle, hsla(0, 0%, 39%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
-    background: -webkit-radial-gradient(circle, hsla(0, 0%, 39%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);"></div>
+    <div style="position: fixed; left: 0px; right: 0px; bottom: 0px; top: 0px; z-index: -1; background: hsla(0, 0%, 34%, 1);
+    background: radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
+    background: -moz-radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
+    background: -webkit-radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);"></div>
     <div class="setup">
-        <div class="setupp">
+        <div class="setupp" id="setuprs" style="width: 300px;">
             <p class="h3">Recovery Assistant</p>
             <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
-            <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Recieve</button>
+            <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Restore</button>
             <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
-            <button class="b1" onclick="window.location.href = './index.html';">Exit Recovery</button>
+            <button class="b1" onclick="reboot(400);">Exit Recovery</button>
+        </div>
+        <div class="setupp hide" id="setupf" style="width: 320px;">
+            <p class="h3">Migration complete!</p>
+            <p>You can now exit Recovery, and WebDesk should have restored correctly.</p>
+            <p>If you want, you can go back to Recovery Tools.</p>
+            <button class="b1" onclick="fesw('setupf', 'setuprs');">Back to Tools</button><button class="b1" onclick="reboot(400);">Exit Now</button>
         </div>
     </div>
     <div class="window" id="term" style="width: 280px;">
@@ -69,13 +80,14 @@
                 <div class="winb yel" onmousedown="mini('recif');"></div>
                 <div class="winb gre" onmousedown="max('recif');"></div>
             </div>
-            <div class="title">Recieve</div>
+            <div class="title">Restore</div>
         </div>
         <div class="content">
             <p>Your DeskID is</p>
             <p class="h2 mcode">----</p>
-            <p class="smt">Note: You can use this to migrate from other WebDesks too.</p>
-            <p class="smt">Note: Any files recieved will be saved like usual.</p>
+            <p class="smt">You can use this to migrate from other WebDesks.</p>
+            <p class="smt">Any files recieved will be saved like usual.</p>
+            <p class="smt">You can also <button class="b4" onclick="filepick('.zip', function (file) {restorefs(file);});">restore a local backup.</button></p>
         </div>
     </div>
     <div class="window" id="settings" style="width: 300px;">
@@ -99,11 +111,11 @@
     </div>
     <div id="menubar">
         <div class="tnav">
-            <button class="mb bold" onclick="snack('Early implementation. Nothing here yet.', '3500');">WebDesk</button>
+            <button class="mb bold" onclick="snack(`WebDesk menu doesn't work in Recovery.`, '3500');">WebDesk</button>
         </div>
         <div class="title">
             <img src="./assets/img/no.svg" id="bi"></img>
-            <button class="mb time">--:--</button>
+            <button class="mb time" onclick="opapp('recif');">--:--</button>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>

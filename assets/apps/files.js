@@ -123,7 +123,7 @@ async function dfm(dir) {
           element.addEventListener('click', async () => {
             const f = await readf(`${directoryPath}${item.name}`);
             const tard = "i";
-            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');dfm('${directoryPath}');">Delete</button><button class="b1 b2" onclick="copied = '${f}'; copiedn = '${item.name}';">Copy</button><button class="b1 b2" onclick="writef('${directoryPath}${copiedn}', '${copied}');dfm('${directoryPath}');">Paste</button><button class="b3">Close</button>`);
+            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');dfm('${directoryPath}');">Delete</button><button class="b1 b2" onclick="down('${item.name}', '${f}');">Grab</button><button class="b1 b2" onclick="copied = '${f}'; copiedn = '${item.name}';">Copy</button><button class="b1 b2" onclick="writef('${directoryPath}${copiedn}', '${copied}');dfm('${directoryPath}');">Paste</button><button class="b3">Close</button>`);
           });
         }
         directoryContentsDiv.appendChild(element);
@@ -131,33 +131,4 @@ async function dfm(dir) {
     }
   }
 }
-function isFileTooLarge(file) {
-  // Convert file size to megabytes
-  const fileSizeInMB = file.size / (1024 * 1024);
-  return fileSizeInMB > 15;
-}
-
 var valuesToCheck = [".jpg", ".png", ".svg", ".jpeg", ".webp", ".mp3", ".mp4", ".webm", '.wav', '.mpeg', '.gif'];
-
-async function handleFileUpload(file) {
-  const reader = new FileReader();
-  reader.onload = async (event) => {
-      const fileContents = event.target.result;
-      const originalFileName = file.name;
-      await writef(`/user/files/${originalFileName}`, fileContents);
-  };
-  reader.readAsText(file);
-}
-
-async function upload() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '*/*';
-  input.onchange = async (event) => {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-          await handleFileUpload(files[i]);
-      }
-  };
-  input.click();
-}

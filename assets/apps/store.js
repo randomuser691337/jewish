@@ -40,7 +40,7 @@ async function readapps() {
                 const buttonText = `${value.appn}`;
                 if (!fucker2(buttonText)) {
                     const button = document.createElement('button');
-                    button.classList = "b1 b2";
+                    button.classList = "b1";
                     button.addEventListener('click', function () {
                         idk(value.appc);
                     });

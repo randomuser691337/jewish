@@ -8,11 +8,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="./assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="./assets/img/noround.png">
     <title>WebDesk</title>
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "May 14, 2024";
+        var lastedit = "May 19, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -22,8 +24,13 @@
         var sdone = false;
         var user = "WebDesk User";
         var silent = false;
-        console.log('=== WebDesk 0.0.9 ===');
-        console.log(`<!> Don't paste random code here, because WebDesk can be compromised. Your data, passwords, etc can be stolen!`);
+        const titleStyle = 'color: white; background: #881111; font-size: 16px; font-weight: bold; padding: 10px; border-radius: 40px;';
+        const warningStyle = 'color: white; font-size: 13px; font-weight: bold;';
+        console.log('%c=== WebDesk 0.0.9 ===', titleStyle);
+        console.log(`%c<!> Don\'t paste random code here,
+because WebDesk can be compromised. Your 
+data, passwords, etc can be stolen!`, warningStyle);
+
     </script>
 </head>
 
@@ -73,7 +80,8 @@
             <div id="setupre" class="setupp hide">
                 <img class="setupi" src="./assets/img/apps/notfound.svg"></img>
                 <p class="h3">WebDesk Restore</p>
-                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.</p>
+                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.
+                </p>
                 <button class="b1" onclick="window.location.href = './index.html';">Cancel</button><button class="b1"
                     onclick="fesw('setupre', 'setup2');">Next</button>
             </div>
@@ -160,7 +168,7 @@
             </div>
             <div id="setupa" class="hide setupp">
                 <p class="authcont h3">Enter password to continue.</p>
-                <p>If you forgot, <a>upload your recovery key</a>.</p>
+                <p>If you forgot, <a onclick="eprompt();">erase WebDesk to continue</a>.</p>
                 <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
                 <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
                     onclick="authg();">OK</button>
@@ -174,6 +182,46 @@
             </div>
         </div>
     </div>
+    <div id="flash" style="position: fixed; z-index: 9999; left: 0px; right: 0px; top: 0px; bottom: 0px; background-color: #fff; display: none;"></div>
+    <div class="window" id="camera" style="width: 280px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('camera');"></div>
+                <div class="winb yel" onmousedown="mini('camera');"></div>
+                <div class="winb"></div>
+            </div>
+            <div class="title camtime">Camera</div>
+        </div>
+        <div class="content">
+            <div id="enablecam">
+                <p>WebDesk needs camera permission to open this app.</p>
+                <p>Note: iOS has (seemingly) unfixable issues.</p>
+                <button class="b1" onclick="stcam();fesw('enablecam', 'cameraitself');">Grant</button>
+            </div>
+            <div id="cameraitself" style="display: none;">
+                <video autoplay="true" class="embed" id="videl" style="margin-bottom: 3px;"></video>
+                <button class="b1" onclick="nocam();fesw('cameraitself', 'enablecam');">Back</button><button class="b1"
+                    onclick="snap();">Take Picture</button><button class="b1"
+                    onclick="fesw('cameraitself', 'snapper');">Timer</button>
+            </div>
+            <div id="snapper" style="display: none;">
+                <p>Timer</p>
+                <p>Click one of the options below to start a photo timer</p>
+                <button class="b1" onclick="tsnap(3000, 3);">3s</button><button class="b1"
+                    onclick="tsnap(6000, 6);">6s</button><button class="b1" onclick="tsnap(9000, 9);">9s</button><button
+                    class="b1" onclick="tsnap(12000, 12);">12s</button>
+                <p><button class="b1" onclick="fesw('snapper', 'cameraitself');">Back</button></p>
+            </div>
+            <div id="savewherecam" style="display: none;">
+                <p>Picture taken! Save to:</p>
+                <button class="b1" onclick="savetodev();">Device</button><button class="b1"
+                    onclick="savetofiles();">WebDesk Files</button>
+                <p><button class="b1" onclick="fesw('savewherecam', 'cameraitself');">Back</button></p>
+            </div>
+        </div>
+        <script src="./assets/apps/camera.js"></script>
+    </div>
+    <!--End of camera-->
     <div class="window" id="filem" style="width: 400px;">
         <div class="d tb">
             <div class="tnav">
@@ -333,7 +381,7 @@
         </div>
         <div class="title">
             <img src="./assets/img/no.svg" id="bi"></img>
-            <button class="mb time" onclick="showf('contcent'); hidef('taskapp');"
+            <button class="mb time" onclick="fesw('gomenu', 'contcent');"
                 onmouseover="document.getElementById('taskapp').innerText = 'Control Center';showf('taskapp');"
                 onmouseleave="hidef('taskapp');">--:--</button>
         </div>
@@ -355,26 +403,17 @@
     </div>
     <div id="gomenu" class="centmen">
         <p class="h3">Hello, <span class="uname"></span>!</p>
-        <p class="smt weather"></p>
-        <div id="applist">
-            <button class="b1 b2" onclick="about();">About</button>
-            <button class="b1 b2" onclick="opapp('backup', 'Backup');">Backup</button>
-            <button class="b1 b2"
-                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button>
-            <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
-            <button class="b1 b2" onclick="opapp('store', 'Store');">Store</button>
-            <button class="b1 b2"
-                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button>
-            <div id="custapp">
-
-            </div>
+        <p class="smt glancew" style="margin-bottom: 5px;"></p>
+        <div id="applist"><button class="b1" onclick="about();">About</button><button class="b1" onclick="opapp('backup', 'Backup');">Backup</button><button class="b1" onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
+                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button class="b1" onclick="opapp('term', 'Terminal');">Terminal</button><button class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
+                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button><div id="custapp"></div>
         </div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
         style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;"
         onclick="hidef('taskapp', '140');">Application</div>
-    <div id="taskbar"><img class="tbi" onclick="toggle('gomenu');" id="gobtn" src="./assets/img/launch.svg"></img><span
+    <div id="taskbar"><img class="tbi" onclick="hidef('contcent');toggle('gomenu');" id="gobtn" src="./assets/img/launch.svg"></img><span
             id="taskbara"></span></div>
     <script src="./assets/lib/jszip.js"></script>
     <script src="./assets/lib/peer.js"></script>
@@ -464,6 +503,7 @@
                 showf('menubar'); showf('taskbar');
                 await readjson();
                 await readapps();
+                refreshWeather();
                 handlesilly(function (name, data) {
                     writef(`/user/files/${name}`, data);
                 });
