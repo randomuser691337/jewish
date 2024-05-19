@@ -61,10 +61,18 @@ function gen(length) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function mkw(contents, titlebarText, width, height, c, m, a, icon) {
+function mkw(contents, titlebarText, width, height, c, m, a, icon, id) {
     var windowDiv = document.createElement('div');
     windowDiv.classList.add('window');
-    windowDiv.id = gen(8);
+    if (id) {
+        windowDiv.id = gen(8);
+    } else {
+        if (document.getElementById(id)) {
+            console.log(`<!> Refusing to create ${id}, already exists`);
+        } else {
+            windowDiv.id = id;
+        }
+    }
     windowDiv.style.width = width;
     windowDiv.style.height = height;
     var titlebarDiv = document.createElement('div');
@@ -579,6 +587,19 @@ function idk(path) {
     script.src = path;
     document.head.appendChild(script);
 }
+
+async function json(path) {
+    try {
+      const response = await fetch(path);
+      if (!response.ok) {
+        throw new Error('Failed to fetch JSON');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error reading JSON:', error);
+      return null;
+    }
+  }
 
 async function clboot() {
     const fuck = await readf('/system/apps.json');

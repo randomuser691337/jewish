@@ -78,7 +78,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                         Utils</button></div>
             </div>
             <div id="setupre" class="setupp hide">
-                <img class="setupi" src="./assets/img/apps/notfound.svg"></img>
+                <img class="setupi" src="./assets/img/setup/restore.svg"></img>
                 <p class="h3">WebDesk Restore</p>
                 <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.
                 </p>
@@ -117,7 +117,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div id="setups" class="hide setupp">
                 <img class="setupi" src="./assets/img/setup/pass.svg"></img>
                 <p class="h3">Password Setup</p>
-                <p>Enter a pass to decrypt WebDesk with.</p>
+                <p>Enter a password to decrypt WebDesk with.</p>
                 <p>Don't lose this pass, as your data is lost without it.</p>
                 <input type="password" id="oobep" class="i1" placeholder="Password here" />
                 <button class="b1"
@@ -151,6 +151,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="b1" onclick="fesw('setupc', 'setupl');setupd();">Done</button>
             </div>
             <div id="setupl" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/location.svg"></img>
                 <p class="h3">Location Services</p>
                 <p>You can enable Location Services, to update the weather, use certain
                     weather info to dynamically adjust WebDesk, and possibly more in the future.</p>
@@ -161,6 +162,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                     onclick="fesw('setupl', 'setupf'); writef('/user/info/city', document.getElementById('oobeloc').value);">Done</button>
             </div>
             <div id="setupf" class="hide setupp">
+                <img class="setupi" src="./assets/img/setup/check.svg"></img>
                 <p class="h3">Setup is done!</p>
                 <p>Click "Reboot" to finish. Have fun!</p>
                 <p class="optnote">Note: If you encrypted, WebDesk will ask for your password.</p>
@@ -236,21 +238,6 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div id="directoryContents"></div>
         </div>
     </div>
-    <div class="window" id="term" style="width: 280px;">
-        <div class="d tb">
-            <div class="tnav">
-                <div class="winb red" onmousedown="clapp('term');"></div>
-                <div class="winb yel" onmousedown="mini('term');"></div>
-                <div class="winb gre" onmousedown="max('term');"></div>
-            </div>
-            <div class="title">Terminal</div>
-        </div>
-        <div class="content">
-            <input class="i1" id="termbox" placeholder="Enter JS code here"></i1>
-            <button class="b1" onclick="document.getElementById('termbox').value = '';">Clear</button><button class="b1"
-                onclick="const t = document.getElementById('termbox').value;eval(t);snack('Executed.', 2500);">Execute!</button>
-        </div>
-    </div>
     <div class="window" id="store" style="width: 340px;">
         <div class="d tb">
             <div class="tnav">
@@ -260,7 +247,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
             <div class="title">Store</div>
         </div>
-        <div class="content">
+        <div class="content" id="storebox">
             <button class="b1 b2" onclick="toggle('pantene');">bantene shampoo</button>
             <div id="pantene" class="list">
                 <p>A really silly testing app.</p>
@@ -268,6 +255,14 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3"
                     onclick="delapp('bantene shampoo');">Delete</button><button class="b3"
                     onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
+            </div>
+            <button class="b1 b2" onclick="toggle('termi');">Terminal</button>
+            <div id="termi" class="list">
+                <p>WebDesk's terminal! Supports JS code/functions.</p>
+                <p class="smt">Category: Utilities</p>
+                <button class="b3" onclick="hidef('termi');">Close</button><button class="b3"
+                    onclick="delapp('Terminal');">Delete</button><button class="b3"
+                    onclick="addapp('Terminal', './assets/apps/terminal/index.js');">Install</button>
             </div>
             <button class="b1 b2" onclick="toggle('sandboxer');">Sandboxer</button>
             <div id="sandboxer" class="list">
@@ -405,7 +400,7 @@ data, passwords, etc can be stolen!`, warningStyle);
         <p class="h3">Hello, <span class="uname"></span>!</p>
         <p class="smt glancew" style="margin-bottom: 5px;"></p>
         <div id="applist"><button class="b1" onclick="about();">About</button><button class="b1" onclick="opapp('backup', 'Backup');">Backup</button><button class="b1" onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
-                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button class="b1" onclick="opapp('term', 'Terminal');">Terminal</button><button class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
+                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
                 onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button><div id="custapp"></div>
         </div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>

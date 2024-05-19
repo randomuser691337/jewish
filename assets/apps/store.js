@@ -57,6 +57,45 @@ async function readapps() {
     }
 }
 
+async function listapps() {
+    try {
+        const jsonData = await json('./assets/apps/applist.json');
+        document.getElementById('storebox').innerHTML = "";
+        if (jsonData) {
+            const entries = Object.entries(jsonData);
+            for (const [key, value] of entries) {
+                const buttonText = `${value.appn}`;
+                const gen1 = gen(7);
+                const button = document.createElement('button');
+                button.classList = "b1 b2";
+                button.addEventListener('click', function () {
+                    toggle(gen1);
+                });
+                button.innerText = buttonText;
+                const button2 = document.createElement('button');
+                button2.classList = "b4";
+                button2.addEventListener('click', function () {
+                    addapp(value.appn, value.appc);
+                });
+                button2.innerText = "Install";
+                const div = document.createElement('div');
+                div.classList = "list";
+                div.id = gen1;
+                div.innerText = value.appd;
+                document.getElementById('storebox').appendChild(button);
+                div.appendChild(button2);
+                document.getElementById('storebox').appendChild(div);
+            }
+        } else {
+            console.log(`<!> File not found or empty`);
+        }
+    } catch (error) {
+        console.log(`Error reading JSON file: ${error}`);
+        notif(`The Store isn't working. Make sure WebDesk is being hosted by a webserver.`, 'WebDesk Services');
+    }
+}
+
+
 function fucker2(text, byebye) {
     const buttons = document.querySelectorAll('#applist button');
     for (const button of buttons) {
