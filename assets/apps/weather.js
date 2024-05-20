@@ -8,8 +8,6 @@ async function getWeatherData() {
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${unit}`);
             const data = await response.json();
             if (unit) {
-                console.log(data.main.temp);
-                console.log(data.weather[0].description);
                 if (unit === "imperial") {
                     degree = "*F";
                 } else {
@@ -43,4 +41,4 @@ function refreshWeather() {
         console.error('Error refreshing weather data:', error);
     });
 }
-setInterval(refreshWeather, 160000);
+setInterval(refreshWeather, 420000);

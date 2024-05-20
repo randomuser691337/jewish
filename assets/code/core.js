@@ -65,13 +65,13 @@ function mkw(contents, titlebarText, width, height, c, m, a, icon, id) {
     var windowDiv = document.createElement('div');
     windowDiv.classList.add('window');
     if (id) {
-        windowDiv.id = gen(8);
-    } else {
         if (document.getElementById(id)) {
             console.log(`<!> Refusing to create ${id}, already exists`);
         } else {
             windowDiv.id = id;
         }
+    } else {
+        windowDiv.id = gen(8);
     }
     windowDiv.style.width = width;
     windowDiv.style.height = height;
@@ -388,7 +388,7 @@ async function appear(m, no) {
         cv('fontc', '#000');
         cv('fontc2', '#222');
         cv('inv', '0');
-        cv('bgurl', 'url("./wall/light.png")');
+        cv('bgurl', 'var(--lbgurl)');
         if (no === undefined) {
             await writef('/user/info/appear', 'light');
         }
@@ -401,7 +401,7 @@ async function appear(m, no) {
         cv('fontc', '#fff');
         cv('fontc2', '#bbb');
         cv('inv', '1');
-        cv('bgurl', 'url("./wall/dark.png")');
+        cv('bgurl', 'var(--dbgurl)');
         if (no === undefined) {
             await writef('/user/info/appear', 'dark');
         }

@@ -1,1 +1,22 @@
-{"Terminal":{"appn":"Terminal","appd":"Lets you run JS in WebDesk.","appc":"./assets/apps/terminal/index.js"}}
+{
+    "Terminal": {
+        "appn": "Terminal",
+        "appd": "Lets you run JS in WebDesk.",
+        "appc": "./assets/apps/terminal/index.js"
+    },
+    "bantene shampoo": {
+        "appn": "bantene shampoo",
+        "appd": "A really silly testing app.",
+        "appc": "./assets/apps/pantene/index.js"
+    },
+    "Sandbox": {
+        "appn": "Sandbox",
+        "appd": "A WebDesk in a WebDesk, for testing or security!",
+        "appc": "./assets/apps/sandbox/index.js"
+    },
+    "Eaglercraft": {
+        "appn": "Eaglercraft",
+        "appd": "Lets you run broken Minecraft 1.5.2 in WebDesk!",
+        "appc": "https://webdesk-apps.vercel.app/eaglercraft/index.js"
+    }
+}

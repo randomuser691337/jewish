@@ -13,6 +13,8 @@
     --rad2: 12px;
     --blur1: 6px;
     --blur2: 10px;
+    --lbgurl: url("./wall/light.png");
+    --dbgurl: url("./wall/dark.png");
     --bgurl: url("./wall/light.png");
     --ap: 255, 0, 0;
     --inv: 0;

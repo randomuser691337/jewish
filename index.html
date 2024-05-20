@@ -248,31 +248,8 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div class="title">Store</div>
         </div>
         <div class="content" id="storebox">
-            <button class="b1 b2" onclick="toggle('pantene');">bantene shampoo</button>
-            <div id="pantene" class="list">
-                <p>A really silly testing app.</p>
-                <p class="smt">Category: Entertainment</p>
-                <button class="b3" onclick="hidef('pantene');">Close</button><button class="b3"
-                    onclick="delapp('bantene shampoo');">Delete</button><button class="b3"
-                    onclick="addapp('bantene shampoo', './assets/apps/pantene/index.js');">Install</button>
-            </div>
-            <button class="b1 b2" onclick="toggle('termi');">Terminal</button>
-            <div id="termi" class="list">
-                <p>WebDesk's terminal! Supports JS code/functions.</p>
-                <p class="smt">Category: Utilities</p>
-                <button class="b3" onclick="hidef('termi');">Close</button><button class="b3"
-                    onclick="delapp('Terminal');">Delete</button><button class="b3"
-                    onclick="addapp('Terminal', './assets/apps/terminal/index.js');">Install</button>
-            </div>
-            <button class="b1 b2" onclick="toggle('sandboxer');">Sandboxer</button>
-            <div id="sandboxer" class="list">
-                <p>Run a WebDesk in a WebDesk in a temporary environment!</p>
-                <p>Can be used to test apps or run risky software.</p>
-                <p class="smt">Category: Utilities</p>
-                <button class="b3" onclick="hidef('sandboxer');">Close</button><button class="b3"
-                    onclick="delapp('Sandboxer');">Delete</button><button class="b3"
-                    onclick="addapp('Sandboxer', './assets/apps/sandbox/index.js');">Install</button>
-            </div>
+           <p>Error listing apps. Try a reboot!</p>
+           <button class="b1" onclick="reboot(400);">Reboot</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
@@ -280,7 +257,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('backup');"></div>
                 <div class="winb yel" onmousedown="mini('backup');"></div>
-                <div class="winb gre" onmousedown="max('backup');"></div>
+                <div class="winb"></div>
             </div>
             <div class="title">Backup</div>
         </div>
@@ -334,6 +311,7 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div class="content">
             <div id="settmain">
                 <button class="b1 b2" onclick="fesw('settmain', 'settapp');">Appearance</button>
+                <button class="b1 b2" onclick="fesw('settmain', 'settwall');">Wallpaper</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settsys');">System/UI</button>
                 <button class="b1 b2" onclick="fesw('settmain', 'settgen');">General</button>
             </div>
@@ -351,6 +329,11 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="b1 b2" onclick="appear('l');">Light mode</button>
                 <button class="b1 b2" onclick="appear();">Dark mode</button>
                 <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
+            </div>
+            <div id="settwall" class="hide">
+                <p class="h3">Wallpaper</p>
+                <button class="b1 b2" onclick="filepick('image/*', function (file) {writef('/user/info/wall', file)});">Upload a file</button>
+                <button class="b1" onclick="fesw('settwall', 'settmain');">Back</button>
             </div>
             <div id="settgen" class="hide">
                 <p class="h3">General</p>
@@ -401,8 +384,7 @@ data, passwords, etc can be stolen!`, warningStyle);
         <p class="smt glancew" style="margin-bottom: 5px;"></p>
         <div id="applist"><button class="b1" onclick="about();">About</button><button class="b1" onclick="opapp('backup', 'Backup');">Backup</button><button class="b1" onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
                 onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
-                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button><div id="custapp"></div>
-        </div>
+                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button></div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
@@ -498,6 +480,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 showf('menubar'); showf('taskbar');
                 await readjson();
                 await readapps();
+                await listapps();
                 refreshWeather();
                 handlesilly(function (name, data) {
                     writef(`/user/files/${name}`, data);

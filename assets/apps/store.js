@@ -23,7 +23,7 @@ async function delapp(name) {
             snack(`Uninstalled ${name} successfully.`);
             fucker2(name, 'yes');
         } else {
-            snack('App not installed.');
+            snack('App not installed/already deleted.');
         }
     } catch (error) {
         console.log(`<!> Error deleting app ${name}: ${error}`);
@@ -78,11 +78,18 @@ async function listapps() {
                     addapp(value.appn, value.appc);
                 });
                 button2.innerText = "Install";
+                const button3 = document.createElement('button');
+                button3.classList = "b4";
+                button3.addEventListener('click', function () {
+                    delapp(value.appn);
+                });
+                button3.innerText = "Delete if added";
                 const div = document.createElement('div');
                 div.classList = "list";
                 div.id = gen1;
-                div.innerText = value.appd;
+                div.innerHTML = `<p>${value.appd}</p>`;
                 document.getElementById('storebox').appendChild(button);
+                div.appendChild(button3);
                 div.appendChild(button2);
                 document.getElementById('storebox').appendChild(div);
             }
