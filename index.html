@@ -175,13 +175,6 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
                     onclick="authg();">OK</button>
             </div>
-            <div id="setupca" class="hide setupp">
-                <p class="h3">WebDesk isn't compliant</p>
-                <p>WebDesk's encryption has changed heavily, meaning you need to re-install WebDesk.</p>
-                <p>To re-install, hit "Download" to save a backup to your device. After download, hit "Restore".</p>
-                <button class="b1" onclick="lback();">Download</button><button class="b1"
-                    onclick="window.location.href = './index.html?restore=y';">Restore</button>
-            </div>
         </div>
     </div>
     <div id="flash" style="position: fixed; z-index: 9999; left: 0px; right: 0px; top: 0px; bottom: 0px; background-color: #fff; display: none;"></div>
@@ -430,11 +423,6 @@ data, passwords, etc can be stolen!`, warningStyle);
                         boots2();
                     }
                 } else {
-                    if (await readpb('setupdone') === "y") {
-                        await writef('/system/setupon', 'Unknown');
-                        await boots1();
-                        return;
-                    }
                     locked = false;
                     eraseall();
                     showf('setupbg');
