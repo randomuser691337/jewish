@@ -55,7 +55,6 @@ function erasepb() {
 }
 
 function encrypt(value) {
-  const enc = readpb('enc');
   if (enc === "y") {
     if (pass === "def") {
       console.log(`<!> STOP: Password is unset. Attempted read: ${value}`);
@@ -68,7 +67,6 @@ function encrypt(value) {
 }
 
 function decrypt(value) {
-  const enc = readpb('enc');
   if (enc === "y") {
     try {
       if (pass === "def") {
@@ -77,8 +75,7 @@ function decrypt(value) {
       }
       return CryptoJS.AES.decrypt(value, pass).toString(CryptoJS.enc.Utf8);
     } catch (error) {
-      console.error('Decryption error:', error.message);
-      panic('4', error.message);
+      console.log('<!> Decryption error:', error.message);
       return null;
     }
   } else {
@@ -151,7 +148,7 @@ function renf(name, newName) {
 
 async function setupde(pass2) {
   pass = pass2;
-  const imlazy = `key${gen(16)}`;
+  const imlazy = `${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}-${await gens(5)}`;
   await writef('/system/enckey', imlazy);
   pass = imlazy;
 }
@@ -170,4 +167,18 @@ async function ekey(pass2) {
   } else {
     return "missing";
   }
+}
+
+async function changepass(newp) {
+  const currentPass = pass;
+  pass = newp;
+  try {
+    await writef('/system/enckey', currentPass);
+  } catch (error) {
+    console.log("<!> Failed to update encryption key:", error);
+    pass = currentPass;
+    return;
+  }
+
+  setTimeout(reboot, 3000);
 }

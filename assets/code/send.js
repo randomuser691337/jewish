@@ -148,7 +148,7 @@ async function restorefs(zipBlob) {
         console.log(`<i> Restore Stage 2: Open zip and extract ${fileCount} files to FS`);
         await Promise.all(Object.keys(zip.files).map(async filename => {
             console.log(`<i> Restoring file: ${filename}`);
-            if (filename === "system/enckey") {
+            if (filename === "/system/enckey") {
                 console.log(`<i> Skipped a file: ${filename}`);
                 masschange('restpg', `Restoring ${filesDone}/${fileCount}: Skipped file: WebDesk specific`);
             } else {

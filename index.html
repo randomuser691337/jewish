@@ -18,6 +18,7 @@
         var locked = true;
         var fname;
         var fblob;
+        var enc;
         var nvol = 1.0;
         var copied;
         var copiedn;
@@ -55,8 +56,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                         transform="translate(311.08 476.02)"
                         style="fill:none;stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:35px" />
                 </svg>
-                <p class="med"
-                    style="font-size: 15px; margin-top: 8px; color: #fff; margin-top: 8px; animation: fucker 4.3s;">
+                <p class="bold"
+                    style="font-size: 16px; margin-top: 8px; color: #fff; margin-top: 8px; animation: fucker 4.3s;">
                     Press to open</p>
             </div>
         </div>
@@ -97,8 +98,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
                 <button class="b1 resthide" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
-                    onclick="writepb('enc', 'y');fesw('setup2', 'setups');">Encrypt</button><button class="b1"
-                    onclick="writepb('enc', 'n');fesw('setup2', 'setupqs');">Don't encrypt</button>
+                    onclick="writepb('enc', 'y'); enc = 'y'; fesw('setup2', 'setups');">Encrypt</button><button class="b1"
+                    onclick="writepb('enc', 'n');fesw('setup2', 'setupqs'); enc = 'n';">Don't encrypt</button>
             </div>
             <div id="setupqs" class="hide setupp">
                 <img class="setupi" src="./assets/img/setup/quick.png"></img>
@@ -106,7 +107,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <p>If you have an existing WebDesk, you can copy your data.</p>
                 <p class="resthide">Other WebDesk: open Backup app -> Migrate -> enter code below:</p>
                 <p class="h2 mcode resthide" style="margin-bottom: 3px;">----</p>
-                <button class="b1" onclick="filepick('.zip', function (file) {restorefs(file);});">Local
+                <button class="b1" onclick="filepickl('.zip', async function (file) {await restorefs(file);});">Local
                     restore</button><button class="b1 resthide" onclick="fesw('setupqs', 'setupn');">No thanks</button>
             </div>
             <div id="setuprs" class="hide setupp">
@@ -177,7 +178,9 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
         </div>
     </div>
-    <div id="flash" style="position: fixed; z-index: 9999; left: 0px; right: 0px; top: 0px; bottom: 0px; background-color: #fff; display: none;"></div>
+    <div id="flash"
+        style="position: fixed; z-index: 9999; left: 0px; right: 0px; top: 0px; bottom: 0px; background-color: #fff; display: none;">
+    </div>
     <div class="window" id="camera" style="width: 280px;">
         <div class="d tb">
             <div class="tnav">
@@ -240,9 +243,13 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
             <div class="title">Store</div>
         </div>
+        <div class="content" style="padding-bottom: 0px !important;">
+            <p>Apps have full, unlimited access to your WebDesk. Only install apps you trust.</p>
+            <p>Safe apps will be marked like this: <span class="safe">Safe</span></p>
+        </div>
         <div class="content" id="storebox">
-           <p>Error listing apps. Try a reboot!</p>
-           <button class="b1" onclick="reboot(400);">Reboot</button>
+            <p>Error listing apps. Try a reboot!</p>
+            <button class="b1" onclick="reboot(400);">Reboot</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
@@ -325,7 +332,11 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
             <div id="settwall" class="hide">
                 <p class="h3">Wallpaper</p>
-                <button class="b1 b2" onclick="filepick('image/*', function (file) {writef('/user/info/wall', file)});">Upload a file</button>
+                <button class="b1 b2"
+                    onclick="filepick('image/*', async function (file) {await writef('/user/info/wall', file); wl = await readf('/user/info/wall'); bgim(wl);});">Upload
+                    a
+                    file</button>
+                <button class="b1 b2" onclick="delf('/user/info/wall'); wal('<p>A reboot is required to finish removing the wallpaper.', 'reboot(300)', 'Reboot');">Remove Wallpaper</button>
                 <button class="b1" onclick="fesw('settwall', 'settmain');">Back</button>
             </div>
             <div id="settgen" class="hide">
@@ -338,9 +349,10 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
             <div id="settsys" class="hide">
                 <p class="h3">System</p>
-                <p>Lockdown Mode</p>
-                <p class="smt">Lockdown Mode disables all of WebDesk's online services. WebDesk won't be able to
-                    migrate, WebDrop, or update the weather while enabled.</p>
+                <p>Encryption</p>
+                <button class="b1 b2 enchide" onclick="encdesk();">Enable Encryption</button>
+                <button class="b1 b2 noenchide" onclick="changepass2();">Change Password</button>
+                <button class="b1 b2 noenchide" onclick="decryw();">Disable Encryption</button>
                 <button class="b1" onclick="fesw('settsys', 'settmain');">Back</button>
             </div>
         </div>
@@ -375,16 +387,19 @@ data, passwords, etc can be stolen!`, warningStyle);
     <div id="gomenu" class="centmen">
         <p class="h3">Hello, <span class="uname"></span>!</p>
         <p class="smt glancew" style="margin-bottom: 5px;"></p>
-        <div id="applist"><button class="b1" onclick="about();">About</button><button class="b1" onclick="opapp('backup', 'Backup');">Backup</button><button class="b1" onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
-                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
+        <div id="applist"><button class="b1" onclick="about();">About</button><button class="b1"
+                onclick="opapp('backup', 'Backup');">Backup</button><button class="b1"
+                onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
+                onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button
+                class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
                 onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button></div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
         style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;"
         onclick="hidef('taskapp', '140');">Application</div>
-    <div id="taskbar"><img class="tbi" onclick="hidef('contcent');toggle('gomenu');" id="gobtn" src="./assets/img/launch.svg"></img><span
-            id="taskbara"></span></div>
+    <div id="taskbar"><img class="tbi" onclick="hidef('contcent');toggle('gomenu');" id="gobtn"
+            src="./assets/img/launch.svg"></img><span id="taskbara"></span></div>
     <script src="./assets/lib/jszip.js"></script>
     <script src="./assets/lib/peer.js"></script>
     <script src="./assets/lib/enc.js"></script>
@@ -404,6 +419,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             try {
                 hidef('menubar', 0); hidef('taskbar', 0);
                 await initializeDB();
+                enc = readpb('enc');
                 if (urlv('restore') === "y") {
                     showf('setup');
                     fesw('setup1', 'setupre');
@@ -412,15 +428,16 @@ data, passwords, etc can be stolen!`, warningStyle);
                     return;
                 }
                 const silly = await readf('/system/setupon');
-                const enc = readpb('enc');
                 if (silly !== undefined) {
                     sdone = true;
                     dest('setupgo', 0);
                     if (enc === "y") {
                         showf('setup');
                         pw('Enter password to continue.', 'boots2()');
+                        hidecls('enchide');showcls('noenchide');
                     } else {
                         boots2();
+                        hidecls('noenchide');showcls('enchide');
                     }
                 } else {
                     locked = false;
@@ -445,11 +462,13 @@ data, passwords, etc can be stolen!`, warningStyle);
             }
         }
 
+        var wl;
+
         async function boots2() {
             try {
                 await clboot();
                 locked = false;
-                dest('oobespace', 140);
+                hidef('oobespace', '160');
                 const name = await readf('/user/info/name');
                 const appear2 = await readf('/user/info/appear');
                 const accent = await readf('/user/info/accent');
@@ -459,6 +478,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 }
                 if (appear2 === "dark") {
                     appear();
+                } else {
+                    appear('l');
                 }
                 if (accent) {
                     cv('accent', accent);
@@ -473,6 +494,10 @@ data, passwords, etc can be stolen!`, warningStyle);
                 handlesilly(function (name, data) {
                     writef(`/user/files/${name}`, data);
                 });
+                wl = await readf('/user/info/wall');
+                if (wl) {
+                    bgim(wl);
+                }
                 writef('/readme.txt', `This is the root of your WebDesk. All of your data is stored here, and it's what gets copied when migrating. Do not touch anything in /system, or you might break your WebDesk. Have fun!`);
             } catch (error) {
                 panic('3', error);

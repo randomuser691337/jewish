@@ -76,27 +76,86 @@ function handlesilly(callback) {
 }
 
 function upload() {
-    function handleFiles(files) {
-        for (const file of files) {
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                writef(`/user/files/${file.name}`, event.target.result);
-            };
-            reader.readAsDataURL(file);
+    filepick('*', async function (file, name) {await writef(`/user/files/${name}`, file);console.log(`<i> Uploaded ${name}`);});
+}
+
+function getcl(imageSrc, callback) {
+    var img = new Image();
+    img.crossOrigin = "Anonymous"; // to avoid CORS issue
+    img.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(this, 0, 0);
+
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imageData.data;
+        var colorCount = {};
+        var maxCount = 0;
+        var mostUsedColor = [0, 0, 0]; // RGB values
+
+        for (var i = 0; i < data.length; i += 4) {
+            var r = data[i];
+            var g = data[i + 1];
+            var b = data[i + 2];
+            var rgb = r + ',' + g + ',' + b;
+            if (r > 50 && r < 200 && g > 50 && g < 200 && b > 50 && b < 200) {
+                // Avoiding gray colors (too much white or black)
+                if (!colorCount[rgb]) {
+                    colorCount[rgb] = 0;
+                }
+                colorCount[rgb]++;
+                if (colorCount[rgb] > maxCount) {
+                    maxCount = colorCount[rgb];
+                    mostUsedColor = [r, g, b];
+                }
+            }
         }
+
+        callback(mostUsedColor);
+    };
+
+    img.src = imageSrc;
+}
+
+function bgim(wl) {
+    document.body.style.backgroundImage = `url(${wl})`;
+    getcl(wl, function (color) {
+        cv('accent', color.join(', '));
+    });
+}
+
+async function guestmode() {
+    dest('oobespace');
+    wal(`<p>You're in Guest Mode.</p><p>Data will be destroyed on next reload.</p>`, 'reboot(300)', 'Destroy Now');
+    showf('menubar'); showf('taskbar');
+    await clboot();
+    await readjson();
+    await readapps();
+    await listapps();
+}
+
+function filepickl(acceptType, callback) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = acceptType;
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const fileData = event.target.result;
+            callback(fileData);
+            input.remove();
+        };
+
+        reader.readAsArrayBuffer(file);
     }
 
-    function openFilePicker() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.multiple = true;
-
-        input.addEventListener('change', function (event) {
-            handleFiles(event.target.files);
-        });
-
-        input.click();
-    }
-
-    openFilePicker();
+    input.addEventListener('change', handleFileSelect);
+    input.click();
 }

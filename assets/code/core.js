@@ -5,11 +5,14 @@ function touch() {
         var $window = $(this).closest('.window');
         if (!$window.hasClass('max')) {
             var offsetX, offsetY;
-            highestZIndex = Math.max.apply(null, $('.window').map(function () {
-                return parseInt($(this).css('z-index')) || 1;
+            var windows = $('.window');
+            highestZIndex = Math.max.apply(null, windows.map(function () {
+                var zIndex = parseInt($(this).css('z-index')) || 0;
+                return zIndex;
             }).get());
-
             $window.css('z-index', highestZIndex + 1);
+            $('.window').removeClass('winf');
+            $window.addClass('winf');
 
             if (event.type === 'mousedown') {
                 offsetX = event.clientX - $window.offset().left;
@@ -45,7 +48,6 @@ function touch() {
                 event.preventDefault();
             }, { passive: false });
 
-            $window.addClass('dragged');
         }
     });
 }
@@ -59,6 +61,23 @@ function gen(length) {
     const min = Math.pow(10, length - 1);
     const max = Math.pow(10, length) - 1;
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+async function gens(length) {
+    if (length <= 0) {
+        console.error('Length should be greater than 0');
+        return null;
+    }
+
+    const array = new Uint32Array(Math.ceil(length / 4));
+    window.crypto.getRandomValues(array);
+
+    let result = '';
+    for (let i = 0; i < array.length; i++) {
+        result += array[i].toString(16).padStart(8, '0');
+    }
+
+    return result.slice(0, length);
 }
 
 function mkw(contents, titlebarText, width, height, c, m, a, icon, id) {
@@ -111,7 +130,7 @@ function mkw(contents, titlebarText, width, height, c, m, a, icon, id) {
     titlebarDiv.appendChild(navigationButtonsDiv);
     var titleDiv = document.createElement('div');
     titleDiv.classList.add('title');
-    titleDiv.textContent = titlebarText;
+    titleDiv.innerHTML = titlebarText;
     titlebarDiv.appendChild(titleDiv);
     windowDiv.appendChild(titlebarDiv);
     var contentDiv = document.createElement('div');
@@ -169,10 +188,12 @@ function opapp(id, name, img) {
         div.style.display = "block";
         centerel(id);
         div.style.zIndex = highestZIndex + 1;
+        $('.window').removeClass('winf');
+        div.classList.add('winf');
         const btn = document.createElement('img');
         btn.className = "tbi";
         btn.id = "btn_" + id;
-        btn.addEventListener('mouseover', function () { showf('taskapp', 0); document.getElementById('taskapp').innerText = name; });
+        btn.addEventListener('mouseover', function () { showf('taskapp', 0); document.getElementById('taskapp').innerHTML = name; });
         switcher.addEventListener('mouseleave', function () { hidef('taskapp', 140); });
         if (img) {
             btn.src = img;
@@ -349,12 +370,6 @@ function masschange(classn, val) {
     }
 }
 
-function guestmode() {
-    dest('oobespace');
-    mkw(`<p>You're in Guest Mode.</p><p>Data will be destroyed on next reload.</p>`, 'WebDesk Setup', undefined, undefined, undefined, true, undefined);
-    showf('menubar'); showf('taskbar');
-}
-
 function reboot(delay) {
     if (delay) {
         setTimeout(function () { window.location.href = './index.html'; }, delay);
@@ -380,7 +395,7 @@ async function setupd() {
 
 async function appear(m, no) {
     if (m === "l") {
-        cv('lightdark', `rgb(255, 255, 255, 0.60)`);
+        cv('lightdark', `rgb(255, 255, 255, 0.55)`);
         cv('lightdark2', '#fff');
         cv('lightdark3', '#ececec');
         cv('bordercolor', 'rgba(160, 160, 160, 0.2)');
@@ -393,7 +408,7 @@ async function appear(m, no) {
             await writef('/user/info/appear', 'light');
         }
     } else {
-        cv('lightdark', `rgb(40, 40, 40, 0.60)`);
+        cv('lightdark', `rgb(40, 40, 40, 0.55)`);
         cv('lightdark2', '#1a1a1a');
         cv('lightdark3', '#2a2a2a');
         cv('bordercolor', 'rgba(120, 120, 120, 0.2)');
@@ -428,12 +443,9 @@ function filepick(acceptType, callback) {
 
         const reader = new FileReader();
         reader.onload = function (event) {
-            const fileData = event.target.result;
-            callback(fileData);
-            input.remove();
+            callback(event.target.result, file.name);
         };
-
-        reader.readAsArrayBuffer(file);
+        reader.readAsDataURL(file);
     }
 
     input.addEventListener('change', handleFileSelect);
@@ -590,16 +602,16 @@ function idk(path) {
 
 async function json(path) {
     try {
-      const response = await fetch(path);
-      if (!response.ok) {
-        throw new Error('Failed to fetch JSON');
-      }
-      return await response.json();
+        const response = await fetch(path);
+        if (!response.ok) {
+            throw new Error('Failed to fetch JSON');
+        }
+        return await response.json();
     } catch (error) {
-      console.error('Error reading JSON:', error);
-      return null;
+        console.error('Error reading JSON:', error);
+        return null;
     }
-  }
+}
 
 async function clboot() {
     const fuck = await readf('/system/apps.json');
@@ -625,4 +637,39 @@ function urlv(varname) {
     }
 
     return undefined;
+}
+
+async function unencrypt() {
+    showf('oobespace');
+    wal('<p>Decrypting. Leaving, reloading or stopping WebDesk will result in you losing data.</p>');
+    await setTimeout(async function () {
+        const backup = await compressfs();
+        eraseall();
+        enc = "n";
+        await restorefs(backup);
+        wal('<p>Completed decryption. Please restart.</p>', 'reboot(300)', 'Restart', './assets/img/setup/enc.svg');
+    }, 500);
+}
+
+async function decryw() {
+    wal('<p>Are you sure you wish to unencrypt?</p><p>WebDesk will no longer be password protected, but reading/writing files will be much faster.</p>', 'unencrypt();', 'Yes');
+}
+
+async function encdesk() {
+    mkw('<p>Enter a password to encrypt WebDesk with.</p><p>Note: Reading/writing files will become much slower after encrypting.</p><input class="i1" id="encdesk" placeholder="Password here"></input><button class="b1" onclick="encryptn(document.getElementById(`encdesk`).value);">To encryption and beyond!</button>', 'Encryption Assistant', '340px', 'auto', undefined, true, true, './assets/img/setup/enc.svg', 'encwizard');
+}
+
+async function encryptn(pass2) {
+    showf('oobespace');
+    const backup = await compressfs();
+    eraseall();
+    enc = "y";
+    writepb('enc', 'y');
+    await setupde(pass2);
+    await restorefs(backup);
+    wal('<p>Completed encryption. Please restart.</p>', 'reboot(300)', 'Restart');
+}
+
+async function changepass2() {
+    mkw('<p>Enter new password. The longer, the better!</p><input class="i1" id="passch" placeholder="Password here"></input><button class="b1" onclick="changepass(document.getElementById(`passch`).value);">Change password</button>', 'Encryption Assistant', '340px', 'auto', undefined, true, true, './assets/img/setup/enc.svg', 'passwiz');
 }

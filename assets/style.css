@@ -1,6 +1,6 @@
 :root {
     --accent: 110, 30, 255;
-    --lightdark: rgb(255, 255, 255, 0.60);
+    --lightdark: rgb(255, 255, 255, 0.55);
     --lightdark2: #fff;
     --lightdark3: #ececec;
     --bordercolor: rgba(180, 180, 180, 0.2);
@@ -11,8 +11,8 @@
     --fz2: 13px;
     --rad1: 15px;
     --rad2: 12px;
-    --blur1: 6px;
-    --blur2: 10px;
+    --blur1: 7px;
+    --blur2: 12px;
     --lbgurl: url("./wall/light.png");
     --dbgurl: url("./wall/dark.png");
     --bgurl: url("./wall/light.png");
@@ -88,7 +88,7 @@ body {
     left: 50%;
     top: 50%;
     padding: 6px;
-    border: 2px solid var(--bordercolor);
+    border: 1px solid var(--bordercolor);
     background-color: var(--lightdark2);
     border-radius: var(--rad1);
     max-width: 85% !important;
@@ -169,8 +169,6 @@ body {
 .window {
     position: absolute;
     border-radius: var(--rad1);
-    -webkit-backdrop-filter: blur(var(--blur1));
-    backdrop-filter: blur(var(--blur1));
     box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
     border: 1px solid var(--bordercolor);
     max-width: 85%;
@@ -178,9 +176,15 @@ body {
     width: auto;
     height: auto;
     z-index: 5;
-    background-color: var(--lightdark);
+    background-color: var(--lightdark3);
     display: none;
     animation: notif3 0.3s;
+}
+
+.winf {
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
+    background-color: var(--lightdark) !important;
 }
 
 @keyframes notif3 {
@@ -629,12 +633,10 @@ a:active {
     stroke-width: 48px;
     stroke-dasharray: 5800px;
     stroke-dashoffset: 5800px;
-    animation: anim__hello linear 9s forwards infinite;
-    width: 220px;
-    max-width: 60%;
+    animation: anim__hello linear 14s forwards infinite;
+    width: 200px;
+    max-width: 70%;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
     margin: 0 auto;
     text-align: center;
 }
@@ -693,6 +695,8 @@ a:active {
     border: 1px solid var(--bordercolor);
     transition: 0.3s;
     animation: mb 0.75s;
+    -webkit-backdrop-filter: blur(var(--blur1));
+    backdrop-filter: blur(var(--blur1));
 }
 
 @keyframes mb {
@@ -886,4 +890,9 @@ a:active {
     border-radius: var(--rad2);
     text-align: left;
     margin-bottom: 6px;
+}
+
+.safe {
+    font-family: 'PoppinsB', Arial;
+    cursor: pointer;
 }

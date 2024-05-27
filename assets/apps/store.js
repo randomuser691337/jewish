@@ -60,47 +60,52 @@ async function readapps() {
 async function listapps() {
     try {
         const jsonData = await json('./assets/apps/applist.json');
-        document.getElementById('storebox').innerHTML = "";
+        const storeBox = document.getElementById('storebox');
+        storeBox.innerHTML = "";
+
         if (jsonData) {
             const entries = Object.entries(jsonData);
-            for (const [key, value] of entries) {
-                const buttonText = `${value.appn}`;
-                const gen1 = gen(7);
-                const button = document.createElement('button');
-                button.classList = "b1 b2";
-                button.addEventListener('click', function () {
-                    toggle(gen1);
-                });
-                button.innerText = buttonText;
-                const button2 = document.createElement('button');
-                button2.classList = "b4";
-                button2.addEventListener('click', function () {
-                    addapp(value.appn, value.appc);
-                });
-                button2.innerText = "Install";
-                const button3 = document.createElement('button');
-                button3.classList = "b4";
-                button3.addEventListener('click', function () {
-                    delapp(value.appn);
-                });
-                button3.innerText = "Delete if added";
-                const div = document.createElement('div');
-                div.classList = "list";
-                div.id = gen1;
-                div.innerHTML = `<p>${value.appd}</p>`;
-                document.getElementById('storebox').appendChild(button);
-                div.appendChild(button3);
-                div.appendChild(button2);
-                document.getElementById('storebox').appendChild(div);
+            
+            for (const [key, appData] of entries) {
+                const { appn: appName, appc: appCode, appd: appDescription, apps: isSafe } = appData;
+                const genId = gen(7);
+                const safea = isSafe === "t" ? '<span class="safe">   Safe</span>' : '';
+
+                const appDiv = document.createElement('div');
+                appDiv.className = 'list';
+                appDiv.id = genId;
+                appDiv.innerHTML = `<p>${appDescription}</p>`;
+
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'b1 b2';
+                toggleButton.innerHTML = appName + safea;
+                toggleButton.addEventListener('click', () => toggle(genId));
+
+                const installButton = document.createElement('button');
+                installButton.className = 'b4';
+                installButton.innerText = 'Install';
+                installButton.addEventListener('click', () => addapp(appName, appCode));
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'b4';
+                deleteButton.innerText = 'Delete if added';
+                deleteButton.addEventListener('click', () => delapp(appName));
+
+                appDiv.appendChild(deleteButton);
+                appDiv.appendChild(installButton);
+
+                storeBox.appendChild(toggleButton);
+                storeBox.appendChild(appDiv);
             }
         } else {
-            console.log(`<!> File not found or empty`);
+            notif('The WebDesk Store cannot be accessed right now. Try again later.', 'WebDesk Services');
         }
     } catch (error) {
-        console.log(`Error reading JSON file: ${error}`);
-        notif(`The Store isn't working. Make sure WebDesk is being hosted by a webserver.`, 'WebDesk Services');
+        console.error(`Error reading JSON file: ${error}`);
+        notif(`The Store isn't working right now. Try again later.`, 'WebDesk Services');
     }
 }
+
 
 
 function fucker2(text, byebye) {

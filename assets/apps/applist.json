@@ -2,21 +2,31 @@
     "Terminal": {
         "appn": "Terminal",
         "appd": "Lets you run JS in WebDesk.",
-        "appc": "./assets/apps/terminal/index.js"
+        "appc": "./assets/apps/terminal/index.js",
+        "apps": "t"
     },
     "bantene shampoo": {
         "appn": "bantene shampoo",
         "appd": "A really silly testing app.",
-        "appc": "./assets/apps/pantene/index.js"
+        "appc": "./assets/apps/pantene/index.js",
+        "apps": "t"
     },
     "Sandbox": {
         "appn": "Sandbox",
         "appd": "A WebDesk in a WebDesk, for testing or security!",
-        "appc": "./assets/apps/sandbox/index.js"
+        "appc": "./assets/apps/sandbox/index.js",
+        "apps": "t"
     },
     "Eaglercraft": {
         "appn": "Eaglercraft",
         "appd": "Lets you run broken Minecraft 1.5.2 in WebDesk!",
-        "appc": "https://webdesk-apps.vercel.app/eaglercraft/index.js"
+        "appc": "https://webdesk-apps.vercel.app/eaglercraft/index.js",
+        "apps": "t"
+    },
+    "LepsMedia": {
+        "appn": "LepsMedia",
+        "appd": "An app for LepsMedia, an early 2010s YouTube revival.",
+        "appc": "https://webdesk-apps.vercel.app/leps/index.js",
+        "apps": "t"
     }
 }
