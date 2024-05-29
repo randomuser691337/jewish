@@ -123,7 +123,42 @@ async function dfm(dir) {
           element.addEventListener('click', async () => {
             const f = await readf(`${directoryPath}${item.name}`);
             const tard = "i";
-            cm(`<p>${item.name}</p><button class="b1 b2" onclick="viewmed('${f}', '${item.name}', '${tard}');">Open</button><button class="b1 b2" onclick="sends('${item.name}', '${f}');">Send</button><button class="b1 b2" onclick="delf('${directoryPath}${item.name}');dfm('${directoryPath}');">Delete</button><button class="b1 b2" onclick="down('${item.name}', '${f}');">Grab</button><button class="b1 b2" onclick="copied = '${f}'; copiedn = '${item.name}';">Copy</button><button class="b1 b2" onclick="writef('${directoryPath}${copiedn}', '${copied}');dfm('${directoryPath}');">Paste</button><button class="b3">Close</button>`);
+            const p = document.createElement('p');
+            p.innerText = item.name;
+            const cm2 = document.createElement('div');
+            cm2.classList = "cm";
+            cm2.id = gen(6);
+            const b1 = document.createElement('button');
+            b1.classList = "b1 b2";
+            b1.textContent = "Open/View";
+            b1.onclick = function () { viewmed(f, item.name, tard); };
+            const b4 = document.createElement('button');
+            b4.classList = "b1 b2";
+            b4.textContent = "WebDrop";
+            b4.onclick = function () { sends(item.name, f); };
+            cm2.onclick = function () { dest(cm2.id); };
+            const b2 = document.createElement('button');
+            b2.classList = "b3";
+            b2.textContent = "Close";
+            const b5 = document.createElement('button');
+            b5.classList = "b3";
+            b5.textContent = "Copy";
+            b5.onclick = function () { copied = f; copiedn = item.name; };
+            const b7 = document.createElement('button');
+            b7.classList = "b1 b2";
+            b7.textContent = "Download";
+            b7.onclick = function () { down(item.name, f); };
+            const b6 = document.createElement('button');
+            b6.classList = "b3";
+            b6.textContent = "Paste";
+            b6.onclick = function () { writef(`${directoryPath}${copiedn}`, copied); dfm(directoryPath); }
+            const b3 = document.createElement('button');
+            b3.classList = "b1 b2";
+            b3.textContent = "Delete";
+            b3.onclick = function () { delf(`${directoryPath}${item.name}`); dfm(directoryPath); };
+            cm2.onclick = function () { dest(cm2.id) };
+            document.body.appendChild(cm2);
+            cm2.appendChild(p); cm2.appendChild(b1); cm2.appendChild(b4); cm2.appendChild(b7); cm2.appendChild(b3); cm2.appendChild(b5); cm2.appendChild(b2); cm2.appendChild(b6);
           });
         }
         directoryContentsDiv.appendChild(element);

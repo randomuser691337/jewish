@@ -44,6 +44,9 @@ async function readapps() {
                     button.addEventListener('click', function () {
                         idk(value.appc);
                     });
+                    button.addEventListener('contextmenu', function () {
+                        cm(`<button class="b1 b2" onclick="delapp('${value.appn}');">Delete ${value.appn}</button><button class="b3">Close</button>`);
+                    });
                     button.innerText = buttonText;
                     document.getElementById('applist').appendChild(button);
                 }

@@ -169,7 +169,7 @@ body {
 .window {
     position: absolute;
     border-radius: var(--rad1);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 150px 30px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 150px 30px;
     border: 1px solid var(--bordercolor);
     max-width: 85%;
     max-height: 90%;
@@ -179,6 +179,7 @@ body {
     background-color: var(--lightdark3);
     display: none;
     animation: notif3 0.3s;
+    overflow: auto !important;
 }
 
 .winf {
@@ -199,19 +200,13 @@ body {
     }
 }
 
-.dragging {
-    -webkit-backdrop-filter: blur(0px);
-    backdrop-filter: blur(0px);
-    background-color: var(--lightdark2);
-}
-
 .tb {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 8px;
+    padding-left: 11px;
+    padding-right: 11px;
     background-color: var(--lightdark2);
     width: 100%;
     box-sizing: border-box;
@@ -552,6 +547,7 @@ a:active {
     border: 2px solid rgba(var(--accent), 0.3);
     z-index: 9990;
     padding: 10px;
+    width: 270px;
     border-radius: var(--rad1);
 }
 
