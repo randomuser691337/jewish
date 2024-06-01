@@ -14,7 +14,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "May 29, 2024";
+        var lastedit = "May 31, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -68,20 +68,21 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div class="setupbar" id="setupbar1">
                 <div class="tnav"><button class="b4" onclick="eprompt();">Start Over</button></div>
                 <div class="title"><button class="time b4"
-                        onclick="if (locked === false) {fesw('setupbar1', 'setupbar2');} else {snack('Unlock WebDesk first.');}"
+                        onclick="if (locked === false) {fesw('setupbar1', 'setupbar2');}"
                         style="background-color: transparent !important;">--:--</button></div>
             </div>
             <div class="setupbar" style="display: none;" id="setupbar2">
                 <div class="tnav"><button class="b4" onclick="fesw('setupbar2', 'setupbar1');">Back</button><button
                         class="b4" onclick="opapp('term');">Terminal</button><button class="b4"
                         onclick="opapp('settings');">Settings</button></div>
-                <div class="title"><button class="time b4" style="background-color: transparent !important;">Debug
-                        Utils</button></div>
+                <div class="title"><button class="time b4" style="background-color: transparent !important;"></button>
+                </div>
             </div>
             <div id="setupre" class="setupp hide">
                 <img class="setupi" src="./assets/img/setup/restore.svg"></img>
                 <p class="h3">WebDesk Restore</p>
-                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.</p>
+                <p>Have a WebDesk backup ready, as we'll need it to restore. An error occured, which is why we're here.
+                </p>
                 <button class="b1" onclick="window.location.href = './index.html';">Cancel</button><button class="b1"
                     onclick="fesw('setupre', 'setup2');">Next</button>
             </div>
@@ -97,8 +98,9 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <p>Being unencrypted is significantly faster, but data isn't secured.</p>
                 <p>Encryption keeps your data safe behind a password.</p>
                 <button class="b1 resthide" onclick="fesw('setup2', 'setup1');">Back</button><button class="b1"
-                    onclick="writepb('enc', 'y'); enc = 'y'; fesw('setup2', 'setups');">Encrypt</button><button class="b1"
-                    onclick="writepb('enc', 'n');fesw('setup2', 'setupqs'); enc = 'n';">Don't encrypt</button>
+                    onclick="writepb('enc', 'y'); enc = 'y'; fesw('setup2', 'setups');">Encrypt</button><button
+                    class="b1" onclick="writepb('enc', 'n');fesw('setup2', 'setupqs'); enc = 'n';">Don't
+                    encrypt</button>
             </div>
             <div id="setupqs" class="hide setupp">
                 <img class="setupi" src="./assets/img/setup/quick.png"></img>
@@ -146,8 +148,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="acb" style="background: rgb(120, 60, 235);" onclick="chacc('120, 60, 235');"></button>
                 <button class="acb" style="background: rgb(200, 200, 200);" onclick="chacc('200, 200, 200');"></button>
                 <p class="bold">Theme</p>
-                <button class="b1 b2" onclick="appear('l');">Light mode</button>
-                <button class="b1 b2" onclick="appear();">Dark mode</button>
+                <button class="b1" onclick="appear('l');">Light mode</button><button class="b1" onclick="appear();">Dark
+                    mode</button>
                 <button class="b1" onclick="fesw('setupc', 'setupl');setupd();">Done</button>
             </div>
             <div id="setupl" class="hide setupp">
@@ -169,11 +171,20 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="b1" onclick="reboot(200);">Reboot</button>
             </div>
             <div id="setupa" class="hide setupp">
-                <p class="authcont h3">Enter password to continue.</p>
-                <p>If you forgot, <a onclick="eprompt();">erase WebDesk to continue</a>.</p>
-                <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
-                <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
-                    onclick="authg();">OK</button>
+                <div id="setupa1">
+                    <p class="authcont h3">Enter password to continue.</p>
+                    <p>If you forgot, <a onclick="eprompt();">erase WebDesk to continue</a>.</p>
+                    <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
+                    <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
+                        onclick="authg();">OK</button>
+                </div>
+                <div id="setupa2" class="hide">
+                    <img class="setupi" src="./assets/img/setup/check.svg"></img>
+                    <p class="authcont h3">Welcome back!</p>
+                    <p>If you can't get in, <a onclick="window.location.href = './rec.html';">enter Recovery</a> or
+                        click "Start Over".</p>
+                    <button class="controlb" onclick="boots2();" style="margin-top: 8px;">Unlock</button>
+                </div>
             </div>
         </div>
     </div>
@@ -298,7 +309,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
         </div>
     </div>
-    <div class="window" id="settings" style="width: 350px;">
+    <div class="window" id="settings" style="width: 400px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('settings');"></div>
@@ -325,9 +336,16 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="acb" style="background: rgb(120, 60, 235);" onclick="chacc('120, 60, 235');"></button>
                 <button class="acb" style="background: rgb(180, 180, 180);" onclick="chacc('200, 200, 200');"></button>
                 <p class="med">Theme</p>
-                <button class="b1 b2" onclick="appear('l');">Light mode</button>
-                <button class="b1 b2" onclick="appear();">Dark mode</button>
-                <button class="b1" onclick="fesw('settapp', 'settmain');">Back</button>
+                <button class="b1" onclick="appear('l');">Light mode</button><button class="b1" onclick="appear();">Dark
+                    mode</button>
+                <p class="med">Dock size</p>
+                <p><input type="number" id="docksz" placeholder="Custom size" class="i1"
+                        style="width: 200px; margin-right: 2px;"><button class="b1"
+                        onclick="docksize(document.getElementById('docksz').value + 'px');">Apply</button></p><button
+                    class="b1" onclick="docksize('36px');">Small</button><button class="b1"
+                    onclick="docksize('44px');">Medium</button><button class="b1"
+                    onclick="docksize('52px');">Large</button>
+                <p><button class="b1" onclick="fesw('settapp', 'settmain');">Back</button></p>
             </div>
             <div id="settwall" class="hide">
                 <p class="h3">Wallpaper</p>
@@ -335,7 +353,9 @@ data, passwords, etc can be stolen!`, warningStyle);
                     onclick="filepick('image/*', async function (file) {await writef('/user/info/wall', file); wl = await readf('/user/info/wall'); bgim(wl);});">Upload
                     a
                     file</button>
-                <button class="b1 b2" onclick="delf('/user/info/wall'); wal('<p>A reboot is required to finish removing the wallpaper.', 'reboot(300)', 'Reboot');">Remove Wallpaper</button>
+                <button class="b1 b2"
+                    onclick="delf('/user/info/wall'); wal('<p>A reboot is required to finish removing the wallpaper.', 'reboot(300)', 'Reboot');">Remove
+                    Wallpaper</button>
                 <button class="b1" onclick="fesw('settwall', 'settmain');">Back</button>
             </div>
             <div id="settgen" class="hide">
@@ -405,6 +425,8 @@ data, passwords, etc can be stolen!`, warningStyle);
     <script src="./assets/lib/jq.js"></script>
     <script src="./assets/code/fs.js"></script>
     <script src="./assets/code/misc.js"></script>
+    <script src="./assets/code/ui.js"></script>
+    <script src="./assets/code/wm.js"></script>
     <script src="./assets/code/core.js"></script>
     <script src="./assets/code/init.js"></script>
     <script src="./assets/code/send.js"></script>
@@ -416,27 +438,39 @@ data, passwords, etc can be stolen!`, warningStyle);
     <script>
         async function boots1() {
             try {
-                hidef('menubar', 0); hidef('taskbar', 0);
+                hidef('menubar', 0);
+                hidef('taskbar', 0);
                 await initializeDB();
-                enc = readpb('enc');
+
+                const [enc, silly, deskid] = await Promise.all([
+                    readpb('enc'),
+                    readf('/system/setupon'),
+                    readpb('deskid')
+                ]);
+
                 if (urlv('restore') === "y") {
                     showf('setup');
                     fesw('setup1', 'setupre');
                     hidecls('resthide');
-                    hidef('deathcurtain', 450); dest('setupgo', 0);
+                    hidef('deathcurtain', 450);
+                    dest('setupgo', 0);
                     return;
                 }
-                const silly = await readf('/system/setupon');
+
                 if (silly !== undefined) {
                     sdone = true;
                     dest('setupgo', 0);
                     if (enc === "y") {
                         showf('setup');
                         pw('Enter password to continue.', 'boots2()');
-                        hidecls('enchide');showcls('noenchide');
+                        hidecls('enchide');
+                        showcls('noenchide');
                     } else {
-                        boots2();
-                        hidecls('noenchide');showcls('enchide');
+                        showf('setup');
+                        fesw('setup1', 'setupa');
+                        fesw('setupa1', 'setupa2');
+                        hidecls('noenchide');
+                        showcls('enchide');
                     }
                 } else {
                     locked = false;
@@ -444,16 +478,18 @@ data, passwords, etc can be stolen!`, warningStyle);
                     showf('setupbg');
                     await writef('/user/info/accent', '100, 5, 255');
                 }
+
                 const fucker = gen(4);
-                const deskid = readpb('deskid');
+
                 if (deskid === null) {
                     writepb('deskid', fucker);
                     dserv(fucker);
                     console.log(`<!> Created DeskID: ${fucker}`);
                 } else {
                     dserv(deskid);
-                    console.log(`<i> DeskID exists: ${deskid}`)
+                    console.log(`<i> DeskID exists: ${deskid}`);
                 }
+
                 hidef('deathcurtain', 450);
                 console.log(`<i> Boot successful!`);
             } catch (error) {
@@ -468,35 +504,54 @@ data, passwords, etc can be stolen!`, warningStyle);
                 await clboot();
                 locked = false;
                 hidef('oobespace', '160');
-                const name = await readf('/user/info/name');
-                const appear2 = await readf('/user/info/appear');
-                const accent = await readf('/user/info/accent');
-                const fucker = await readf('/system/check');
+
+                const [name, appear2, accent, fucker, wall] = await Promise.all([
+                    readf('/user/info/name'),
+                    readf('/user/info/appear'),
+                    readf('/user/info/accent'),
+                    readf('/system/check'),
+                    readf('/user/info/wall')
+                ]);
+
                 if (fucker !== "DontModifyOrYouWillBrickWebDesk") {
                     panic('6', '/system/check is corrupted.');
                 }
+
                 if (appear2 === "dark") {
                     appear();
                 } else {
                     appear('l');
                 }
+
                 if (accent) {
                     cv('accent', accent);
                 }
+
                 masschange('uname', name);
                 user = name;
-                showf('menubar'); showf('taskbar');
-                await readjson();
-                await readapps();
-                await listapps();
+                showf('menubar');
+                showf('taskbar');
+
+                await Promise.all([
+                    readjson(),
+                    readapps(),
+                    listapps(),
+                    docksize(),
+                    updateck()
+                ]);
+
                 refreshWeather();
-                handlesilly(function (name, data) {
+
+                handlesilly((name, data) => {
                     writef(`/user/files/${name}`, data);
                 });
-                wl = await readf('/user/info/wall');
-                if (wl) {
-                    bgim(wl);
+
+                if (wall) {
+                    bgim(wall);
                 }
+
+                showf('gomenu');
+
                 writef('/readme.txt', `This is the root of your WebDesk. All of your data is stored here, and it's what gets copied when migrating. Do not touch anything in /system, or you might break your WebDesk. Have fun!`);
             } catch (error) {
                 panic('3', error);

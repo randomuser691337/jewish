@@ -1,5 +1,12 @@
 <p class="h2">Changelog</p>
-<p class="bold">May 2, 2024 - Version 0.0.9</p>
+<p class="bold">May 31, 2024 - Version 0.0.9 beta</p>
+<p>Been a while! Sorry about that.</p>
+<p>- Upgraded PeerJS to latest</p>
+<p>- Improved files a LOT.</p>
+<p>- UI updates and improvements</p>
+<p>- Improved Store and some core code</p>
+<p>- And more! Have fun!</p>
+<p class="bold">May 2, 2024 - Version 0.0.9 beta</p>
 <p>- Migration is now much faster and better</p>
 <p>- Internal bug fixes and improvements</p>
 <p>- Better UI design</p>

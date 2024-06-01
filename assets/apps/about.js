@@ -37,7 +37,7 @@ function about(value) {
             </div>
             <a class="fucku" onclick="aboutm();">Info</a>
             <a class="fucku" onclick="doc('./assets/other/credits.txt', 'WebDesk Credits', '420px', 'auto');">Creds</a>
-            <a class="fucku" onclick="doc('./assets/other/changelog.txt', 'WebDesk Changelog', '420px', 'auto');">Changes</a>
+            <a class="fucku" onclick="doc('./assets/other/changelog.txt', 'WebDesk Changelog', '420px', '340px');">Changes</a>
         </div>
     </div>`;
     if (value === undefined) {
