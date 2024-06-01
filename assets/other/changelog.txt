@@ -1,4 +1,7 @@
 <p class="h2">Changelog</p>
+<p class="bold">June 1, 2024 - Version 0.0.9 beta</p>
+<p>- Fixed a major issue where WebDesk would fail to decrypt</p>
+<p>- ACTUALLY pushed yesterday's update, my bad</p>
 <p class="bold">May 31, 2024 - Version 0.0.9 beta</p>
 <p>Been a while! Sorry about that.</p>
 <p>- Upgraded PeerJS to latest</p>

@@ -442,7 +442,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 hidef('taskbar', 0);
                 await initializeDB();
 
-                const [enc, silly, deskid] = await Promise.all([
+                const [enc2, silly, deskid] = await Promise.all([
                     readpb('enc'),
                     readf('/system/setupon'),
                     readpb('deskid')
@@ -460,7 +460,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 if (silly !== undefined) {
                     sdone = true;
                     dest('setupgo', 0);
-                    if (enc === "y") {
+                    if (enc2 === "y") {
+                        enc = "y";
                         showf('setup');
                         pw('Enter password to continue.', 'boots2()');
                         hidecls('enchide');
