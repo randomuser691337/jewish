@@ -14,7 +14,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "June 1, 2024";
+        var lastedit = "June 2, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -309,7 +309,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             </div>
         </div>
     </div>
-    <div class="window" id="settings" style="width: 400px;">
+    <div class="window" id="settings" style="width: 350px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('settings');"></div>
@@ -337,15 +337,16 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <button class="acb" style="background: rgb(180, 180, 180);" onclick="chacc('200, 200, 200');"></button>
                 <p class="med">Theme</p>
                 <button class="b1" onclick="appear('l');">Light mode</button><button class="b1" onclick="appear();">Dark
-                    mode</button>
-                <p class="med">Dock size</p>
-                <p><input type="number" id="docksz" placeholder="Custom size" class="i1"
-                        style="width: 200px; margin-right: 2px;"><button class="b1"
-                        onclick="docksize(document.getElementById('docksz').value + 'px');">Apply</button></p><button
+                    mode</button><p><button class="b1 b2" onclick="fesw('settapp', 'settdock');">Dock settings</button></p><p><button class="b1" onclick="fesw('settapp', 'settmain');">Back</button></p>
+            </div>
+            <div id="settdock" class="hide">
+                <p class="h3">Dock settings</p>
+                <p><input type="number" id="docksz" placeholder="Custom size (in px)" class="i1"></p><button class="b1"
+                        onclick="docksize(document.getElementById('docksz').value + 'px');">Apply</button><button
                     class="b1" onclick="docksize('36px');">Small</button><button class="b1"
                     onclick="docksize('44px');">Medium</button><button class="b1"
                     onclick="docksize('52px');">Large</button>
-                <p><button class="b1" onclick="fesw('settapp', 'settmain');">Back</button></p>
+                <p><button class="b1" onclick="fesw('settdock', 'settapp');">Back</button></p>
             </div>
             <div id="settwall" class="hide">
                 <p class="h3">Wallpaper</p>
