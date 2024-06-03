@@ -71,8 +71,9 @@ body {
     }
 
     .winb {
-        width: 14px !important;
-        height: 14px !important;
+        width: 15px !important;
+        height: 15px !important;
+        margin-right: 9px;
     }
 
     @media (max-height:700px) {
@@ -98,7 +99,7 @@ body {
 
 @keyframes setup {
     10% {
-        transform: translate(-50%, -50%) scale(0.4);
+        transform: translate(-50%, -50%) scale(0.25);
         opacity: 0%;
     }
 
@@ -206,7 +207,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px;
+    padding: 9px;
     padding-left: 11px;
     padding-right: 11px;
     background-color: var(--lightdark2);
@@ -232,8 +233,8 @@ body {
 }
 
 .winb {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     border: 2px solid rgba(0, 0, 0, 0) important;
     margin-right: 7px;
     border-radius: 50%;
@@ -350,14 +351,14 @@ button {
     border: 2px solid transparent;
     color: var(--fontc);
     cursor: pointer;
-    transition: all 0.08s ease-in-out;
+    transition: all 0.07s ease-in-out;
     margin: 1px;
 }
 
 .b1:hover {
     background-color: rgba(var(--accent), 0.4);
     border: 2px solid rgba(var(--accent), 0.5);
-    transform: scale(1.06);
+    transform: scale(1.07);
 }
 
 .b1:active {
@@ -763,8 +764,8 @@ a:active {
     }
 
     100% {
-        width: 44px;
-        height: 44px;
+        width: var(--ds);
+        height: var(--ds);
         opacity: 100%;
     }
 }
@@ -832,12 +833,12 @@ a:active {
 }
 
 .controlb:hover {
-    transform: scale(1.04);
+    transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .controlb:active {
-    transform: scale(0.96);
+    transform: scale(0.95);
 }
 
 #notif {
