@@ -31,8 +31,8 @@ function startcall(call) {
             opapp('caller');
         });
         call.on('close', () => {
-            console.log('Call ended.');
             removeAudioElement();
+            fesw('caller2', 'caller1');
         });
         currentCall = call;
     }).catch((err) => {
