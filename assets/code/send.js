@@ -49,6 +49,8 @@ async function dserv(id) {
             } else if (retryc >= 5) {
                 console.log('<!> Maximum retry attempts reached. DeskID registration failed.');
                 wal(`<p class="h3">WebDesk to WebDesk services are disabled</p><p>Your DeskID didn't register for some reason, therefore you can't use WebDrop or Migration Assistant.</p><p>If you'd like, you can reboot to try again. Check your Internet too.</p>`, 'reboot()', 'Reboot');
+            } else {
+                snack('Failed to connect.');
             }
         });
 
@@ -60,7 +62,8 @@ async function dserv(id) {
 
         peer.on('call', (call) => {
             globcall = call;
-            wal('<p class="h3">Incoming call</p><p>Accept?</p>', `startcall(globcall);`, 'Accept')
+            wal('<p class="h3">Incoming call from <span class="callname">user</span></p>', `startcall(globcall);`, 'Accept');
+            play('./assets/other/webdrop.ogg');
         });
     }
 
@@ -79,6 +82,11 @@ function handleData(conn, data) {
             notif('WebDrop was accepted.', 'WebDesk Services');
         } else if (data.name === "DesktoDeskMsg-WebKey") {
             notif(data.file, 'WebDesk Services');
+        } else if (data.name === "WebCallName-WebKey") {
+            masschange('callname', data.file);
+            callid = data.id;
+            addcall(data.file, callid);
+            console.log('<i> bounced names');
         } else {
             recb = data.file;
             recn = data.name;
@@ -88,7 +96,7 @@ function handleData(conn, data) {
             masschange('dropf', data.name);
         }
     } else {
-        custf(data.id, 'DesktoDeskMsg-WebKey', `<span class="med">${deskid}</span> isn't accepting WebDrops right now.`);
+        custf(data.id, 'DesktoDeskMsg-WebKey', `${deskid} isn't accepting WebDrops right now.`);
     }
 }
 
@@ -120,7 +128,7 @@ function sendf(id) {
         snack('File has been sent.', 2500);
         play('./assets/other/woosh.ogg');
     } catch (error) {
-        console.error('Error while sending file:', error);
+        console.log('<!> Error while sending file:', error);
         snack('An error occurred while sending your file.', 2500);
     }
 }

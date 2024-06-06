@@ -278,6 +278,7 @@ async function json(path) {
 async function clboot() {
     const fuck = await readf('/system/apps.json');
     const fuck2 = await readf('/user/oldhosts.json');
+    const fuck3 = await readf('/user/info/prevcall.json');
     if (fuck === undefined) {
         console.log(`<!> /system/apps.json doesn't exist, creating...`);
         await writef('/system/apps.json', '');
@@ -285,6 +286,10 @@ async function clboot() {
     if (fuck2 === undefined) {
         console.log(`<!> /system/oldhosts.json doesn't exist, creating...`);
         await writef('/user/oldhosts.json', '');
+    }
+    if (fuck3 === undefined) {
+        console.log(`<!> /user/info/prevcall.json doesn't exist, creating...`);
+        await writef('/user/info/prevcall.json', '');
     }
 }
 

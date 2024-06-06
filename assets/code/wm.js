@@ -188,14 +188,14 @@ function opapp(id, name, img) {
 function notif(message, name, onclick) {
     const note = document.createElement('div');
     note.classList = "notif";
-    note.innerHTML = `<p class="smt">${name}</p>${message}`;
+    note.innerHTML = `${name} - ${message}`;
     const id = gen(7);
     note.id = id;
     const note2 = document.createElement('div');
     note2.classList = "notif2";
     const id2 = gen(7);
     note2.id = id2;
-    note2.innerHTML = `<p class="smt">${name}</p>${message}`;
+    note2.innerText = `${name} - ${message}`;
     document.getElementById('notif').appendChild(note);
     document.getElementById('notifold').appendChild(note2);
     play('./assets/other/webdrop.ogg');

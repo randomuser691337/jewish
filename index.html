@@ -273,23 +273,31 @@ data, passwords, etc can be stolen!`, warningStyle);
             <button class="b1" onclick="reboot(400);">Reboot</button>
         </div>
     </div>
-    <div class="window" id="caller" style="width: 310px;">
+    <div class="window" id="caller" style="width: 260px;">
         <div class="d tb">
             <div class="tnav">
-                <div class="winb red" onmousedown="clapp('caller');endCall();"></div>
+                <div class="winb red" onmousedown="clapp('caller');endcall();"></div>
                 <div class="winb yel" onmousedown="mini('caller');"></div>
                 <div class="winb"></div>
             </div>
             <div class="title">WebCall</div>
         </div>
         <div class="content" id="caller1">
-            <p>Enter the DeskID of the person to call</p>
+            <p>Enter DeskID of person to call</p>
+            <p class="smt">Previous calls:</p>
+            <div id="prevcall" style="margin-bottom: 3px;"></div>
             <input class="i1" id="callerbox" placeholder="DeskID here"></input>
-            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
+            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button class="b1" onclick="calldesk(document.getElementById('callerbox').value);custf(document.getElementById('callerbox').value, 'WebCallName-WebKey', user);">Call</button>
         </div>
         <div class="content hide" id="caller2">
-            <p>WebCall</p>
-            <button class="b1" onclick="endCall();">End</button>
+            <p class="h3 callname">User</p>
+            <p><span class="mutestat med">Unmuted</span> - <span class="mutestat med">Connected</span></p>
+            <button class="b1" onclick="togglemute();">Toggle mute</button><button class="b1" onclick="endcall();">End</button>
+        </div>
+        <div class="content hide" id="caller3">
+            <p class="h3">Calling...</p>
+            <p>The other person has a choice to accept or deny.</p>
+            <button class="b1" onclick="endcall();fesw('caller3', 'caller1');">End Call</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
@@ -573,6 +581,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 await Promise.all([
                     readjson(),
                     readapps(),
+                    readcall(),
                     listapps(),
                     docksize(),
                     updateck()
