@@ -13,15 +13,18 @@ async function calldesk(remotePeerId) {
         call.on('stream', (remoteStream) => {
             hrs(remoteStream);
             fesw('caller3', 'caller2');
+            play('./assets/apps/webcall/pickup.ogg');
         });
         call.on('close', () => {
-            fesw('caller2', 'caller1');
             removeAudioElement();
             endcall();
         });
         currentCall = call;
     } catch (err) {
-        console.error('Failed to get local stream', err);
+        fesw('caller3', 'caller1');
+        endcall();
+        console.log('<!> Failed to get local stream', err);
+        snack(`Couldn't call. Try reloading both WebDesks.`);
     }
 }
 
@@ -33,9 +36,9 @@ function startcall(call) {
             hrs(remoteStream);
             fesw('caller1', 'caller2');
             opapp('caller');
+            play('./assets/apps/webcall/pickup.ogg');
         });
         call.on('close', () => {
-            fesw('caller2', 'caller1');
             endcall(); removeAudioElement();
         });
         currentCall = call;
@@ -73,6 +76,7 @@ function endcall() {
     if (currentCall) {
         currentCall.close();
         fesw('caller2', 'caller1');
+        play('./assets/apps/webcall/hangup.ogg');
     }
     if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
@@ -90,6 +94,7 @@ function togglemute() {
 
 async function readcall() {
     try {
+        document.getElementById('prevcall').innerHTML = "";
         const fileData = await readf('/user/info/prevcall.json');
         if (fileData) {
             const jsonData = JSON.parse(fileData);
