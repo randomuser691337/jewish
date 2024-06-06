@@ -14,7 +14,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "June 2, 2024";
+        var lastedit = "June 6, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -25,6 +25,7 @@
         var sdone = false;
         var user = "WebDesk User";
         var silent = false;
+        var dark = false;
         const titleStyle = 'color: white; background: #881111; font-size: 16px; font-weight: bold; padding: 10px; border-radius: 40px;';
         const warningStyle = 'color: white; font-size: 13px; font-weight: bold;';
         console.log('%c=== WebDesk 0.0.9 ===', titleStyle);
@@ -150,7 +151,17 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <p class="bold">Theme</p>
                 <button class="b1" onclick="appear('l');">Light mode</button><button class="b1" onclick="appear();">Dark
                     mode</button>
-                <button class="b1" onclick="fesw('setupc', 'setupl');setupd();">Done</button>
+                <button class="b1" onclick="fesw('setupc', 'setupo');setupd();">Done</button>
+            </div>
+            <div id="setupo" class="hide setupp">
+                <img class="setupi" src="./assets/img/noround.png"></img>
+                <p class="h3">WebDesk Online Services</p>
+                <p>WebDesk has online features that require a unique ID.</p>
+                <p>Features provided are: WebDrop, Migration Assistant, Store</p>
+                <p>To access these, a DeskID is created, which is your unique ID that you can share to connect with others.</p>
+                <button class="b1"
+                    onclick="showf('contcent');">View DeskID</button><button class="b1"
+                    onclick="fesw('setupo', 'setupl');">Done</button>
             </div>
             <div id="setupl" class="hide setupp">
                 <img class="setupi" src="./assets/img/setup/location.svg"></img>
@@ -260,6 +271,25 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div class="content" id="storebox">
             <p>Error listing apps. Try a reboot!</p>
             <button class="b1" onclick="reboot(400);">Reboot</button>
+        </div>
+    </div>
+    <div class="window" id="caller" style="width: 310px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('caller');"></div>
+                <div class="winb yel" onmousedown="mini('caller');"></div>
+                <div class="winb"></div>
+            </div>
+            <div class="title">WebCall</div>
+        </div>
+        <div class="content" id="caller1">
+            <p>Enter the DeskID of the person to call</p>
+            <input class="i1" id="callerbox" placeholder="DeskID here"></input>
+            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
+        </div>
+        <div class="content hide" id="caller2">
+            <p>WebCall</p>
+            <button class="b1" onclick="endCall();">End</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
@@ -398,8 +428,9 @@ data, passwords, etc can be stolen!`, warningStyle);
         <button class="controlb" id="siltog"
             onclick="if (silent === true) {silent=false;nvol=1.0;togcls('siltog', 'controlba');snack('Disabled Silent Mode.');play('./assets/other/webdrop.ogg');} else {silent=true;nvol=0;togcls('siltog', 'controlba');snack('Enabled Silent Mode.');}">Silent</button><button
             class="controlb controlba lockdown" id="webdroptog"
-            onclick="if (webdrop === true) { togcls('webdroptog', 'controlba'); webdrop = false; snack('Disabled WebDrop.'); } else { togcls('webdroptog', 'controlba'); webdrop = true; snack('Enabled WebDrop.'); }">WebDrop</button>
-        <p class="med">Notifications (select to delete)</p>
+            onclick="if (webdrop === true) { togcls('webdroptog', 'controlba'); webdrop = false; snack('Disabled WebDrop.'); } else { togcls('webdroptog', 'controlba'); webdrop = true; snack('Enabled WebDrop.'); }">WebDrop</button><button class="controlb" id="darktog"
+            onclick="if (dark === true) {dark=false;togcls('darktog', 'controlba');snack('Disabled Dark Mode.');appear('l');} else {dark=true;snack('Enabled Dark Mode.');appear();}">Dark Mode</button>
+        <p class="med" style="margin-top: 3px; margin-bottom: 3px">Notifications (select to delete)</p>
         <div id="notifold">
             <div class="notif2" id="defnotif">No notifications yet.</div>
         </div>
@@ -413,7 +444,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 onclick="opapp('camera', 'Camera');">Camera</button><button class="b1"
                 onclick="opapp('filem', 'Files', './assets/img/apps/files.svg');dfm('/');">Files</button><button
                 class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
-                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button></div>
+                onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button><button class="b1"
+                onclick="opapp('caller', 'WebCall');">WebCall</button></div>
         <button class="b1" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
@@ -431,6 +463,7 @@ data, passwords, etc can be stolen!`, warningStyle);
     <script src="./assets/code/wm.js"></script>
     <script src="./assets/code/core.js"></script>
     <script src="./assets/code/init.js"></script>
+    <script src="./assets/apps/webcall.js"></script>
     <script src="./assets/code/send.js"></script>
     <script src="./assets/apps/about.js"></script>
     <script src="./assets/apps/auth.js"></script>
@@ -482,15 +515,17 @@ data, passwords, etc can be stolen!`, warningStyle);
                     await writef('/user/info/accent', '100, 5, 255');
                 }
 
-                const fucker = gen(4);
+                const fucker = gen(7);
 
                 if (deskid === null) {
-                    writepb('deskid', fucker);
+                    await writepb('deskid', fucker);
                     dserv(fucker);
                     console.log(`<!> Created DeskID: ${fucker}`);
+                } else if (deskid.length == 4) {
+                    await writepb('deskid', fucker);
+                    dserv(fucker);
                 } else {
                     dserv(deskid);
-                    console.log(`<i> DeskID exists: ${deskid}`);
                 }
 
                 hidef('deathcurtain', 450);

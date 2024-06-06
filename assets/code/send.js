@@ -3,6 +3,7 @@ var recn;
 var recb;
 var deskid;
 var webdrop = true;
+var globcall;
 
 async function dserv(id) {
     setTimeout(function () {
@@ -22,30 +23,73 @@ async function dserv(id) {
     peer.on('connection', (conn) => {
         fesw('setupqs', 'setuprs');
         conn.on('data', (data) => {
-            if (webdrop === true) {
-                if (data.name === "MigrationPackDeskFuck") {
-                    if (sdone === false) {
-                        restorefs(data.file);
-                    } else {
-                        cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
-                    }
-                } else if (data.name === "YesImAlive-WebKey") {
-                    notif('WebDrop was accepted.', 'WebDesk Services');
-                } else if (data.name === "DesktoDeskMsg-WebKey") {
-                    notif(data.file, 'WebDesk Services');
-                } else {
-                    recb = data.file;
-                    recn = data.name;
-                    play('./assets/other/webdrop.ogg');
-                    wal(`<p class="h3">WebDrop</p><p><span class="med dropn">what</span> would like to share <span class="med dropf">what</span></p>`, `acceptdrop();custf('${data.id}', 'YesImAlive-WebKey');`, 'Accept', './assets/img/apps/webdrop.svg');
-                    masschange('dropn', data.uname);
-                    masschange('dropf', data.name);
-                }
-            } else {
-                custf(data.id, 'DesktoDeskMsg-WebKey', `<span class="med">${deskid}</span> isn't accepting WebDrops right now.`);
-            }
+
         });
     });
+}
+
+async function dserv(id) {
+    let retryc = 0;
+
+    async function attemptConnection() {
+        peer = new Peer(id);
+
+        peer.on('open', (peerId) => {
+            masschange('mcode', peerId);
+            deskid = peerId;
+            console.log('<i> DeskID is online. ID: ' + deskid);
+        });
+
+        peer.on('error', async (err) => {
+            console.log(`<!> whoops: ${err}`);
+            if (!deskid && retryc < 5) {
+                console.log('<!> DeskID failed to register, trying again...');
+                retryc++;
+                setTimeout(attemptConnection, 10000);
+            } else if (retryc >= 5) {
+                console.log('<!> Maximum retry attempts reached. DeskID registration failed.');
+                wal(`<p class="h3">WebDesk to WebDesk services are disabled</p><p>Your DeskID didn't register for some reason, therefore you can't use WebDrop or Migration Assistant.</p><p>If you'd like, you can reboot to try again. Check your Internet too.</p>`, 'reboot()', 'Reboot');
+            }
+        });
+
+        peer.on('connection', (conn) => {
+            conn.on('data', (data) => {
+                handleData(conn, data);
+            });
+        });
+
+        peer.on('call', (call) => {
+            globcall = call;
+            wal('<p class="h3">Incoming call</p><p>Accept?</p>', `startcall(globcall);`, 'Accept')
+        });
+    }
+
+    attemptConnection();
+}
+
+function handleData(conn, data) {
+    if (webdrop === true) {
+        if (data.name === "MigrationPackDeskFuck") {
+            if (sdone === false) {
+                fesw('setupqs', 'setuprs'); restorefs(data.file);
+            } else {
+                cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
+            }
+        } else if (data.name === "YesImAlive-WebKey") {
+            notif('WebDrop was accepted.', 'WebDesk Services');
+        } else if (data.name === "DesktoDeskMsg-WebKey") {
+            notif(data.file, 'WebDesk Services');
+        } else {
+            recb = data.file;
+            recn = data.name;
+            play('./assets/other/webdrop.ogg');
+            wal(`<p class="h3">WebDrop</p><p><span class="med dropn">what</span> would like to share <span class="med dropf">what</span></p>`, `acceptdrop();custf('${data.id}', 'YesImAlive-WebKey');`, 'Accept', './assets/img/apps/webdrop.svg');
+            masschange('dropn', data.uname);
+            masschange('dropf', data.name);
+        }
+    } else {
+        custf(data.id, 'DesktoDeskMsg-WebKey', `<span class="med">${deskid}</span> isn't accepting WebDrops right now.`);
+    }
 }
 
 async function acceptdrop() {
@@ -166,7 +210,7 @@ async function restorefs(zipBlob) {
     }
 }
 
-async function writejson(name) { 
+async function writejson(name) {
     try {
         const existingData = await readf('/user/oldhosts.json');
         const jsonData = existingData ? JSON.parse(existingData) : {};

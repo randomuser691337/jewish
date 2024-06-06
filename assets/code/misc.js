@@ -73,6 +73,18 @@ function handlesilly(callback) {
         preventDefaults(event);
         handleDrop(event);
     });
+
+    document.querySelectorAll('.code').forEach(el => {
+        el.onclick = async () => {
+            try {
+                await navigator.clipboard.writeText(el.innerText);
+                document.getElementById('message').innerText = 'Copied: ' + el.innerText;
+            } catch (err) {
+                document.getElementById('message').innerText = 'Failed to copy';
+                console.error('Failed to copy: ', err);
+            }
+        };
+    });
 }
 
 function upload() {
@@ -159,3 +171,4 @@ function filepickl(acceptType, callback) {
     input.addEventListener('change', handleFileSelect);
     input.click();
 }
+

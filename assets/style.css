@@ -3,7 +3,7 @@
     --lightdark: rgb(255, 255, 255, 0.55);
     --lightdark2: #fff;
     --lightdark3: #ececec;
-    --bordercolor: rgba(180, 180, 180, 0.2);
+    --bordercolor: rgba(210, 210, 210);
     --bg: #fff;
     --fontc: #000;
     --fontc2: #222;
@@ -35,6 +35,11 @@
 @font-face {
     font-family: 'PoppinsM';
     src: url(./fonts/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: 'MonoS';
+    src: url(./fonts/mono.ttf);
 }
 
 body {
@@ -130,7 +135,7 @@ body {
     width: 300px;
     height: auto;
     max-height: 85%;
-    border: 2px solid var(--bordercolor);
+    border: 1px solid var(--bordercolor);
     background-color: var(--lightdark2);
     border-radius: var(--rad1);
     max-width: 85% !important;
@@ -301,7 +306,7 @@ body {
 p {
     margin: 0px;
     padding: 0px;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
 }
 
 .smt {
@@ -834,11 +839,20 @@ a:active {
 
 .controlb:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
 }
 
 .controlb:active {
     transform: scale(0.95);
+}
+
+.code {
+    font-family: "MonoS";
+    letter-spacing: 4px;
+    background-color: rgba(var(--accent), 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--lightdark3);
+    padding-left: 4px;
 }
 
 #notif {
