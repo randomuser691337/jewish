@@ -6,29 +6,6 @@ var webdrop = true;
 var globcall;
 
 async function dserv(id) {
-    setTimeout(function () {
-        if (deskid === undefined) {
-            console.log('<!> DeskID failed to register, trying again...');
-            dserv(readpb('deskid'));
-        }
-    }, 10000);
-    peer = new Peer(id);
-
-    peer.on('open', (peerId) => {
-        masschange('mcode', peerId);
-        deskid = peerId;
-        console.log('<i> DeskID is online. ID: ' + deskid);
-    });
-
-    peer.on('connection', (conn) => {
-        fesw('setupqs', 'setuprs');
-        conn.on('data', (data) => {
-
-        });
-    });
-}
-
-async function dserv(id) {
     let retryc = 0;
 
     async function attemptConnection() {
@@ -48,7 +25,7 @@ async function dserv(id) {
                 setTimeout(attemptConnection, 10000);
             } else if (retryc >= 5) {
                 console.log('<!> Maximum retry attempts reached. DeskID registration failed.');
-                wal(`<p class="h3">WebDesk to WebDesk services are disabled</p><p>Your DeskID didn't register for some reason, therefore you can't use WebDrop or Migration Assistant.</p><p>If you'd like, you can reboot to try again. Check your Internet too.</p>`, 'reboot()', 'Reboot');
+                wal(`<p class="h3">WebDesk to WebDesk services are disabled</p><p>Your DeskID didn't register for some reason, therefore you can't use WebDrop, WebCall or Migration Assistant.</p><p>If you'd like, you can reboot to try again. Check your Internet too.</p>`, 'reboot()', 'Reboot');
             } else {
                 snack('Failed to connect.');
             }
@@ -62,7 +39,7 @@ async function dserv(id) {
 
         peer.on('call', (call) => {
             globcall = call;
-            wal('<p class="h3">Incoming call from <span class="callname">user</span></p>', `startcall(globcall);`, 'Accept');
+            opapp('calleri');
             play('./assets/other/webdrop.ogg');
         });
     }
@@ -79,14 +56,18 @@ function handleData(conn, data) {
                 cm(`<p>A migration was attempted. Erase this WebDesk to migrate here.</p><p>If this wasn't you, you should <a onclick="idch();">change your ID.</a></p><button class="b1 b2">Close</button>`, '270px');
             }
         } else if (data.name === "YesImAlive-WebKey") {
-            notif('WebDrop was accepted.', 'WebDesk Services');
+            notif(`${data.uname} accepted your WebDrop.`, 'WebDesk Services');
         } else if (data.name === "DesktoDeskMsg-WebKey") {
             notif(data.file, 'WebDesk Services');
+        } else if (data.name === "DeclineCall-WebKey") {
+            fesw('caller3', 'caller1');
+            snack('Your call was declined.');
         } else if (data.name === "WebCallName-WebKey") {
             masschange('callname', data.file);
             callid = data.id;
             addcall(data.file, callid);
             console.log('<i> bounced names');
+            setInterval(function () {masschange('callname', data.file);}, 300);
         } else {
             recb = data.file;
             recn = data.name;
@@ -161,9 +142,8 @@ function custf(id, fname2, fblob2) {
 
 async function migaway(id) {
     snack('Preparing to migrate, this might take a bit...', '3000');
-    fname = "MigrationPackDeskFuck";
     fblob = await compressfs();
-    sendf(id);
+    custf(id, "MigrationPackDeskFuck", fblob);
 }
 
 async function compressfs() {

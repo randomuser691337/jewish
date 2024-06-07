@@ -7,6 +7,7 @@ let callid;
 async function calldesk(remotePeerId) {
     try {
         fesw('caller1', 'caller3');
+        custf(remotePeerId, 'WebCallName-WebKey', user);
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         localStream = stream;
         const call = peer.call(remotePeerId, localStream);
@@ -72,11 +73,13 @@ function removeAudioElement() {
     }
 }
 
-function endcall() {
+function endcall(lol) {
     if (currentCall) {
         currentCall.close();
         fesw('caller2', 'caller1');
-        play('./assets/apps/webcall/hangup.ogg');
+        if (lol !== "no") {
+            play('./assets/apps/webcall/hangup.ogg');
+        }
     }
     if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
