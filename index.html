@@ -151,7 +151,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <p class="bold">Theme</p>
                 <button class="b1" onclick="appear('l');">Light mode</button><button class="b1" onclick="appear();">Dark
                     mode</button>
-                <button class="b1" onclick="fesw('setupc', 'setupo');setupd();">Done</button>
+                <p><button class="b1" onclick="fesw('setupc', 'setupo');setupd();">Done</button></p>
             </div>
             <div id="setupo" class="hide setupp">
                 <img class="setupi" src="./assets/img/noround.png"></img>
@@ -262,7 +262,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <div class="winb yel" onmousedown="mini('store');"></div>
                 <div class="winb"></div>
             </div>
-            <div class="title">Store</div>
+            <div class="title"><button class="b4" onclick="fesw('storebox', 'webappi');">Add</button> Store</div>
         </div>
         <div class="content" style="padding-bottom: 0px !important;">
             <p>Apps have full, unlimited access to your WebDesk. Only install apps you trust.</p>
@@ -271,6 +271,13 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div class="content" id="storebox">
             <p>Error listing apps. Try a reboot!</p>
             <button class="b1" onclick="reboot(400);">Reboot</button>
+        </div>
+        <div class="content hide" id="webappi">
+            <p>Install custom app</p>
+            <p>Enter the link to it's file, and name the app.</p>
+            <input class="i1" placeholder="App file link" id="custappl"></input>
+            <input class="i1" placeholder="App name" id="custappn"></input>
+            <button class="b1" onclick="fesw('webbappi', 'storebox');">Back</button><button class="b1" onclick="addapp(document.getElementById('custappn').value, document.getElementById('custappl').value);">Install!</button>
         </div>
     </div>
     <div class="window" id="caller" style="width: 260px;">
