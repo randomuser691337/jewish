@@ -205,7 +205,7 @@ async function id() {
 }
 
 function chid() {
-    writepb('deskid', gen(7));
+    writepb('deskid', gen(4));
     reboot(300);
 }
 
