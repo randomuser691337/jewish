@@ -1,30 +1,42 @@
-let currentCall;
+let currentCalls = [];
 let localStream;
-let audioElement;
+let audioElements = {};
 let isMuted = false;
 let callid;
 
-async function calldesk(remotePeerId) {
+async function calldesk(omfg) {
     try {
+        let remotePeerIds = omfg.split(',').map(id => id.trim());
+        console.log('<i> Calling the following peer IDs:', remotePeerIds); 
         fesw('caller1', 'caller3');
-        custf(remotePeerId, 'WebCallName-WebKey', user);
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         localStream = stream;
-        const call = peer.call(remotePeerId, localStream);
-        call.on('stream', (remoteStream) => {
-            hrs(remoteStream);
-            fesw('caller3', 'caller2');
-            play('./assets/apps/webcall/pickup.ogg');
+        remotePeerIds.forEach(remotePeerId => {
+            const call = peer.call(remotePeerId, localStream);
+            call.on('stream', (remoteStream) => {
+                hrs(remoteStream, remotePeerId);
+                fesw('caller3', 'caller2');
+                play('./assets/apps/webcall/pickup.ogg');
+            });
+
+            call.on('close', () => {
+                removeAudioElement(remotePeerId);
+                endcall();
+            });
+
+            call.on('error', (err) => {
+                console.error(`<!> Failed to call peer ${remotePeerId}:`, err);
+                snack(`Couldn't call peer ${remotePeerId}. Try reloading both WebDesks.`);
+            });
+
+            currentCalls.push(call);
+            custf(remotePeerId, 'WebCallName-WebKey', user);
         });
-        call.on('close', () => {
-            removeAudioElement();
-            endcall();
-        });
-        currentCall = call;
+
     } catch (err) {
+        console.error('<!> Failed to get local stream', err);
         fesw('caller3', 'caller1');
         endcall();
-        console.log('<!> Failed to get local stream', err);
         snack(`Couldn't call. Try reloading both WebDesks.`);
     }
 }
@@ -34,57 +46,65 @@ function startcall(call) {
         localStream = stream;
         call.answer(localStream);
         call.on('stream', (remoteStream) => {
-            hrs(remoteStream);
+            hrs(remoteStream, call.peer);
             fesw('caller1', 'caller2');
             opapp('caller');
             play('./assets/apps/webcall/pickup.ogg');
         });
         call.on('close', () => {
-            endcall(); removeAudioElement();
+            endcall();
+            removeAudioElement(call.peer);
         });
-        currentCall = call;
+        call.on('error', (err) => {
+            console.error(`Failed to start call with peer ${call.peer}:`, err);
+            snack(`Couldn't connect with peer ${call.peer}. Try reloading both WebDesks.`);
+        });
+        currentCalls.push(call);
         custf(callid, 'WebCallName-WebKey', user);
     }).catch((err) => {
-        console.log('<!> Failed to get local stream: ', err);
+        console.error('<!> Failed to get local stream: ', err);
     });
 }
 
-function hrs(stream) {
-    createAudioElement();
-    audioElement.srcObject = stream;
-    audioElement.play();
+function hrs(stream, id) {
+    createAudioElement(id);
+    audioElements[id].srcObject = stream;
+    audioElements[id].play();
 }
 
-function createAudioElement() {
-    if (!audioElement) {
-        audioElement = document.createElement('audio');
-        audioElement.id = 'remoteAudio';
+function createAudioElement(id) {
+    if (!audioElements[id]) {
+        const audioElement = document.createElement('audio');
+        audioElement.id = `remoteAudio-${id}`;
         audioElement.autoplay = true;
         audioElement.style.display = 'none';
         document.body.appendChild(audioElement);
+        audioElements[id] = audioElement;
     }
 }
 
-function removeAudioElement() {
-    if (audioElement) {
-        audioElement.srcObject = null;
-        audioElement.remove();
-        audioElement = null;
+function removeAudioElement(id) {
+    if (audioElements[id]) {
+        audioElements[id].srcObject = null;
+        audioElements[id].remove();
+        delete audioElements[id];
     }
 }
 
 function endcall(lol) {
-    if (currentCall) {
-        currentCall.close();
-        fesw('caller2', 'caller1');
-        if (lol !== "no") {
-            play('./assets/apps/webcall/hangup.ogg');
-        }
+    currentCalls.forEach(call => {
+        call.close();
+        removeAudioElement(call.peer);
+    });
+    currentCalls = [];
+    fesw('caller2', 'caller1');
+    if (lol !== "no") {
+        play('./assets/apps/webcall/hangup.ogg');
     }
     if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
     }
-    removeAudioElement();
+    audioElements = {};
 }
 
 function togglemute() {

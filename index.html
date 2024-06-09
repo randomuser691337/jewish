@@ -277,10 +277,11 @@ data, passwords, etc can be stolen!`, warningStyle);
             <p>Enter the link to it's file, and name the app.</p>
             <input class="i1" placeholder="App file link" id="custappl"></input>
             <input class="i1" placeholder="App name" id="custappn"></input>
-            <button class="b1" onclick="fesw('webbappi', 'storebox');">Back</button><button class="b1" onclick="addapp(document.getElementById('custappn').value, document.getElementById('custappl').value);">Install!</button>
+            <button class="b1" onclick="fesw('webbappi', 'storebox');">Back</button><button class="b1"
+                onclick="addapp(document.getElementById('custappn').value, document.getElementById('custappl').value);">Install!</button>
         </div>
     </div>
-    <div class="window" id="caller" style="width: 260px;">
+    <div class="window" id="caller" style="width: 320px;">
         <div class="d tb">
             <div class="tnav">
                 <div class="winb red" onmousedown="clapp('caller');endcall();"></div>
@@ -290,18 +291,18 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div class="title">WebCall</div>
         </div>
         <div class="content" id="caller1">
-            <p>Enter DeskID of person to call</p>
-            <p class="smt">Previous calls:</p>
-            <div id="prevcall" style="margin-bottom: 3px;"></div>
-            <input class="i1" id="callerbox" placeholder="DeskID here"></input>
-            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button
-                class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
+            <p>Enter DeskID(s) of person(s) to call</p>
+            <p>Starting a Group Call? <button class="b4"
+                    onclick="wal(`<p class='h3'>Starting a Group Call</p><p>To start a group call, seperate the DeskIDs of the people joining with commas, e.g '112233, 332211' in the textbox.</p><p>Note: You cannot add or remove people when a call is active, and if one person hangs up, the call ends.</p>`);">Here's
+                    how!</button></p>
+            <div id="prevcall" style="margin-bottom: 4px;"></div>
+            <input class="i1" id="callerbox" placeholder="DeskID(s) here"></input>
+            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
         </div>
         <div class="content hide" id="caller2">
             <p class="h3 callname">user</p>
             <p><span class="mutestat med">Unmuted</span> - <span class="med">Connected</span></p>
-            <button class="b1" onclick="togglemute();">Toggle mute</button><button class="b1"
-                onclick="endcall();">End</button>
+            <button class="b1" onclick="togglemute();">Toggle mute</button><button class="b1" onclick="endcall();">End</button>
         </div>
         <div class="content hide" id="caller3">
             <p class="h3">Calling...</p>
@@ -321,7 +322,8 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div class="content">
             <p class="h3 callname">user</p>
             <p>would like to call you</p>
-            <button class="b1" onclick="endcall();clapp('calleri');custf(callid, 'DeclineCall-WebKey');">Decline</button><button class="b1" onclick="endcall('no');clapp('calleri');startcall(globcall);">Accept</button>
+            <button class="b1"
+                onclick="endcall();clapp('calleri');custf(callid, 'DeclineCall-WebKey');">Decline</button><button class="b1" onclick="endcall('no');clapp('calleri');startcall(globcall);">Accept</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
