@@ -169,8 +169,12 @@ async function dfm(dir) {
               const b = document.createElement('button');
               b.classList = "b1";
               b.innerHTML = "Rename!"
-              b.onclick = function () { renf(directoryPath + item.name, document.getElementById(id).value); delf(directoryPath + item.name); dfm(directoryPath); dest(id2); }
-              main.appendChild(b);
+              const b2 = document.createElement('button');
+              b2.classList = "b1";
+              b2.innerHTML = "Cancel"
+              b.onclick = function () { if (directoryPath + item.name === document.getElementById(id).value) { dest(id2); } else { renf(directoryPath + item.name, document.getElementById(id).value); delf(directoryPath + item.name); dfm(directoryPath); dest(id2); } }
+              b2.onclick = function () { dest(id2); }
+              main.appendChild(b2); main.appendChild(b);
               document.body.appendChild(main);
             };
             const b9 = document.createElement('button');
