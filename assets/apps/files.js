@@ -147,7 +147,36 @@ async function dfm(dir) {
             const b7 = document.createElement('button');
             b7.classList = "b1 b2";
             b7.textContent = "Download";
-            b7.onclick = function () { down(item.name, f); };
+            b7.onclick = function () { down(item.name, f); }
+            const b8 = document.createElement('button');
+            b8.classList = "b1 b2";
+            b8.textContent = "Rename/Move";
+            b8.onclick = function () {
+              const main = document.createElement('div');
+              const id = gen(6);
+              const id2 = gen(6)
+              main.id = id2;
+              main.classList = "cm";
+              const p = document.createElement('p');
+              p.innerHTML = "Rename File: " + directoryPath + item.name;
+              main.appendChild(p);
+              const i = document.createElement('input');
+              i.placeholder = "New name here...";
+              i.classList = "i1";
+              i.value = directoryPath + item.name;
+              i.id = id;
+              main.appendChild(i);
+              const b = document.createElement('button');
+              b.classList = "b1";
+              b.innerHTML = "Rename!"
+              b.onclick = function () { renf(directoryPath + item.name, document.getElementById(id).value); delf(directoryPath + item.name); dfm(directoryPath); dest(id2); }
+              main.appendChild(b);
+              document.body.appendChild(main);
+            };
+            const b9 = document.createElement('button');
+            b9.classList = "b1 b2";
+            b9.textContent = "Set Wallpaper";
+            b9.onclick = function () { writef(`/user/info/wall`, f); bgim(f); }
             const b6 = document.createElement('button');
             b6.classList = "b3";
             b6.textContent = "Paste";
@@ -158,7 +187,7 @@ async function dfm(dir) {
             b3.onclick = function () { delf(`${directoryPath}${item.name}`); dfm(directoryPath); };
             cm2.onclick = function () { dest(cm2.id) };
             document.body.appendChild(cm2);
-            cm2.appendChild(p); cm2.appendChild(b1); cm2.appendChild(b4); cm2.appendChild(b7); cm2.appendChild(b3); cm2.appendChild(b5); cm2.appendChild(b2); cm2.appendChild(b6);
+            cm2.appendChild(p); cm2.appendChild(b1); cm2.appendChild(b4); cm2.appendChild(b7); cm2.appendChild(b9); cm2.appendChild(b8); cm2.appendChild(b3); cm2.appendChild(b5); cm2.appendChild(b2); cm2.appendChild(b6);
           });
         }
         directoryContentsDiv.appendChild(element);

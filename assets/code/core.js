@@ -158,6 +158,14 @@ function togcls(id, className) {
         element.classList.add(className);
     }
 }
+function offcls(id, className) {
+    var element = document.getElementById(id);
+    element.classList.remove(className);
+}
+function oncls(id, className) {
+    var element = document.getElementById(id);
+    element.classList.add(className);
+}
 
 function filepick(acceptType, callback) {
     const input = document.createElement('input');

@@ -14,7 +14,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "June 6, 2024";
+        var lastedit = "July 7, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -277,7 +277,8 @@ data, passwords, etc can be stolen!`, warningStyle);
             <p>Enter the link to it's file, and name the app.</p>
             <input class="i1" placeholder="App file link" id="custappl"></input>
             <input class="i1" placeholder="App name" id="custappn"></input>
-            <button class="b1" onclick="fesw('webbappi', 'storebox');">Back</button><button class="b1" onclick="addapp(document.getElementById('custappn').value, document.getElementById('custappl').value);">Install!</button>
+            <button class="b1" onclick="fesw('webbappi', 'storebox');">Back</button><button class="b1"
+                onclick="addapp(document.getElementById('custappn').value, document.getElementById('custappl').value);">Install!</button>
         </div>
     </div>
     <div class="window" id="caller" style="width: 260px;">
@@ -294,8 +295,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             <p class="smt">Previous calls:</p>
             <div id="prevcall" style="margin-bottom: 3px;"></div>
             <input class="i1" id="callerbox" placeholder="DeskID here"></input>
-            <button class="b1" onclick="block(document.getElementById('callerbox').value);">Block</button><button
-                class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
+            <button class="b1" onclick="calldesk(document.getElementById('callerbox').value);">Call</button>
         </div>
         <div class="content hide" id="caller2">
             <p class="h3 callname">user</p>
@@ -305,7 +305,7 @@ data, passwords, etc can be stolen!`, warningStyle);
         </div>
         <div class="content hide" id="caller3">
             <p class="h3">Calling...</p>
-            <p>The other person has a choice to accept or deny.</p>
+            <p>The other person can accept or deny.</p>
             <button class="b1" onclick="endcall();fesw('caller3', 'caller1');">End Call</button>
         </div>
     </div>
@@ -321,7 +321,9 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div class="content">
             <p class="h3 callname">user</p>
             <p>would like to call you</p>
-            <button class="b1" onclick="endcall();clapp('calleri');custf(callid, 'DeclineCall-WebKey');">Decline</button><button class="b1" onclick="endcall('no');clapp('calleri');startcall(globcall);">Accept</button>
+            <button class="b1"
+                onclick="endcall();clapp('calleri');custf(callid, 'DeclineCall-WebKey');">Decline</button><button
+                class="b1" onclick="endcall('no');clapp('calleri');startcall(globcall);">Accept</button>
         </div>
     </div>
     <div class="window" id="backup" style="width: 320px;">
@@ -366,7 +368,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 class="b1" onclick="sendf(document.getElementById('sendi').value);">Send</button>
             <p>Previous recievers</p>
             <div id="prevsend">
-                <p class="smt">None yet... Get out there!</p>
+                <p class="smt">You haven't sent a file to anyone yet.</p>
             </div>
         </div>
     </div>
@@ -468,7 +470,7 @@ data, passwords, etc can be stolen!`, warningStyle);
         <div id="notifold">
             <div class="notif2" id="defnotif">No notifications yet.</div>
         </div>
-        <button class="b1" onclick="toggle('contcent');">Close</button>
+        <button class="b1" style="margin-top: 7px; width: 60%;" onclick="toggle('contcent');">Close</button>
     </div>
     <div id="gomenu" class="centmen">
         <p class="h3">Hello, <span class="uname"></span>!</p>
@@ -480,7 +482,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 class="b1" onclick="opapp('store', 'Store');">Store</button><button class="b1"
                 onclick="opapp('settings', 'Settings', './assets/img/apps/settings.svg');">Settings</button><button
                 class="b1" onclick="opapp('caller', 'WebCall');">WebCall</button></div>
-        <button class="b1" onclick="toggle('gomenu');">Close</button>
+        <button class="b1" style="margin-top: 6px; width: 60%;" onclick="toggle('gomenu');">Close</button>
     </div>
     <div id="taskapp"
         style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: var(--lightdark2); padding: 6px; border-radius: var(--rad2); border: 1px solid var(--bordercolor); z-index: 9970; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 75px 20px;"

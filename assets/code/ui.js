@@ -24,13 +24,14 @@ async function appear(m, no) {
         cv('lightdark', `rgb(255, 255, 255, 0.55)`);
         cv('lightdark2', '#fff');
         cv('lightdark3', '#ececec');
-        cv('bordercolor', 'rgba(210, 210, 210, 0.4)');
+        cv('bordercolor', 'rgba(200, 200, 200, 0.5)');
         cv('bg', '#fff');
         cv('fontc', '#000');
         cv('fontc2', '#222');
         cv('inv', '0');
         cv('bgurl', 'var(--lbgurl)');
         dark = false;
+        offcls('darktog', 'controlba');
         if (no === undefined) {
             await writef('/user/info/appear', 'light');
         }
@@ -38,14 +39,14 @@ async function appear(m, no) {
         cv('lightdark', `rgb(40, 40, 40, 0.55)`);
         cv('lightdark2', '#1a1a1a');
         cv('lightdark3', '#2a2a2a');
-        cv('bordercolor', 'rgba(60, 60, 60, 0.4)');
+        cv('bordercolor', 'rgba(80, 80, 80, 0.5)');
         cv('bg', '#000');
         cv('fontc', '#fff');
         cv('fontc2', '#bbb');
         cv('inv', '1');
         cv('bgurl', 'var(--dbgurl)');
         dark = true;
-        togcls('darktog', 'controlba');
+        oncls('darktog', 'controlba');
         if (no === undefined) {
             await writef('/user/info/appear', 'dark');
         }

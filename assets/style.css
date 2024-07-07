@@ -3,13 +3,13 @@
     --lightdark: rgb(255, 255, 255, 0.55);
     --lightdark2: #fff;
     --lightdark3: #ececec;
-    --bordercolor: rgba(210, 210, 210, 0.4);
+    --bordercolor: rgba(200, 200, 200, 0.5);
     --bg: #fff;
     --fontc: #000;
     --fontc2: #222;
     --fz1: 15px;
     --fz2: 13px;
-    --rad1: 16px;
+    --rad1: 17px;
     --rad2: 12px;
     --blur1: 7px;
     --blur2: 12px;
@@ -349,28 +349,25 @@ button {
 }
 
 .b1 {
-    padding: 5px 7px;
+    background-color: rgba(var(--accent), 0.25);
     border-radius: var(--rad2);
-    background-color: rgba(var(--accent), 0.2);
     font-size: var(--fz1);
-    border: 2px solid transparent;
-    color: var(--fontc);
-    cursor: pointer;
-    transition: all 0.07s ease-in-out;
+    padding: 6px 9px;
     margin: 1px;
+    transition: 0.08s ease-in-out;
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .b1:hover {
-    background-color: rgba(var(--accent), 0.4);
-    border: 2px solid rgba(var(--accent), 0.5);
-    transform: scale(1.07);
+    background-color: rgba(var(--accent), 0.35);
+    border: 1px solid rgba(var(--accent), 0.6);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 20px 4px;
 }
 
 .b1:active {
-    background-color: rgba(var(--accent), 0.5);
-    border: 2px solid rgba(var(--accent), 0.6);
-    transform: scale(0.90);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(0.88);
+    background-color: rgba(var(--accent), 0.15);
 }
 
 .b3 {
@@ -445,10 +442,6 @@ button {
     box-sizing: border-box;
     margin: 0px;
     margin-bottom: 2px;
-}
-
-.b2:hover {
-    transform: scale(1.04);
 }
 
 .hide {
@@ -722,7 +715,7 @@ a:active {
     }
 
     75% {
-        padding: 11px;
+        padding: 10px;
     }
 
     100% {
