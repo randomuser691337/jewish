@@ -20,6 +20,7 @@
         var copied;
         var copiedn;
         var sdone = false;
+        var enc = "n";
     </script>
     <style>
         :root {
@@ -43,9 +44,10 @@
     background: radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
     background: -moz-radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);
     background: -webkit-radial-gradient(circle, hsla(0, 0%, 34%, 1) 0%, hsla(0, 0%, 7%, 1) 100%);"></div>
-    <div class="setup">
-        <div class="setupp" id="setuprs" style="width: 300px;">
+    <div class="setup" style="width: 300px;">
+        <div class="setupp" id="setuprs">
             <p class="h3">Recovery Assistant</p>
+            <button class="b1 b2" onclick="dfm('/');opapp('filem', 'Files');">Files</button>
             <button class="b1 b2" onclick="opapp('term', 'Terminal');">Terminal</button>
             <button class="b1 b2" onclick="opapp('recif', 'Recieve');">Restore</button>
             <button class="b1 b2" onclick="opapp('settings', 'Settings');">Settings</button>
@@ -84,10 +86,9 @@
             <div class="title">Restore</div>
         </div>
         <div class="content">
-            <p>Your DeskID is</p>
+            <p>Your RecoveryID is</p>
             <p class="h2 mcode">----</p>
-            <p class="smt">You can use this to migrate from other WebDesks.</p>
-            <p class="smt">Any files recieved will be saved like usual.</p>
+            <p class="smt">You can use this to migrate from other WebDesks or to get files. <span style="color: #f99">Restoring or migrating will wipe this WebDesk.</span></p>
             <p class="smt">You can also <button class="b4" onclick="filepick('.zip', function (file) {restorefs(file);});">restore a local backup.</button></p>
         </div>
     </div>
@@ -110,6 +111,20 @@
             </div>
         </div>
     </div>
+    <div class="window" id="filem" style="width: 400px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb red" onmousedown="clapp('filem');"></div>
+                <div class="winb yel" onmousedown="mini('filem');"></div>
+                <div class="winb gre" onmousedown="max('filem');"></div>
+            </div>
+            <div class="title">Files</div>
+        </div>
+        <div class="content">
+            <div id="breadcrumbs"></div>
+            <div id="directoryContents"></div>
+        </div>
+    </div>
     <div id="menubar">
         <div class="tnav">
             <button class="mb bold" onclick="snack(`WebDesk menu doesn't work in Recovery.`, '3500');">WebDesk</button>
@@ -119,7 +134,7 @@
             <button class="mb time" onclick="opapp('recif');">--:--</button>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="./assets/lib/jszip.js"></script>
     <script src="./assets/lib/peer.js"></script>
     <script src="./assets/lib/enc.js"></script>
     <script src="./assets/lib/jq.js"></script>
@@ -129,12 +144,18 @@
     <script src="./assets/code/ui.js"></script>
     <script src="./assets/code/core.js"></script>
     <script src="./assets/code/send.js"></script>
+    <script src="./assets/apps/files.js"></script>
     <script>
         async function boots1() {
             await initializeDB();
             hidef('deathcurtain', '300');
             appear(undefined, true);
-            dserv(gen(4));
+            dserv(gen(7));
+            const fuck = readpb('enc');
+            if (fuck === "y") {
+                hidef('filesb');
+                enc = "y";
+            }
         }
         $(document).ready(boots1);
     </script>
