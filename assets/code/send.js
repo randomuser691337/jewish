@@ -144,7 +144,7 @@ async function migaway(id) {
     snack('Preparing to migrate, this might take a bit...', '3000');
     fblob = await compressfs();
     custf(id, "MigrationPackDeskFuck", fblob);
-    masschange('moveprog', `Sending data... status will not update when complete`);
+    masschange('moveprog', `Sending data, status will not update when complete, this might take a while`);
 }
 
 async function compressfs() {
@@ -158,7 +158,8 @@ async function compressfs() {
             request.onsuccess = function (event) {
                 const files = event.target.result;
                 files.forEach(file => {
-                    masschange('moveprog', `Moving file ${prog}: ${file.path}`);
+                    masschange('moveprog', `Preparing to send data, this might take a bit`);
+                    prog++
                     zip.file(file.path, decrypt(file.value));
                 });
                 resolve(zip.generateAsync({ type: "blob" }));
