@@ -71,7 +71,7 @@ function decrypt(value) {
     try {
       if (pass === "def") {
         console.log(`<!> STOP: Password is unset. Attempted read: ${value}`);
-        return 'locked';
+        return 'File is locked';
       }
       return CryptoJS.AES.decrypt(value, pass).toString(CryptoJS.enc.Utf8);
     } catch (error) {

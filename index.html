@@ -14,7 +14,7 @@
     <script>
         var dbn = "WebDeskDB";
         var ver = "0.0.9";
-        var lastedit = "July 7, 2024";
+        var lastedit = "July 26, 2024";
         var locked = true;
         var fname;
         var fblob;
@@ -90,6 +90,7 @@ data, passwords, etc can be stolen!`, warningStyle);
             <div id="setup1" class="setupp">
                 <img class="setupi" src="./assets/img/setup/first.svg"></img>
                 <p class="h3">Welcome to WebDesk!</p>
+                <p class="med">Note: This version is no longer updated or secured, please use <a href="https://another-webdesk.vercel.app">the latest version.</a></p>
                 <button class="b1" onclick="guestmode();">Guest</button><button class="b1"
                     onclick="fesw('setup1', 'setup2');">Let's go!</button>
             </div>
@@ -185,6 +186,8 @@ data, passwords, etc can be stolen!`, warningStyle);
                 <div id="setupa1">
                     <p class="authcont h3">Enter password to continue.</p>
                     <p>If you forgot, <a onclick="eprompt();">erase WebDesk to continue</a>.</p>
+                    <p class="hide migalert med">After unlocking, your data will be copied to the new WebDesk and this
+                        process can't be stopped.</p>
                     <input id="authp" class="i1" type="password" autocorrect="off" placeholder="Password here"></input>
                     <button class="b1" onclick="eprompt();">I forgot</button><button class="b1"
                         onclick="authg();">OK</button>
@@ -194,7 +197,9 @@ data, passwords, etc can be stolen!`, warningStyle);
                     <p class="authcont h3">Welcome back!</p>
                     <p>If you can't get in, <a onclick="window.location.href = './rec.html';">enter Recovery</a> or
                         click "Start Over".</p>
-                    <button class="controlb" onclick="boots2();" style="margin-top: 8px;">Unlock</button>
+                    <p class="hide migalert med">After unlocking, your data will be copied to the new WebDesk and this
+                        process can't be stopped.</p>
+                    <p><button class="controlb" onclick="boots2();" style="margin-top: 8px;">Unlock</button></p>
                 </div>
             </div>
         </div>
@@ -346,9 +351,25 @@ data, passwords, etc can be stolen!`, warningStyle);
             <p class="h3">Migration</p>
             <p>Enter the ID shown below on the other WebDesk, and hit "Move".</p>
             <p>Migration can take 2 seconds to several hours, depending on how much data you have.</p>
+            <p class="moveprog">Progress will show here</p>
             <input class="i1" id="maway" placeholder="ID here..."></input>
             <button class="b1" onclick="fesw('back2', 'back1');">Back</button><button class="b1"
                 onclick="migaway(document.getElementById('maway').value);">Move</button>
+        </div>
+    </div>
+    <div class="window" id="backupnew" style="width: 320px;">
+        <div class="d tb">
+            <div class="tnav">
+                <div class="winb"></div>
+                <div class="winb yel" onmousedown="mini('backup');"></div>
+                <div class="winb"></div>
+            </div>
+            <div class="title">Migration Assistant</div>
+        </div>
+        <div id="back3" class="hide content">
+            <p class="h3">Migrating...</p>
+            <p>We're moving your data to the new beta.</p>
+            <p>This might take a while.</p>
         </div>
     </div>
     <div class="window" id="sendf" style="width: 320px;">
@@ -584,7 +605,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                     readf('/user/info/appear'),
                     readf('/user/info/accent'),
                     readf('/system/check'),
-                    readf('/user/info/wall')
+                    readf('/user/info/wall'),
                 ]);
 
                 if (fucker !== "DontModifyOrYouWillBrickWebDesk") {
@@ -626,6 +647,7 @@ data, passwords, etc can be stolen!`, warningStyle);
                 }
 
                 showf('gomenu');
+
 
                 writef('/readme.txt', `This is the root of your WebDesk. All of your data is stored here, and it's what gets copied when migrating. Do not touch anything in /system, or you might break your WebDesk. Have fun!`);
             } catch (error) {
